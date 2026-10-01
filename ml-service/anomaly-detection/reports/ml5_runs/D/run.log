@@ -1,0 +1,19 @@
+[00:41:57] verify: ML-4 inputs intact; fresh regeneration identical: None
+[00:41:57] checkpoint after stage 'verify' saved
+[00:42:22] tests: 19 run, all passed
+[00:42:22] checkpoint after stage 'tests' saved
+[00:42:22] serving: 26 dataset passes through the boundaries + 2 canonical passes
+[00:56:27] serving: corrected path bit-identical on 11/11 compared datasets
+[00:56:27] checkpoint after stage 'serving' saved
+[00:56:27] scoring: 27 (model, dataset, path) tasks
+[00:58:51] scoring: phase-3 comparison built; corrected_full reproduces ML-4 exactly: {'ml4/frozen': True, 'shipped/adaptive': True}
+[00:58:51] checkpoint after stage 'scoring' saved
+[00:59:56] checkpoint after stage 'drift_reeval' saved
+[01:00:14] dev: alpha selected 0.001 (mean F1 by alpha {'0.001': 0.808024037139667, '0.0025': 0.7967805483598619, '0.005': 0.7718115204030522, '0.01': 0.718530936421685, '0.02': 0.63659539914515})
+[01:00:28] dev: shipped-vehicle alpha selected 0.001
+[01:00:41] dev: calibration selected isotonic_raw
+[01:00:52] FROZEN: config sha256 b6b24a475b067db4 | alpha 0.001 | calibrator isotonic_raw
+[01:00:52] checkpoint after stage 'dev' saved
+[01:01:44] checkpoint after stage 'test' saved
+[01:01:45] DONE run D in 1189s | production unchanged: True
+exit 0

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0d10" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="description" content="SentinelFlow — security operations: behavioral anomaly detection, alert-to-incident correlation and AI-assisted investigation" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>SentinelFlow</title>
+    <script>
+      // Apply the saved theme before first paint to avoid a dark/light flash.
+      (function () {
+        try {
+          var t = localStorage.getItem('sentinelflow.theme');
+          if (t !== 'dark' && t !== 'light') {
+            t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

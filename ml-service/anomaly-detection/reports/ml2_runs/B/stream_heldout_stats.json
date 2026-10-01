@@ -1,0 +1,121 @@
+{
+  "stats": {
+    "events_processed": 11936,
+    "alerts_raised": 362,
+    "alert_rate_pct": 3.033,
+    "latency_ms_median": 86.809,
+    "latency_ms_p95": 300.225,
+    "latency_ms_p99": 464.401,
+    "throughput_events_per_sec": 8.7,
+    "drift_notices": [
+      {
+        "at_event": 5000,
+        "drifted_features": [
+          "resource_novelty_ratio",
+          "fingerprint_novelty",
+          "peer_resource_deviation",
+          "offhours_count_7d"
+        ]
+      },
+      {
+        "at_event": 10000,
+        "drifted_features": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "fingerprint_novelty",
+          "offhours_count_7d"
+        ]
+      }
+    ],
+    "alert_budget": null,
+    "alert_threshold": 99.5,
+    "calibrated_from_stream": false
+  },
+  "variant": "heldout",
+  "heldout_entities": [
+    "D0001",
+    "D0003",
+    "D0006",
+    "D0007",
+    "D0011",
+    "D0012",
+    "D0014",
+    "D0018",
+    "S0001",
+    "S0005",
+    "S0010",
+    "S0012",
+    "S0013",
+    "S0018",
+    "S0019",
+    "S0027",
+    "S0028",
+    "S0030",
+    "S0032",
+    "S0034",
+    "S0037",
+    "U0000",
+    "U0002",
+    "U0003",
+    "U0013",
+    "U0014",
+    "U0018",
+    "U0019",
+    "U0022",
+    "U0023",
+    "U0031",
+    "U0040",
+    "U0042",
+    "U0046",
+    "U0054",
+    "U0055",
+    "U0064",
+    "U0068",
+    "U0069",
+    "U0071",
+    "U0076",
+    "U0085",
+    "U0086",
+    "U0089",
+    "U0090",
+    "U0092",
+    "U0096",
+    "U0098",
+    "U0099",
+    "U0101",
+    "U0102",
+    "U0104",
+    "U0106",
+    "U0107",
+    "U0114",
+    "U0117",
+    "U0119",
+    "U0122",
+    "U0124",
+    "U0127"
+  ],
+  "warm_events": 42569,
+  "streamed_events": 33498,
+  "scored_events": 11936,
+  "threshold_used": 99.50227340267459,
+  "drift_notices": [
+    {
+      "at_event": 5000,
+      "drifted_features": [
+        "resource_novelty_ratio",
+        "fingerprint_novelty",
+        "peer_resource_deviation",
+        "offhours_count_7d"
+      ]
+    },
+    {
+      "at_event": 10000,
+      "drifted_features": [
+        "resource_novelty_ratio",
+        "peer_resource_deviation",
+        "fingerprint_novelty",
+        "offhours_count_7d"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+[19:54:54] split == ML-2 split (32 fields); assignment sha256 8f14a1517818d665; manifest a393d7ee093bff63
+[19:59:39] dev features (82872, 39) (285s)
+[19:59:39] feature policy: 35 -> 30; excluded ['is_new_city', 'new_resources_24h', 'fingerprint_mismatch', 'auth_method_unusual', 'entity_event_count']
+[19:59:56] [fit] baseline profiler on 65850 TRAIN rows, 200 entities (17s)
+[20:00:00] [fit] IsolationForest (21s)
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+[seq-ae/torch] epoch 1/12 loss=0.6560
+[seq-ae/torch] epoch 2/12 loss=0.4932
+[seq-ae/torch] epoch 3/12 loss=0.4537
+[seq-ae/torch] epoch 4/12 loss=0.4372
+[seq-ae/torch] epoch 5/12 loss=0.4282
+[seq-ae/torch] epoch 6/12 loss=0.4212
+[seq-ae/torch] epoch 7/12 loss=0.4151
+[seq-ae/torch] epoch 8/12 loss=0.4087
+[seq-ae/torch] epoch 9/12 loss=0.4017
+[seq-ae/torch] epoch 10/12 loss=0.3931
+[seq-ae/torch] epoch 11/12 loss=0.3928
+[seq-ae/torch] epoch 12/12 loss=0.3803
+[20:02:26] [fit] sequence AE (GRU, backend=torch) fitted on 59265 windows (cap 30000) (167s)
+[20:02:43] window checks {'train_windows_identical_when_built_from_train_rows_only_vs_full_dev_stream': True, 'vectorised_window_index_identical_to_loop': True, 'candidate_window_builder_identical_to_production_build_sequences_on_35_features': True, 'validation_windows_that_contain_zero_padding': 0, 'train_windows_that_contain_zero_padding': 2200, 'train_windows': 65850, 'validation_windows_that_include_train_history': 2195}
+[20:03:12] fusion: best {'baseline': 0.7, 'iforest': 0.3, 'sequence': 0.0} macro-PR 0.5956 | equal 0.4481 | shipped 0.5123 -> selected {'baseline': 0.7, 'iforest': 0.3, 'sequence': 0.0}
+[20:03:26] baseline mode: frozen 0.5956 vs ewma 0.2508 -> frozen
+[20:03:30] classifier: trainable ['brute_force', 'impossible_travel', 'low_slow_exfil']; pool rows 52
+[20:03:30] FROZEN: config sha256 c3bb62a11bd3c9d1 | weights {'baseline': 0.7, 'iforest': 0.3, 'sequence': 0.0} | mode frozen | thr 0.989010
+[20:14:56] full features (99348, 39) (686s); dev-prefix identical for all 35 features
+[20:15:09] test stream scored: 16476 events (validation predictions bit-identical to selection stage)
+[20:15:12] TEST: PR-AUC(fused) 0.9349  ROC 0.9946  F1@thr 0.8748
+[20:17:37] permutation (validation) 142s
+[20:19:18] permutation (test) 243s
+[20:19:26] engine check: equivalent (float32 rounding only) | max abs diff {'raw_baseline': 0.0, 'raw_iforest': 0.0, 'raw_sequence': 0.015625, 'fused': 3.0372057707728217e-06, 'risk': 0.0015034168564938, 'features_35': 0.0}
+[20:19:27] DONE run D in 1481s | production unchanged: True

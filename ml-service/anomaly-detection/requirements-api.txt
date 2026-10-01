@@ -1,0 +1,7 @@
+# Existing ML requirements
+-r requirements.txt
+
+# SentinelFlow service adapter
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.0

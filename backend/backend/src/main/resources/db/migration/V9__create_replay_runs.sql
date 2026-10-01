@@ -1,0 +1,12 @@
+CREATE TABLE replay_runs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  run_key VARCHAR(128) NOT NULL UNIQUE,
+  source_name VARCHAR(255),
+  status VARCHAR(32) NOT NULL DEFAULT 'CREATED',
+  total_events INTEGER NOT NULL DEFAULT 0,
+  processed_events INTEGER NOT NULL DEFAULT 0,
+  failed_events INTEGER NOT NULL DEFAULT 0,
+  started_at TIMESTAMPTZ,
+  completed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

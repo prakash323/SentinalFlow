@@ -1,0 +1,119 @@
+/* ==========================================================================
+   SentinelFlow motion system.
+
+   One easing family, four duration tiers, and a handful of reusable one-shot utilities.
+   Everything animates transform / opacity / stroke-dashoffset only (compositor-friendly, no layout).
+
+   How the utilities are driven
+   - <Reveal> (components/public/Reveal.tsx) adds `.is-in` to itself the first time it scrolls into
+     view. Every utility below is written as "the hidden state applies while an ancestor
+     .pub-reveal is NOT .is-in", so any descendant can opt in without JavaScript of its own.
+   - Stagger: give a child an inline `--i` (0,1,2 ...) and it is delayed by --i * --sf-step;
+     `--sf-base` shifts the whole group.
+   - prefers-reduced-motion: the global rule in base.css already collapses every duration; the
+     rules here additionally remove travel/scale so state changes are plain opacity swaps.
+
+   Duration tiers (see tokens below): micro 180 / ui 280 / reveal 600 / hero 900+.
+   ========================================================================== */
+
+:root {
+  /* expressive ease-out: reveals, product transitions */
+  --sf-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* symmetric: crossfades and position changes that start and end on screen */
+  --sf-ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --sf-dur-micro: 180ms;   /* hover, press, focus */
+  --sf-dur-ui: 280ms;      /* tabs, chips, panel state */
+  --sf-dur-reveal: 600ms;  /* section reveals */
+  --sf-dur-hero: 900ms;    /* product-sequence transitions */
+  --sf-dur-draw: 1100ms;   /* line / ring drawing */
+
+  --sf-shift: 18px;        /* reveal travel */
+  --sf-step: 70ms;         /* stagger step */
+}
+
+@media (max-width: 640px) {
+  :root { --sf-shift: 10px; --sf-step: 45ms; --sf-dur-draw: 800ms; }
+}
+
+/* ---------- sf-reveal: the element itself fades/slides in once ---------- */
+.sf-reveal {
+  transition:
+    opacity var(--sf-dur-reveal) var(--sf-ease) var(--sf-delay, 0ms),
+    transform var(--sf-dur-reveal) var(--sf-ease) var(--sf-delay, 0ms);
+}
+.sf-reveal:not(.is-in) { opacity: 0; transform: translate3d(0, var(--sf-shift), 0); }
+.sf-reveal[data-variant='fade']:not(.is-in) { transform: none; }
+.sf-reveal[data-variant='scale']:not(.is-in) { transform: scale(0.965); }
+.sf-reveal[data-variant='left']:not(.is-in) { transform: translate3d(calc(var(--sf-shift) * -1.8), 0, 0); }
+.sf-reveal[data-variant='right']:not(.is-in) { transform: translate3d(calc(var(--sf-shift) * 1.8), 0, 0); }
+.sf-reveal[data-variant='scope']:not(.is-in) { opacity: 1; transform: none; } /* scope only: children animate, the wrapper does not */
+
+/* ---------- sf-in / sf-stagger: children of a Reveal, delayed by --i ---------- */
+.sf-in,
+.sf-stagger > * {
+  transition:
+    opacity var(--sf-dur-reveal) var(--sf-ease) calc(var(--sf-base, 0ms) + var(--i, 0) * var(--sf-step)),
+    transform var(--sf-dur-reveal) var(--sf-ease) calc(var(--sf-base, 0ms) + var(--i, 0) * var(--sf-step));
+}
+.pub-reveal:not(.is-in) .sf-in,
+.pub-reveal:not(.is-in) .sf-stagger > * { opacity: 0; transform: translate3d(0, var(--sf-shift), 0); }
+
+/* ---------- sf-scale-in: pops from 88% (markers, nodes, badges) ---------- */
+.sf-scale-in { transition: opacity var(--sf-dur-ui) var(--sf-ease) calc(var(--sf-base, 0ms) + var(--i, 0) * var(--sf-step)), transform var(--sf-dur-reveal) var(--sf-ease) calc(var(--sf-base, 0ms) + var(--i, 0) * var(--sf-step)); transform-box: fill-box; transform-origin: center; }
+.pub-reveal:not(.is-in) .sf-scale-in { opacity: 0; transform: scale(0.88); }
+
+/* ---------- sf-slide: horizontal entry (panels, drawers) ---------- */
+.sf-slide { transition: opacity var(--sf-dur-reveal) var(--sf-ease) calc(var(--sf-base, 0ms) + var(--i, 0) * var(--sf-step)), transform var(--sf-dur-hero) var(--sf-ease) calc(var(--sf-base, 0ms) + var(--i, 0) * var(--sf-step)); }
+.pub-reveal:not(.is-in) .sf-slide { opacity: 0; transform: translate3d(var(--sf-x, 28px), 0, 0); }
+
+/* ---------- sf-draw: an SVG path draws itself (give it pathLength="1") ---------- */
+.sf-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--sf-dur-draw) var(--sf-ease-io) calc(var(--sf-base, 0ms) + var(--i, 0) * var(--sf-step));
+}
+.pub-reveal:not(.is-in) .sf-draw { stroke-dashoffset: 1; }
+.sf-fade { transition: opacity var(--sf-dur-reveal) var(--sf-ease) calc(var(--sf-base, 0ms) + var(--i, 0) * var(--sf-step)); }
+.pub-reveal:not(.is-in) .sf-fade { opacity: 0; }
+
+/* ---------- sf-line: a div connector grows (horizontal) / sf-line-y (vertical) ---------- */
+.sf-line, .sf-line-y { transition: transform var(--sf-dur-draw) var(--sf-ease-io) calc(var(--sf-base, 0ms) + var(--i, 0) * var(--sf-step)); }
+.sf-line { transform-origin: left center; }
+.sf-line-y { transform-origin: center top; }
+.pub-reveal:not(.is-in) .sf-line { transform: scaleX(0); }
+.pub-reveal:not(.is-in) .sf-line-y { transform: scaleY(0); }
+
+/* ---------- sf-fade-out: a placeholder (skeleton) that gives way once the scene has started; --sf-out = when ---------- */
+.pub-reveal.is-in .sf-fade-out { opacity: 0; transition: opacity var(--sf-dur-ui) var(--sf-ease-io) var(--sf-out, 1200ms); }
+
+/* ---------- sf-crossfade: stacked layers, exactly one has data-on ---------- */
+.sf-crossfade { display: grid; }
+.sf-crossfade > * { grid-area: 1 / 1; min-width: 0; opacity: 0; transform: translate3d(0, 6px, 0); pointer-events: none; transition: opacity var(--sf-dur-ui) var(--sf-ease-io), transform var(--sf-dur-reveal) var(--sf-ease); }
+.sf-crossfade > [data-on='true'] { opacity: 1; transform: none; pointer-events: auto; }
+
+/* ---------- sf-product-transition: a mock UI that changes state (data-stage / data-state on the root) ---------- */
+.sf-product-transition { transition: opacity var(--sf-dur-ui) var(--sf-ease-io), transform var(--sf-dur-hero) var(--sf-ease), background-color var(--sf-dur-ui), border-color var(--sf-dur-ui), color var(--sf-dur-ui); }
+
+/* ---------- one-shot keyframes (played once, never looped) ---------- */
+@keyframes sf-ripple {
+  0% { transform: scale(0.6); opacity: 0.55; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+@keyframes sf-sweep {
+  0% { transform: translate3d(-110%, 0, 0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate3d(110%, 0, 0); opacity: 0; }
+}
+
+/* ---------- reduced motion: no travel, no scale; the state still changes ---------- */
+@media (prefers-reduced-motion: reduce) {
+  /* no waiting either: a scene goes straight to its finished state */
+  .pub-reveal *, .pub-reveal { transition-delay: 0ms !important; animation-delay: 0ms !important; }
+  .pub-reveal:not(.is-in) .sf-line, .pub-reveal:not(.is-in) .sf-line-y { transform: none; }
+  .sf-reveal:not(.is-in), .sf-reveal[data-variant]:not(.is-in),
+  .pub-reveal:not(.is-in) .sf-in, .pub-reveal:not(.is-in) .sf-stagger > *,
+  .pub-reveal:not(.is-in) .sf-scale-in, .pub-reveal:not(.is-in) .sf-slide { transform: none; }
+  .sf-crossfade > * { transform: none; }
+  .pub-reveal:not(.is-in) .sf-draw { stroke-dashoffset: 0; }
+}

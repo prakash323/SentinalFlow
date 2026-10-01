@@ -1,0 +1,24 @@
+{
+  "status": "CANDIDATE - NOT DEPLOYED. Not loaded by api.py, run_pipeline.py or run_realtime.py. models/pipeline.joblib is untouched.",
+  "created_by": "eval_ml3 (ML-3), canonical run C",
+  "files": {
+    "components.joblib": "905582a06575ec85e9611259dbfd3cca3d59adf838b339ce1002c051d7659d99",
+    "classifier.joblib": "633983730bfda0473f2792cbe758c9d5743bc80f4fd44030e1466f5ee6922769",
+    "candidate_config.json": "c3bb62a11bd3c9d188c08bda840f98f8829c005477903847d69010b6f0dc4fbd"
+  },
+  "content_hashes": {
+    "baseline_profiler": "9d5aba0499ec174a5fdca7c4edb25db9e5c3c9aba187afaca3109dd271bcf108",
+    "scaler": "199278517fc61cb2967fcb6406d0b0b30bc2720447bf039447865465fad97c19",
+    "isolation_forest": "b0278ee7a77ad1382d288e58c6933f878de0a98ccaeec7ab8c28e757b355ac8c",
+    "sequence_ae_weights": "4349b509009877db128111ade34f80b68592b78c341815d4ae70bc59e53a23d1",
+    "sequence_ae_input_scaler": "c34c4882ef38867b23c8c79b388f92e90e40247bf0f4576d95750523431d34d6",
+    "train_score_distributions": "3b80cdaab8296efbfc38ea18ab586f633cd7bf5f1d0201e9d580dd1835dfbfdf",
+    "feature_list": "dec05da7f007b8937f30978b41da117e780561a187e9dfe3ae67e768e07f2a94",
+    "combined": "e76b175706a5b5d8693e9f7a52d08f3d8811c416a6832a866c5182f2818cfad9"
+  },
+  "classifier_content_sha256": "da45fcd37e1a95fdfe3424b087e49607aab941396bdbe465a34d92d6bf59761e",
+  "frozen_config_sha256": "c3bb62a11bd3c9d188c08bda840f98f8829c005477903847d69010b6f0dc4fbd",
+  "split_manifest_sha256": "a393d7ee093bff6360d85cb73529dd02a077e95ad17eb21eb35eaa8295b495b3",
+  "production_model_sha256_unchanged": "381ae379ae1c5a7c3b4ac38f3df039c1b0de3268889f7df344670510de861684",
+  "how_to_load": "joblib.load(components.joblib) -> dict(features, profiler, scaler, iforest, seq_ae, sig_calib); see eval_ml3/candidate.py for scoring"
+}

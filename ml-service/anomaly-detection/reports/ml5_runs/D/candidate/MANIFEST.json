@@ -1,0 +1,13 @@
+{
+  "status": "CANDIDATE / EVALUATION ARTIFACT - NOT DEPLOYED. Never loaded by api.py, run_pipeline.py or run_realtime.py. models/pipeline.joblib is untouched.",
+  "created_by": "eval_ml5 run D",
+  "files": {
+    "api_candidate.py": "21e06a315b94d46f25e2ce965b2ad8de77dfe77488e1810ab5335aeecbe502d3",
+    "api_production_to_candidate.diff": "cc37591821208ba5ed43edca0abc1224bb7904f020bead3ab86de05a81b5c634",
+    "calibrator_params.json": "8b9eb51a8271306a51a481e55be20f984036f411c002a26e9888c90cfa093e60",
+    "frozen_config5.json": "b6b24a475b067db406445fb4edf55a319db67fe24b7c8c4157285b67f5db6490",
+    "README.md": "b9731ad14bf8eccd61ea1070fc668bf637f4a86dfdad4525be244a06d6032130",
+    "serving_contract.py": "baa5d1db36fcfca4d66a6bb0653bea402535e6eccea8dea94c93497579e4be6c"
+  },
+  "contract_version": "1.0"
+}

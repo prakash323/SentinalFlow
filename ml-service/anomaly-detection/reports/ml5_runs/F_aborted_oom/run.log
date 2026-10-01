@@ -1,0 +1,11 @@
+[data] P0-711 61,274 events 200 entities 31 incidents (9.0s)
+[data] P1-712 60,584 events 140 entities 31 incidents (7.1s)
+[data] P2-713 61,801 events 240 entities 30 incidents (12.7s)
+[data] P3-714 60,436 events 200 entities 30 incidents (9.7s)
+[data] P4-715 63,741 events 200 entities 35 incidents (8.7s)
+[01:23:44] verify: ML-4 inputs intact; fresh regeneration identical: True
+[01:23:44] checkpoint after stage 'verify' saved
+[01:24:10] tests: 19 run, all passed
+[01:24:10] checkpoint after stage 'tests' saved
+[01:24:10] serving: 26 dataset passes through the boundaries + 2 canonical passes
+exit 1

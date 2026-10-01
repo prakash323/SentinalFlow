@@ -1,0 +1,153 @@
+{
+  "runs": [
+    "A",
+    "C"
+  ],
+  "metric_leaves_compared": 3086,
+  "metric_leaf_differences": 13,
+  "differing_paths": [
+    "engine_check.conclusion",
+    "engine_check.criterion",
+    "engine_check.max_rel_diff_raw_signals.raw_baseline",
+    "engine_check.max_rel_diff_raw_signals.raw_iforest",
+    "engine_check.max_rel_diff_raw_signals.raw_sequence",
+    "engine_check.risk_calibration_step",
+    "hashes.source.eval_ml3/engine_check.py",
+    "hashes.source.eval_ml3/posthoc.py",
+    "hashes.source.eval_ml3/run.py",
+    "training.window_checks.test_windows",
+    "training.window_checks.test_windows_containing_any_event_later_than_the_scored_event",
+    "training.window_checks.test_windows_that_contain_zero_padding",
+    "training.window_checks.test_windows_that_include_train_or_validation_history"
+  ],
+  "max_abs_numeric_difference": 0.0,
+  "differing_prefixes": {
+    "engine_check.conclusion": 1,
+    "engine_check.criterion": 1,
+    "engine_check.max_rel_diff_raw_signals": 3,
+    "engine_check.risk_calibration_step": 1,
+    "hashes.source": 3,
+    "training.window_checks": 4
+  },
+  "predictions": {
+    "val_event_id": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_baseline": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_iforest": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_sequence": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_fused": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_risk": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_event_id": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_baseline": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_iforest": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_sequence": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_fused": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_risk": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_in_population": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_alert_primary": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_class_pred": {
+      "identical": true,
+      "max_abs_diff": null
+    },
+    "test_class_conf": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    }
+  },
+  "predictions_all_identical": true,
+  "predictions_sha256_identical": true,
+  "candidate_content_hashes_identical": {
+    "baseline_profiler": true,
+    "scaler": true,
+    "isolation_forest": true,
+    "sequence_ae_weights": true,
+    "sequence_ae_input_scaler": true,
+    "train_score_distributions": true,
+    "feature_list": true,
+    "combined": true
+  },
+  "candidate_content_all_identical": true,
+  "candidate_classifier_content_identical": true,
+  "candidate_artifact_files": {
+    "candidate_config.json": {
+      "identical_bytes": true,
+      "sha256_A": "c3bb62a11bd3c9d188c08bda840f98f8829c005477903847d69010b6f0dc4fbd",
+      "sha256_B": "c3bb62a11bd3c9d188c08bda840f98f8829c005477903847d69010b6f0dc4fbd"
+    },
+    "classifier.joblib": {
+      "identical_bytes": true,
+      "sha256_A": "633983730bfda0473f2792cbe758c9d5743bc80f4fd44030e1466f5ee6922769",
+      "sha256_B": "633983730bfda0473f2792cbe758c9d5743bc80f4fd44030e1466f5ee6922769"
+    },
+    "components.joblib": {
+      "identical_bytes": false,
+      "sha256_A": "d7f882b218f0910195418c0ba30823e78cfeb80d495cea610ffc813e316b689f",
+      "sha256_B": "905582a06575ec85e9611259dbfd3cca3d59adf838b339ce1002c051d7659d99"
+    }
+  },
+  "split_manifest_identical": true,
+  "frozen_config_identical": true,
+  "source_hashes_identical": false,
+  "environment_identical": {
+    "python": true,
+    "platform": true,
+    "machine": true,
+    "cpu_count": true,
+    "numpy": true,
+    "pandas": true,
+    "scipy": true,
+    "sklearn": true,
+    "torch": true,
+    "lightgbm": true,
+    "shap": true,
+    "joblib": true,
+    "fastapi": true,
+    "pydantic": true
+  },
+  "elapsed_seconds": {
+    "A": 506.0858561992645,
+    "C": 1481.395453453064
+  },
+  "exactly_reproducible": false
+}

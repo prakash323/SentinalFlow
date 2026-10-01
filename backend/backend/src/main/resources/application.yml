@@ -1,0 +1,181 @@
+spring:
+  application:
+    name: anomaly-platform-backend
+
+  kafka:
+    # Host-side listener published by docker-compose.yml (the in-network
+    # listener kafka:9092 is only reachable from other containers).
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # Phase 7A: make the delivery guarantee explicit rather than relying
+      # on whatever the client library's defaults happen to be.
+      acks: all
+      properties:
+        enable.idempotence: true
+
+    consumer:
+      group-id: anomaly-platform-events
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/anomaly_platform?options=-c%20TimeZone%3DUTC}
+    username: ${DB_USERNAME:anomaly}
+    password: ${DB_PASSWORD:anomaly}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+  # Phase 6: analyst-assistance layer (IncidentAiService). Provider/model
+  # are both externalized so a different OpenAI-compatible endpoint or
+  # model can be swapped in without a code change.
+  #
+  # Routed through OpenRouter (https://openrouter.ai), which exposes an
+  # OpenAI-compatible API, so the existing Spring AI OpenAI client is
+  # reused unchanged - only the endpoint, credential and model differ.
+  # The credential comes ONLY from OPENROUTER_API_KEY; there is deliberately
+  # no fallback to OPENAI_API_KEY so a real OpenAI key can never be sent to
+  # a different provider by accident.
+  #
+  # IMPORTANT: "not-configured" is a placeholder, never a real credential -
+  # it exists ONLY because Spring AI's OpenAI autoconfiguration validates
+  # spring.ai.openai.api-key is non-blank at BEAN CREATION time (i.e. at
+  # application startup), before any AI endpoint is ever called. A blank
+  # default would crash the whole application on boot whenever
+  # OPENROUTER_API_KEY isn't set - which would break every other endpoint too,
+  # not just the AI ones. With this placeholder, the app starts normally
+  # and the real failure (invalid/missing key) surfaces only when an AI
+  # endpoint is actually called, inside IncidentAiService's own try/catch,
+  # which turns it into the controlled AiProviderUnavailableException / 503
+  # response - never a raw provider error, never a hardcoded real secret.
+  ai:
+    openai:
+      api-key: ${OPENROUTER_API_KEY:not-configured}
+      # Spring AI concatenates base-url + spring.ai.openai.chat.completions-path
+      # (default /v1/chat/completions), so this base plus the default path
+      # yields https://openrouter.ai/api/v1/chat/completions - OpenRouter's
+      # chat endpoint - with no path override needed.
+      base-url: ${OPENROUTER_BASE_URL:https://openrouter.ai/api}
+      chat:
+        options:
+          # OpenRouter model ids are "<vendor>/<model>". Cheap and ample for
+          # three short analyst-assistance prompts; override per environment.
+          model: ${OPENROUTER_MODEL:openai/gpt-4o-mini}
+          temperature: ${OPENROUTER_TEMPERATURE:0.2}
+    # AI-1: Spring AI retries a provider 5xx up to 10 times with a backoff that grows to minutes, which
+    # leaves the analyst's request hanging (the console gives up after 20s) while a server thread keeps
+    # retrying. Analyst assistance is on-demand and the UI has a "Try again" button, so fail fast into the
+    # controlled 503 instead: two attempts, worst case ~1s of backoff.
+    retry:
+      max-attempts: ${AI_RETRY_MAX_ATTEMPTS:2}
+      backoff:
+        initial-interval: 1s
+        multiplier: 2
+        max-interval: 3s
+
+server:
+  port: ${SERVER_PORT:8080}
+
+# Phase 7A: /api/v1/health (see HealthController) stays a minimal, public
+# liveness check - "is the process up" - on purpose; a liveness probe that
+# calls out to the DB is an anti-pattern (a brief DB blip would then get
+# the app container killed/restarted for no reason). Real dependency
+# checks live in Actuator's readiness group instead, which already ships
+# a DataSource health contributor out of the box - no custom code needed.
+# (There is no separate Kafka health contributor auto-registered in this
+# project's actual spring-kafka setup, so the readiness group only adds
+# "db" - confirmed by a startup failure when "kafka" was included:
+# "Included health contributor 'kafka' in group 'readiness' does not
+# exist".) show-details defaults to "never", so anonymous callers only
+# ever see UP/DOWN, never connection strings or other internals.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,db
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+anomaly:
+  alert-policy:
+    policy-version: v2-ml-ensemble
+    # The real ML service's anomalyScore is a percentile rank against its
+    # training distribution (see ml-service/anomaly-detection/src/detect.py
+    # Detector.to_risk_100), not a calibrated probability - it runs "hot":
+    # even behaviourally-normal events commonly land at 0.95-0.99, and the
+    # ML service's OWN internal alert bar is ~0.995 (top ~1% budget,
+    # config.ALERT_BUDGET). The placeholder scorer's 0.70 threshold (tuned
+    # for a simple 0-1 weighted sum) would alert on almost everything from
+    # the real model. Thresholds below are set to track the ML service's
+    # own calibration; the ML project's own ASSUMPTIONS.md (limitation 7)
+    # documents that live-streaming score calibration is still an open
+    # issue there, so these are a reasonable starting point, not a final
+    # tuned value - re-tune against real traffic.
+    alert-threshold: 0.99
+    severity:
+      medium: 0.99
+      high: 0.995
+      critical: 0.999
+
+ml:
+  service:
+    url: ${ML_SERVICE_URL:http://127.0.0.1:8000}
+    connect-timeout: 2s
+    read-timeout: 8s
+
+# Phase 5: in-memory Basic Auth accounts (see SecurityConfig). Same
+# externalization convention already used for spring.datasource above -
+# override via environment variables for anything beyond local dev; the
+# inline defaults are placeholders, not production credentials.
+security:
+  users:
+    admin:
+      username: ${SECURITY_ADMIN_USERNAME:admin}
+      password: ${SECURITY_ADMIN_PASSWORD:admin-dev-only-change-me}
+    analyst:
+      username: ${SECURITY_ANALYST_USERNAME:analyst}
+      password: ${SECURITY_ANALYST_PASSWORD:analyst-dev-only-change-me}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+# Browser origins allowed to call the API cross-origin. Local development
+# does not need this (Vite proxies /api), but a separately hosted frontend
+# does. Comma-separated; override with APP_CORS_ALLOWED_ORIGINS.
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:4173}
+
+# Phase 7A: the CorrelationIdFilter/GlobalExceptionHandler machinery already
+# puts X-Correlation-Id into MDC and returns it in ErrorResponse.requestId,
+# but Spring Boot's default console pattern never printed it - so the one
+# ID a client can use to correlate an error with a server log line never
+# actually showed up in that log line. This just adds it to the pattern.
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%thread] [correlationId=%X{X-Correlation-Id}] %-40.40logger{39} : %m%n%wEx"

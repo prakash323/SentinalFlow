@@ -1,0 +1,20 @@
+17:00:46 stage=stream run=B variant=main limit=None
+17:08:22 [stream:main] warm-up on 65850 train events in 444s
+17:11:11 [stream:main] scored 2000/33498 (stream position 1999/33498)  169s  alerts 3
+17:13:54 [stream:main] scored 4000/33498 (stream position 3999/33498)  331s  alerts 3
+17:16:00 [stream:main] scored 6000/33498 (stream position 5999/33498)  458s  alerts 7
+17:20:44 [stream:main] scored 8000/33498 (stream position 7999/33498)  742s  alerts 8
+17:26:28 [stream:main] scored 10000/33498 (stream position 9999/33498)  1086s  alerts 12
+17:32:43 [stream:main] scored 12000/33498 (stream position 11999/33498)  1460s  alerts 16
+17:34:34 [stream:main] scored 14000/33498 (stream position 13999/33498)  1572s  alerts 92
+17:38:02 [stream:main] scored 16000/33498 (stream position 15999/33498)  1779s  alerts 215
+17:41:07 [stream:main] scored 18000/33498 (stream position 17999/33498)  1964s  alerts 219
+17:42:34 [stream:main] scored 20000/33498 (stream position 19999/33498)  2051s  alerts 219
+17:43:48 [stream:main] scored 22000/33498 (stream position 21999/33498)  2125s  alerts 325
+17:45:46 [stream:main] scored 24000/33498 (stream position 23999/33498)  2243s  alerts 331
+17:48:58 [stream:main] scored 26000/33498 (stream position 25999/33498)  2435s  alerts 656
+17:52:04 [stream:main] scored 28000/33498 (stream position 27999/33498)  2622s  alerts 662
+17:53:48 [stream:main] scored 30000/33498 (stream position 29999/33498)  2725s  alerts 723
+17:55:20 [stream:main] scored 32000/33498 (stream position 31999/33498)  2817s  alerts 724
+17:56:27 [stream:main] 33498 events in 2884s
+17:56:27 stage stream_main finished in 3341s

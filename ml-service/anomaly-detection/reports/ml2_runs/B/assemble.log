@@ -1,0 +1,6 @@
+17:56:55 stage=assemble run=B variant=main limit=None
+17:57:10 [assemble] decisions frozen (2f51378b7193); unsealing held-out test labels
+17:58:07 [classifier] A/B done
+17:58:21 [assemble] classifier + shortcut analyses done
+17:58:24 [assemble] wrote metrics.json in 84s
+17:58:25 stage assemble finished in 88s

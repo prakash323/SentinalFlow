@@ -1,0 +1,29 @@
+# Core -- the project runs fully on these alone
+numpy>=1.24
+pandas>=2.0
+scikit-learn>=1.3
+scipy>=1.10
+matplotlib>=3.7
+joblib>=1.3
+
+# Dashboard
+streamlit>=1.30
+
+# Optional upgrades. Every one has a tested fallback, so the pipeline runs
+# without them -- installing them just makes it better.
+torch>=2.0          # GRU sequence autoencoder (else: PCA autoencoder)
+lightgbm>=4.0       # attack-type classifier (else: sklearn HistGradientBoosting)
+shap>=0.44          # per-alert attribution + shap_summary.png (else: z-score decomposition)
+faker>=20.0         # nicer synthetic identifiers
+pyarrow>=14.0       # parquet IO
+plotly>=5.18        # map view in the dashboard
+psutil>=5.9         # CPU/memory panel on the dashboard's Live Monitor page
+                    # (else: panel shows "install psutil", no fabricated numbers)
+
+# Streaming adapters (src/adapters.py). CSV replay, the folder watcher and
+# the REST endpoint need NONE of these -- stdlib only. Only needed for the
+# adapters named:
+websockets>=12.0    # WebSocketSink (--ws-broadcast): live alert broadcast
+kafka-python>=2.0   # KafkaSource (--stream-source kafka) -- see README.md,
+                    # NOT exercised against a live broker in this repo
+paho-mqtt>=1.6      # MqttSource (--stream-source mqtt) -- same caveat as Kafka

@@ -1,0 +1,48 @@
+# Local secrets - never commit real values.
+.env
+.env.*
+!.env.example
+
+# Backend (Maven)
+backend/backend/target/
+backend/backend/*.log
+
+# Frontend (Vite/Node)
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/*.log
+
+# ML service (Python)
+ml-service/anomaly-detection/.venv/
+ml-service/anomaly-detection/__pycache__/
+ml-service/anomaly-detection/**/__pycache__/
+ml-service/anomaly-detection/.pytest_cache/
+
+# Physical collector (Python)
+SentinelFlow-PhysicalCollector/.venv/
+SentinelFlow-PhysicalCollector/**/__pycache__/
+SentinelFlow-PhysicalCollector/.pytest_cache/
+
+# Simulator (Python)
+simulator/.venv/
+simulator/**/__pycache__/
+simulator/.pytest_cache/
+
+*.pyc
+
+# IDE
+.idea/
+*.iml
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Misc
+*.tmp
+*.bak
+
+# Historical frontend backups
+frontend_backups/
+ml-service/anomaly-detection/final_ml_package.zip

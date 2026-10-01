@@ -1,0 +1,68 @@
+# SentinelFlow local infrastructure: PostgreSQL + Kafka (KRaft, single node).
+#
+#   docker compose up -d
+#
+# Host-side ports:
+#   PostgreSQL  localhost:5432
+#   Kafka       localhost:9094   (the backend's default KAFKA_BOOTSTRAP_SERVERS)
+#
+# The in-network listener kafka:9092 is only for other containers; a process
+# on the host must use localhost:9094 (advertised as PLAINTEXT_HOST below).
+#
+# This file reproduces the containers this project was already running
+# (project name "sentinelflow", volumes sentinelflow_postgres-data and
+# sentinelflow_kafka-data), so `docker compose up -d` re-attaches to the
+# existing data instead of starting empty.
+name: sentinelflow
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: anomaly_platform
+      POSTGRES_USER: anomaly
+      POSTGRES_PASSWORD: anomaly
+      TZ: UTC
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U anomaly -d anomaly_platform"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  kafka:
+    image: apache/kafka:3.7.0
+    environment:
+      TZ: UTC
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,PLAINTEXT_HOST://0.0.0.0:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    ports:
+      - "9094:9094"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  kafka-data:

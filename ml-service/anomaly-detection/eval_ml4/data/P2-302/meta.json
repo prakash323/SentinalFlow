@@ -1,0 +1,525 @@
+{
+  "dataset_id": "P2-302",
+  "role": "SEALED",
+  "kind": "standard",
+  "profile": "P2",
+  "profile_description": "remote-workforce SaaS: normal users on dynamic public IPs across time zones, noisy authentication, frequent travel",
+  "seed": 302,
+  "generator_version": "ml4-gen-1.0",
+  "profile_version": "1.0",
+  "drift_kind": null,
+  "days": 36,
+  "onboarding_days": 14,
+  "events": 60834,
+  "entities": 240,
+  "entities_by_type": {
+    "edge_device": 5,
+    "service_account": 15,
+    "user": 220
+  },
+  "attack_events": 1087,
+  "incidents": 30,
+  "attack_types": [
+    "brute_force",
+    "credential_stuffing",
+    "impossible_travel",
+    "lateral_movement",
+    "device_spoofing",
+    "low_slow_exfil"
+  ],
+  "attack_events_by_type": {
+    "brute_force": 470,
+    "credential_stuffing": 319,
+    "impossible_travel": 10,
+    "lateral_movement": 129,
+    "device_spoofing": 55,
+    "low_slow_exfil": 104
+  },
+  "incidents_by_type": {
+    "brute_force": 4,
+    "credential_stuffing": 3,
+    "impossible_travel": 10,
+    "lateral_movement": 4,
+    "device_spoofing": 5,
+    "low_slow_exfil": 4
+  },
+  "benign_drift_events": 49,
+  "label_counts": {
+    "normal": 59698,
+    "brute_force": 470,
+    "credential_stuffing": 319,
+    "lateral_movement": 129,
+    "low_slow_exfil": 104,
+    "device_spoofing": 55,
+    "benign_drift": 49,
+    "impossible_travel": 10
+  },
+  "time_span": {
+    "start": "2026-06-01 00:00:13.887935",
+    "end": "2026-07-06 23:59:06.492963",
+    "days": 35.99921996560185
+  },
+  "onboarding_end": "2026-06-15 00:00:00",
+  "chronological": true,
+  "strictly_increasing": true,
+  "drift": [
+    {
+      "kind": "resources",
+      "affected_entities": 4,
+      "start_day": 18.0,
+      "end_day": 32.0
+    }
+  ],
+  "generator_parameters": {
+    "version": "1.0",
+    "name": "P2",
+    "description": "remote-workforce SaaS: normal users on dynamic public IPs across time zones, noisy authentication, frequent travel",
+    "n_users": 220,
+    "n_service": 15,
+    "n_devices": 5,
+    "start_offset_days": 0,
+    "roles": [
+      "sales",
+      "marketing",
+      "product",
+      "eng",
+      "exec"
+    ],
+    "priv_roles": [
+      "eng",
+      "exec"
+    ],
+    "home_cities": [
+      "Chicago",
+      "Dallas",
+      "Boston",
+      "Atlanta",
+      "Denver",
+      "Seattle"
+    ],
+    "foreign_cities": [
+      "Lagos",
+      "Moscow",
+      "Sao Paulo",
+      "Shenzhen",
+      "Dubai",
+      "Istanbul",
+      "Cairo",
+      "Jakarta",
+      "Mexico City",
+      "Sydney",
+      "Tokyo",
+      "Seoul",
+      "Toronto",
+      "New York",
+      "Phoenix",
+      "London",
+      "Singapore",
+      "Frankfurt",
+      "Amsterdam"
+    ],
+    "resources": {
+      "sales": [
+        "/crm/leads",
+        "/crm/opps",
+        "/crm/accounts",
+        "/crm/export",
+        "/wiki/spaces",
+        "/mail/shared"
+      ],
+      "marketing": [
+        "/mkt/campaigns",
+        "/mkt/analytics",
+        "/cms/pages",
+        "/cms/assets",
+        "/wiki/spaces",
+        "/social/queue"
+      ],
+      "product": [
+        "/prod/roadmap",
+        "/prod/specs",
+        "/wiki/spaces",
+        "/analytics/funnel",
+        "/design/files",
+        "/feedback/inbox"
+      ],
+      "eng": [
+        "/repo/web",
+        "/repo/mobile",
+        "/ci/main",
+        "/cloud/console",
+        "/cloud/billing",
+        "/logs/prod",
+        "/wiki/spaces",
+        "/feature/flags"
+      ],
+      "exec": [
+        "/exec/board",
+        "/exec/finance-dash",
+        "/hr/comp-bands",
+        "/crm/opps",
+        "/prod/roadmap",
+        "/cloud/billing"
+      ],
+      "service_account": [
+        "/svc/webhook",
+        "/svc/sync",
+        "/svc/queue",
+        "/svc/billing",
+        "/svc/health"
+      ],
+      "edge_device": [
+        "kiosk/checkin",
+        "kiosk/print",
+        "heartbeat",
+        "telemetry/upload"
+      ]
+    },
+    "sensitive": [
+      "/exec/board",
+      "/exec/finance-dash",
+      "/hr/comp-bands",
+      "/cloud/billing",
+      "/crm/export"
+    ],
+    "commands": {
+      "vocab": [
+        "view",
+        "edit",
+        "share",
+        "export",
+        "invite",
+        "admin",
+        "comment"
+      ],
+      "priv": [
+        "export",
+        "share",
+        "admin"
+      ],
+      "malicious": [
+        "view",
+        "export",
+        "export",
+        "share",
+        "admin"
+      ],
+      "start": {
+        "eng": "view",
+        "exec": "view"
+      },
+      "default_start": "view",
+      "original_chains": false
+    },
+    "hours": {
+      "user_mean": [
+        10.0,
+        1.8
+      ],
+      "user_sd": [
+        1.4,
+        3.0
+      ],
+      "tz_offsets": [
+        -8.0,
+        -5.0,
+        0.0,
+        1.0,
+        5.5
+      ],
+      "shifts": null
+    },
+    "events_per_day": {
+      "user": [
+        14,
+        40
+      ],
+      "service": [
+        100,
+        260
+      ],
+      "edge": [
+        60,
+        150
+      ]
+    },
+    "weekend": {
+      "user": [
+        0.1,
+        0.45
+      ],
+      "service": [
+        0.9,
+        1.0
+      ],
+      "edge": [
+        1.0,
+        1.0
+      ]
+    },
+    "periodic_devices": false,
+    "ip": {
+      "mode": "public_dynamic",
+      "pool_size": {
+        "user": 5,
+        "service": 2,
+        "edge": 1
+      },
+      "nat_share": 0.0,
+      "n_shared": 4,
+      "rotate_daily": true,
+      "private_bases": [
+        "10"
+      ],
+      "public_isp": [
+        "73.12",
+        "98.204",
+        "24.6",
+        "68.45",
+        "174.55",
+        "108.20",
+        "71.199",
+        "50.35",
+        "76.101",
+        "99.66",
+        "67.180",
+        "96.44",
+        "72.21",
+        "184.96",
+        "47.144"
+      ],
+      "travel_ip": "public"
+    },
+    "auth": {
+      "fail_rate": {
+        "user": 0.06,
+        "service": 0.02,
+        "edge": 0.01
+      },
+      "alt_method_p": 0.1,
+      "user_methods": [
+        "password",
+        "token",
+        "biometric"
+      ],
+      "service_methods": [
+        "token"
+      ],
+      "edge_methods": [
+        "token"
+      ]
+    },
+    "confounder": {
+      "rate": 0.12,
+      "travel_p": 0.5,
+      "atypical_res_p": 0.35
+    },
+    "device": {
+      "user_os": [
+        "macOS 14.4",
+        "Windows 11.0.22631",
+        "Windows 10.0.19045",
+        "Ubuntu 24.04"
+      ],
+      "service_os": [
+        "Ubuntu 22.04"
+      ],
+      "edge_os": [
+        "Ubuntu 24.04",
+        "Yocto 4.0"
+      ],
+      "user_proto": [
+        "HTTPS",
+        "TLS1.3"
+      ],
+      "service_proto": [
+        "HTTPS"
+      ],
+      "edge_proto": [
+        "HTTPS"
+      ],
+      "os_pool_all": [
+        "Windows 10.0.19045",
+        "Windows 11.0.22631",
+        "Ubuntu 22.04",
+        "Ubuntu 24.04",
+        "macOS 14.4",
+        "RHEL 9.3",
+        "Yocto 4.0",
+        "FreeRTOS 10.5"
+      ],
+      "proto_pool_all": [
+        "TLS1.3",
+        "TLS1.2",
+        "SSH2",
+        "MQTT3.1.1",
+        "OPC-UA",
+        "HTTPS"
+      ]
+    },
+    "attacks": {
+      "brute_force": {
+        "n": 4,
+        "events": [
+          40,
+          300
+        ],
+        "gap_s": [
+          3,
+          40
+        ],
+        "src": "residential",
+        "city": "foreign",
+        "fail_share": [
+          0.7,
+          0.92
+        ],
+        "success_end_p": 0.5,
+        "window": [
+          0.4,
+          1.0
+        ],
+        "victims": "user"
+      },
+      "credential_stuffing": {
+        "n": 3,
+        "victims": [
+          30,
+          90
+        ],
+        "n_ips": [
+          15,
+          40
+        ],
+        "src": "residential",
+        "city": "foreign",
+        "spread_s": [
+          5,
+          60
+        ],
+        "tries": [
+          1,
+          3
+        ],
+        "success_p": 0.05,
+        "window": [
+          0.4,
+          1.0
+        ],
+        "victim_types": "user"
+      },
+      "impossible_travel": {
+        "n": 10,
+        "gap_h": [
+          0.5,
+          1.5
+        ],
+        "min_km": 3500,
+        "src2": "residential",
+        "near_miss": 1.2,
+        "window": [
+          0.4,
+          1.0
+        ],
+        "hops": 1,
+        "victim_types": "user"
+      },
+      "lateral_movement": {
+        "n": 4,
+        "events": [
+          15,
+          50
+        ],
+        "gap_min": [
+          2,
+          15
+        ],
+        "hours": [
+          20,
+          21,
+          22,
+          23,
+          0,
+          1
+        ],
+        "foreign": "all",
+        "cmd": "mixed",
+        "ip": "own",
+        "window": [
+          0.4,
+          1.0
+        ],
+        "victim_types": "user"
+      },
+      "device_spoofing": {
+        "n": 5,
+        "events": [
+          6,
+          25
+        ],
+        "gap_min": [
+          2,
+          15
+        ],
+        "variants": {
+          "clone": 0.4,
+          "partial_mac": 0.3,
+          "partial_os": 0.3
+        },
+        "ip": "own",
+        "clone_ip_new_p": 0.7,
+        "window": [
+          0.4,
+          1.0
+        ],
+        "victim_types": "any"
+      },
+      "low_slow_exfil": {
+        "n": 4,
+        "span_days": [
+          8,
+          20
+        ],
+        "per_day": [
+          1,
+          3
+        ],
+        "hours": [
+          20,
+          21,
+          22,
+          23,
+          0,
+          1,
+          2,
+          3
+        ],
+        "res": "sensitive",
+        "ip": "own",
+        "window": [
+          0.4,
+          0.75
+        ]
+      }
+    },
+    "benign_drift": {
+      "n": 4,
+      "kind": "resources",
+      "start_frac": 0.5,
+      "days": 14
+    },
+    "drift": null
+  },
+  "integrity": {
+    "attack_events_in_onboarding": 0,
+    "benign_drift_events_in_onboarding": 0,
+    "incident_ids_unique": true,
+    "events_before_onboarding_end": 23074
+  },
+  "file_sha256": {
+    "events.csv": "d5e391c000cee97c691a3f7c4c1f70d0fb2873b4ddbda6063ab80eae10efe059",
+    "labels.csv": "5876695aac83318b31001798ca2a2b25dfbd9aef2a990687c396a6240968a802",
+    "incidents.json": "9bdf0218c624479def3275be20ef6f743086d0b9b7d0ed9151f81becd147c5cd",
+    "entities.json": "10bedac8745e2b8ce387ebee3fc4b7ddd9924e8dd5a5612a0d002f1af1abc9ff"
+  }
+}

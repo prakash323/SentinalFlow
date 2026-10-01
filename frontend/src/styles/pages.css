@@ -1,0 +1,133 @@
+/* ==========================================================================
+   SOC page layouts and widgets (Events, Predictions, Alerts, Incidents, Entities, Replay,
+   Audit, System, Simulator, detail pages). The Dashboard has its own sheet (dashboard.css).
+
+   Same identity as the rest of the product: 12px gutters, 1px borders, 2-4px radii, flat
+   surfaces, tokens only. No gradients, glow, blur or hover-lift. Semantic colour is always
+   paired with a text label.
+   ========================================================================== */
+
+/* ---------- layout grids ---------- */
+.grid-4, .grid-3, .grid-2, .grid-main { display: grid; gap: 12px; margin-bottom: 12px; }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-2.flat { gap: 20px; margin-bottom: 0; }
+.grid-main { grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); }
+
+.row-gap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.kv-grid.tight { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px 16px; }
+.drawer-h { margin-bottom: 8px; font-size: var(--fs-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.drawer-hero { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.input-action { display: flex; gap: 6px; }
+.input-action input { flex: 1; }
+.filters.plain { padding: 0 0 12px; border: 0; }
+.status-chips { margin-bottom: 0; }
+.chip-count { display: inline-grid; place-items: center; min-width: 18px; height: 16px; margin-left: 5px; padding: 0 4px; border-radius: var(--radius-xs); background: var(--panel-hover); color: var(--text-2); font-size: 10.5px; font-variant-numeric: tabular-nums; }
+.live-chip { display: inline-flex; align-items: center; gap: 6px; }
+.live-chip.active svg { animation: pulse-fade 1.4s ease-in-out infinite; }
+@keyframes pulse-fade { 50% { opacity: 0.35; } }
+.row-link { display: inline-flex; padding: 2px 0; }
+
+/* compact stat tiles (System status, replay detail) */
+.kpi-top { display: flex; align-items: center; gap: 8px; }
+.kpi-icon { display: grid; place-items: center; width: 24px; height: 24px; border-radius: var(--radius-sm); }
+.kpi-label { font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.kpi-value { margin-top: 6px; font-size: 22px; line-height: 1.2; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* pipeline / policy bars */
+.stack-bar { display: flex; gap: 2px; height: 8px; border-radius: 2px; overflow: hidden; background: var(--panel-hover); }
+.stack-bar > div { min-width: 0; }
+.stack-bar.tall { height: 10px; }
+
+/* ---------- event trail, factors ---------- */
+.trail-score { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.trail-score-body { flex: 1; min-width: 260px; display: grid; gap: 10px; }
+.trail-reason { padding: 8px 12px; border-radius: var(--radius-sm); font-size: 12.5px; line-height: 1.55; color: var(--text-2); background: var(--panel-2); border: 1px solid var(--border); border-left: 2px solid var(--accent); }
+.factor-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.factor-list.vertical { flex-direction: column; flex-wrap: nowrap; }
+.factor { display: inline-flex; align-items: center; gap: 8px; padding: 4px 10px 4px 5px; border-radius: var(--radius-sm); font-size: 12.5px; color: var(--text-2); background: var(--panel-2); border: 1px solid var(--border); }
+.factor b { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: var(--radius-xs); font-size: 10.5px; color: var(--accent); background: var(--accent-soft); }
+.linked-card { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 10px 12px; border-radius: var(--radius); background: var(--panel-2); border: 1px solid var(--border); transition: border-color var(--dur-fast), background var(--dur-fast); }
+.linked-card:hover { border-color: var(--control-border); background: var(--panel-hover); }
+.linked-card svg { color: var(--c-high); flex: none; }
+.linked-card div { flex: 1; display: grid; gap: 2px; font-size: 12.5px; }
+.linked-card span:not(.link, .badge) { font-size: var(--fs-meta); color: var(--muted); }
+
+/* ---------- simulator ---------- */
+.sim-target { display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+.sim-note { flex: 1; min-width: 260px; font-size: 12.5px; line-height: 1.55; }
+.scenario-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-top: 12px; }
+.scenario { display: flex; flex-direction: column; gap: 10px; height: 100%; }
+.scenario > .btn { margin-top: auto; }
+.scenario-top { display: flex; justify-content: space-between; align-items: center; }
+.scenario-icon { --c: var(--tone, var(--c-neutral)); display: grid; place-items: center; width: 32px; height: 32px; border-radius: var(--radius); color: var(--c); background: color-mix(in srgb, var(--c) 13%, transparent); border: 1px solid color-mix(in srgb, var(--c) 32%, transparent); }
+.scenario-count { font-size: var(--fs-meta); color: var(--muted); font-weight: 500; }
+.scenario p { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.scenario-expect { display: grid; gap: 2px; margin-bottom: 4px; padding: 8px 10px; border-radius: var(--radius-sm); font-size: 12.5px; color: var(--text-2); background: var(--panel-2); border: 1px solid var(--border); }
+.scenario-expect span { font-size: var(--fs-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.sim-summary { display: flex; gap: 24px; flex-wrap: wrap; }
+.sim-summary div { display: grid; gap: 2px; }
+.sim-summary span { font-size: var(--fs-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.sim-summary b { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---------- AI assist (alert explanation, incident summary / guidance) ----------
+   Compact by design: a card head with the actions, then a small ruled result block. The 2px accent edge
+   is the same "model narrative" mark used by .trail-reason. Text colours are the standard tokens. */
+.ai-assist .card-head { margin-bottom: 0; }
+.ai-body { display: grid; gap: 8px; }
+.ai-body:not(:empty) { margin-top: 10px; }
+.ai-lines { display: grid; gap: 8px; }
+.ai-result { padding: 8px 12px; border-radius: var(--radius); background: var(--panel-2); border: 1px solid var(--border); border-left: 2px solid var(--accent); }
+.ai-result-label { margin-bottom: 4px; font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.ai-result .markdown { font-size: 12.5px; }
+.ai-result .markdown > :last-child { margin-bottom: 0; }
+.ai-result .markdown p, .ai-result .markdown ul, .ai-result .markdown ol { line-height: 1.5; }
+.ai-foot { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 12px; font-size: var(--fs-meta); color: var(--muted); }
+.ai-foot .spacer { flex: 1; }
+.ai-foot .btn { margin-right: -4px; }
+.ai-tag { font-weight: 600; color: var(--text-2); }
+
+/* ---------- system status ---------- */
+.sys-card { display: grid; gap: 2px; }
+.sys-card.down { border-color: var(--c-critical); }
+.sys-status { margin-top: 8px; font-size: 15px; font-weight: 600; }
+.sys-card.up .sys-status { color: var(--c-ok); }
+.sys-card.down .sys-status { color: var(--c-critical); }
+.sys-detail { font-size: 12.5px; color: var(--muted); }
+.sys-latency { margin-top: 4px; font-size: 12px; color: var(--text-2); }
+.policy-scale { position: relative; padding-top: 8px; }
+.policy-track { position: relative; height: 8px; border-radius: 2px; background: var(--panel-hover); overflow: hidden; }
+.policy-band { position: absolute; top: 0; bottom: 0; }
+.policy-ticks { position: relative; height: 36px; margin-top: 8px; }
+.policy-ticks span { position: absolute; transform: translateX(-50%); display: grid; gap: 1px; text-align: center; font-size: var(--fs-meta); color: var(--muted); }
+.policy-ticks b { font-family: var(--font-mono); font-size: 12px; color: var(--text); }
+
+/* ---------- interactive table rows ---------- */
+/* rows that open a drawer are keyboard-operable (tabIndex + Enter/Space in the page) */
+tbody tr.clickable:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 0; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1280px) {
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-main { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .grid-2.flat { gap: 16px; }
+}
+
+@media (max-width: 560px) {
+  h1 { font-size: 20px; }
+  .grid-4 { grid-template-columns: 1fr; }
+  .sim-summary { gap: 16px; }
+  .drawer { width: 100vw; }
+}
+
+/* Vertical rhythm: a card that follows another top-level card gets the same gap the grids use. */
+.content > div > .card + :is(.card, .grid-2, .grid-3, .grid-4, .grid-main, .scenario-grid) { margin-top: 12px; }
+
+/* IDs in tables never wrap mid-token; the table scrolls horizontally instead. */
+tbody .mono, tbody a.mono { white-space: nowrap; }

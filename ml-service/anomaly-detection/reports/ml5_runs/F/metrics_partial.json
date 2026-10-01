@@ -1,0 +1,266 @@
+{
+  "meta": {
+    "run_id": "F",
+    "phase": "ML-5",
+    "dry_rehearsal": false,
+    "config": {
+      "ml5_seed": 20260923,
+      "deployment_tz": "Asia/Kolkata",
+      "fresh": {
+        "P0-711": [
+          "P0",
+          711
+        ],
+        "P1-712": [
+          "P1",
+          712
+        ],
+        "P2-713": [
+          "P2",
+          713
+        ],
+        "P3-714": [
+          "P3",
+          714
+        ],
+        "P4-715": [
+          "P4",
+          715
+        ]
+      },
+      "dev_ids": [
+        "P2-301",
+        "P3-401",
+        "P0-103",
+        "P0-104",
+        "P1-202",
+        "P2-302",
+        "P3-402",
+        "P4-501",
+        "P4-502",
+        "orig42"
+      ],
+      "dev_excluded_train_ids": [
+        "P0-101",
+        "P0-102",
+        "P1-201"
+      ],
+      "alphas": [
+        0.001,
+        0.0025,
+        0.005,
+        0.01,
+        0.02
+      ],
+      "onboard_head_fraction": 0.65,
+      "onboard_sizes": [
+        250,
+        500,
+        1000,
+        2000,
+        5000
+      ],
+      "alpha_volume_reference": 0.01,
+      "onboard_draws": 40,
+      "onboard_ok_band": [
+        0.5,
+        2.0
+      ],
+      "onboard_ok_share": 0.8,
+      "alpha_selection": "maximise the mean F1 over the DEV deployments of the deployment-specific rule (alpha grid above); ties -> larger alpha",
+      "calib_bins": 15,
+      "calib_methods": [
+        "identity",
+        "platt_raw",
+        "isotonic_raw",
+        "histogram_raw",
+        "platt_deployment_normalised",
+        "isotonic_deployment_normalised"
+      ],
+      "calib_selection": "lowest mean log-loss in leave-one-profile-out cross-validation on the DEV pool; must also lower the mean ECE vs identity",
+      "parity_reeval_ids": [
+        "P0-104",
+        "P1-202",
+        "P2-302",
+        "P3-402",
+        "P4-501",
+        "P4-502"
+      ],
+      "no_entity_type_ids": [
+        "P0-104",
+        "P3-402",
+        "P4-501"
+      ],
+      "drift_reeval_ids": [
+        "DR-ctrl",
+        "DR-location",
+        "DR-resources"
+      ],
+      "ml4_artifact": "models/candidates/ml4/ml4_global.joblib (frozen, unchanged)",
+      "contract_version": "1.0"
+    }
+  },
+  "verify": {
+    "ml4_artifact_files_match_manifest": {
+      "ml4_global.joblib": true,
+      "frozen_config.json": true,
+      "frozen_calib_fused.npy": true
+    },
+    "ml4_feature_matrices_verified": 13,
+    "ml4_predictions_sha256": "eca7e9ecfaa81e7cbac3c3d99818f9c74dc29f45478fdd82fc67ac976cb33b57",
+    "ml4_frozen_config_sha256": "4e9c8d80b1ad78860e2547b45933b043bcf6883bd185e59bb14e70c3703376c4",
+    "fresh_dataset_set_sha256": "a9ca7ba33da3af57e993dab9f90bd9522a1219906f81ea5decc5ca4cc6433e99",
+    "fresh_regeneration_byte_identical": true,
+    "fresh_regeneration_seconds": 27.1
+  },
+  "parity_unit_tests": {
+    "tests_run": 19,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true,
+    "failure_details": [],
+    "test_names": [
+      "test_attack_events_all_six_types",
+      "test_command_heavy_events",
+      "test_determinism_two_passes_are_bit_identical",
+      "test_duplicate_delivery_does_not_update_state_twice",
+      "test_edge_devices",
+      "test_entity_type_not_sent_is_explicit_and_visible",
+      "test_full_scorer_risk_scores_are_identical_through_the_corrected_boundary",
+      "test_missing_auth_result",
+      "test_missing_fingerprint_is_not_carried_forward_and_is_fail_safe",
+      "test_missing_optional_fields_are_marked_never_defaulted_benignly",
+      "test_normal_events",
+      "test_out_of_order_is_flagged",
+      "test_output_is_exactly_the_canonical_schema_and_every_field_has_a_policy",
+      "test_private_and_public_ips",
+      "test_required_fields_and_validation_errors",
+      "test_service_accounts",
+      "test_the_production_boundary_still_has_the_defects_this_suite_guards_against",
+      "test_time_fields_every_timestamp_style_and_timezone",
+      "test_units_and_tokenisation"
+    ],
+    "contract_version": "1.0",
+    "field_policy": [
+      {
+        "canonical_field": "entity_id",
+        "platform_keys": [
+          "entityId"
+        ],
+        "policy": "REQUIRED",
+        "error": "MISSING_ENTITY_ID"
+      },
+      {
+        "canonical_field": "timestamp",
+        "platform_keys": [
+          "occurredAt"
+        ],
+        "policy": "REQUIRED",
+        "rule": "ISO-8601; offset-aware values are converted to the deployment wall clock and made naive; naive values are taken as deployment wall clock",
+        "error": "INVALID_TIMESTAMP / MISSING_TIMESTAMP"
+      },
+      {
+        "canonical_field": "entity_type",
+        "platform_keys": [
+          "entityType",
+          "entity_type"
+        ],
+        "policy": "ASSUMPTION",
+        "rule": "valid = user | service_account | edge_device (+aliases). Absent -> the deployment's configured default_entity_type, recorded in `assumptions`. Invalid -> error",
+        "error": "INVALID_ENTITY_TYPE"
+      },
+      {
+        "canonical_field": "source_ip",
+        "platform_keys": [
+          "ip",
+          "sourceIp",
+          "source_ip"
+        ],
+        "policy": "REQUIRED",
+        "rule": "valid IPv4/IPv6",
+        "error": "MISSING_SOURCE_IP / INVALID_SOURCE_IP"
+      },
+      {
+        "canonical_field": "geo_location",
+        "platform_keys": [
+          "location",
+          "geoLocation",
+          "geo_location"
+        ],
+        "policy": "REQUIRED",
+        "rule": "'City|lat|lon' with lat in [-90,90], lon in [-180,180]; ''/'Unknown' count as missing; never carried forward",
+        "error": "MISSING_LOCATION / INVALID_LOCATION"
+      },
+      {
+        "canonical_field": "resource_accessed",
+        "platform_keys": [
+          "resource",
+          "fileName",
+          "endpoint"
+        ],
+        "policy": "REQUIRED (access events) / MARKER (auth events)",
+        "rule": "LOGIN/LOGOUT-type events without a resource get the marker 'event:<type>'; any other event type must carry one",
+        "error": "MISSING_RESOURCE"
+      },
+      {
+        "canonical_field": "auth_method",
+        "platform_keys": [
+          "authMethod",
+          "auth_method"
+        ],
+        "policy": "UNKNOWN MARKER",
+        "rule": "lower-cased; absent -> 'unspecified' (recorded as degraded); never carried forward",
+        "error": null
+      },
+      {
+        "canonical_field": "auth_success",
+        "platform_keys": [
+          "loginSuccess",
+          "success",
+          "auth_success"
+        ],
+        "policy": "REQUIRED (auth events) / ASSUMPTION (post-auth events)",
+        "rule": "strict boolean parse. Absent: LOGIN_FAILED-type -> 0, LOGIN_SUCCESS-type -> 1, post-authentication types (FILE_ACCESS, LOGOUT, ...) -> 1 recorded as an assumption, bare LOGIN / unknown event types -> error (a missing authentication result is never read as success)",
+        "error": "MISSING_AUTH_RESULT / INVALID_AUTH_RESULT"
+      },
+      {
+        "canonical_field": "session_duration",
+        "platform_keys": [
+          "sessionDurationMinutes (x60)",
+          "sessionDurationSeconds",
+          "session_duration"
+        ],
+        "policy": "NEUTRAL VALUE",
+        "rule": "minutes converted to seconds (rounded to 1 microsecond); both units present -> error; negative/non-finite -> error; absent -> the entity's running mean (0 with no history), recorded as degraded",
+        "error": "INVALID_SESSION_DURATION / AMBIGUOUS_SESSION_DURATION"
+      },
+      {
+        "canonical_field": "command_sequence",
+        "platform_keys": [
+          "commandSequence",
+          "command_sequence"
+        ],
+        "policy": "OPTIONAL (empty is valid)",
+        "rule": "list or string; split on '|', whitespace, ',' ';'; lower-cased; joined with '|'",
+        "error": "INVALID_COMMAND_SEQUENCE"
+      },
+      {
+        "canonical_field": "device_fingerprint",
+        "platform_keys": [
+          "deviceFingerprint",
+          "device_fingerprint"
+        ],
+        "policy": "UNKNOWN MARKER",
+        "rule": "absent -> 'unspecified' (a NEW value for the entity: fail-safe, recorded as degraded); never carried forward",
+        "error": null
+      }
+    ],
+    "tolerance": {
+      "rtol": 1e-09,
+      "atol": 1e-09,
+      "expected": "bit-identical for canonical events; tolerance only for platform-supplied real-valued durations"
+    }
+  },
+  "_checkpoint_after_stage": "tests"
+}

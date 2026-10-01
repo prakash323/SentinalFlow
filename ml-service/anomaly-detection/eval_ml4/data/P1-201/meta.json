@@ -1,0 +1,528 @@
+{
+  "dataset_id": "P1-201",
+  "role": "TRAIN",
+  "kind": "standard",
+  "profile": "P1",
+  "profile_description": "stealth-internal enterprise: attackers operate from internal hosts, mostly succeed at authentication, business hours",
+  "seed": 201,
+  "generator_version": "ml4-gen-1.0",
+  "profile_version": "1.0",
+  "drift_kind": null,
+  "days": 36,
+  "onboarding_days": 14,
+  "events": 60422,
+  "entities": 140,
+  "entities_by_type": {
+    "edge_device": 10,
+    "service_account": 30,
+    "user": 100
+  },
+  "attack_events": 517,
+  "incidents": 31,
+  "attack_types": [
+    "brute_force",
+    "credential_stuffing",
+    "impossible_travel",
+    "lateral_movement",
+    "device_spoofing",
+    "low_slow_exfil"
+  ],
+  "attack_events_by_type": {
+    "brute_force": 186,
+    "credential_stuffing": 43,
+    "impossible_travel": 10,
+    "lateral_movement": 100,
+    "device_spoofing": 115,
+    "low_slow_exfil": 63
+  },
+  "incidents_by_type": {
+    "brute_force": 4,
+    "credential_stuffing": 3,
+    "impossible_travel": 10,
+    "lateral_movement": 4,
+    "device_spoofing": 6,
+    "low_slow_exfil": 4
+  },
+  "benign_drift_events": 25,
+  "label_counts": {
+    "normal": 59880,
+    "brute_force": 186,
+    "device_spoofing": 115,
+    "lateral_movement": 100,
+    "low_slow_exfil": 63,
+    "credential_stuffing": 43,
+    "benign_drift": 25,
+    "impossible_travel": 10
+  },
+  "time_span": {
+    "start": "2026-06-01 00:04:41.696508",
+    "end": "2026-07-06 23:58:58.941988",
+    "days": 35.9960329337963
+  },
+  "onboarding_end": "2026-06-15 00:00:00",
+  "chronological": true,
+  "strictly_increasing": true,
+  "drift": [
+    {
+      "kind": "resources",
+      "affected_entities": 3,
+      "start_day": 18.0,
+      "end_day": 32.0
+    }
+  ],
+  "generator_parameters": {
+    "version": "1.0",
+    "name": "P1",
+    "description": "stealth-internal enterprise: attackers operate from internal hosts, mostly succeed at authentication, business hours",
+    "n_users": 100,
+    "n_service": 30,
+    "n_devices": 10,
+    "start_offset_days": 0,
+    "roles": [
+      "dev",
+      "finance",
+      "hr",
+      "sysadmin",
+      "support"
+    ],
+    "priv_roles": [
+      "sysadmin",
+      "dev"
+    ],
+    "home_cities": [
+      "Frankfurt",
+      "Berlin",
+      "Paris",
+      "Amsterdam",
+      "Madrid",
+      "Rome"
+    ],
+    "foreign_cities": [
+      "Lagos",
+      "Moscow",
+      "Sao Paulo",
+      "Shenzhen",
+      "Dubai",
+      "Istanbul",
+      "Cairo",
+      "Jakarta",
+      "Mexico City",
+      "Sydney",
+      "Tokyo",
+      "Seoul",
+      "Toronto",
+      "New York",
+      "Phoenix",
+      "London",
+      "Singapore",
+      "Frankfurt",
+      "Amsterdam"
+    ],
+    "resources": {
+      "dev": [
+        "/git/core",
+        "/git/api",
+        "/ci/pipeline",
+        "/k8s/dev",
+        "/logs/app",
+        "/db/dev",
+        "/artifact/repo",
+        "/secrets/dev"
+      ],
+      "finance": [
+        "/erp/ledger",
+        "/erp/ap",
+        "/erp/ar",
+        "/reports/quarter",
+        "/db/finance",
+        "/payroll/run",
+        "/bank/transfers"
+      ],
+      "hr": [
+        "/hris/profiles",
+        "/hris/payroll",
+        "/docs/policy",
+        "/ats/candidates",
+        "/benefits/portal"
+      ],
+      "sysadmin": [
+        "/ad/users",
+        "/vpn/config",
+        "/backup/nightly",
+        "/patch/console",
+        "/dhcp/leases",
+        "/dns/zones",
+        "/db/prod"
+      ],
+      "support": [
+        "/crm/tickets",
+        "/crm/accounts",
+        "/kb/articles",
+        "/chat/queue",
+        "/remote/assist"
+      ],
+      "service_account": [
+        "/api/v2/ingest",
+        "/api/v2/sync",
+        "/queue/work",
+        "/db/replica",
+        "/metrics/push",
+        "/healthz"
+      ],
+      "edge_device": [
+        "sensor/temp",
+        "sensor/door",
+        "badge/reader",
+        "heartbeat",
+        "firmware/check",
+        "telemetry/upload"
+      ]
+    },
+    "sensitive": [
+      "/ad/users",
+      "/db/prod",
+      "/secrets/dev",
+      "/payroll/run",
+      "/bank/transfers",
+      "/hris/payroll",
+      "/db/finance"
+    ],
+    "commands": {
+      "vocab": [
+        "list",
+        "read",
+        "write",
+        "exec",
+        "sudo",
+        "download",
+        "delete"
+      ],
+      "priv": [
+        "sudo",
+        "exec",
+        "delete",
+        "download"
+      ],
+      "malicious": [
+        "list",
+        "read",
+        "download",
+        "read",
+        "download"
+      ],
+      "start": {
+        "sysadmin": "sudo",
+        "dev": "list"
+      },
+      "default_start": "read",
+      "original_chains": true
+    },
+    "hours": {
+      "user_mean": [
+        13.0,
+        1.8
+      ],
+      "user_sd": [
+        1.5,
+        3.0
+      ],
+      "tz_offsets": [
+        0.0
+      ],
+      "shifts": null
+    },
+    "events_per_day": {
+      "user": [
+        15,
+        45
+      ],
+      "service": [
+        100,
+        320
+      ],
+      "edge": [
+        150,
+        400
+      ]
+    },
+    "weekend": {
+      "user": [
+        0.02,
+        0.25
+      ],
+      "service": [
+        0.85,
+        1.0
+      ],
+      "edge": [
+        1.0,
+        1.0
+      ]
+    },
+    "periodic_devices": false,
+    "ip": {
+      "mode": "private_pool",
+      "pool_size": {
+        "user": 2,
+        "service": 2,
+        "edge": 1
+      },
+      "nat_share": 0.3,
+      "n_shared": 6,
+      "rotate_daily": false,
+      "private_bases": [
+        "10",
+        "172.16"
+      ],
+      "public_isp": [
+        "81.12",
+        "82.45",
+        "90.146"
+      ],
+      "travel_ip": "private192"
+    },
+    "auth": {
+      "fail_rate": {
+        "user": 0.015,
+        "service": 0.01,
+        "edge": 0.01
+      },
+      "alt_method_p": 0.03,
+      "user_methods": [
+        "password",
+        "token"
+      ],
+      "service_methods": [
+        "token",
+        "certificate"
+      ],
+      "edge_methods": [
+        "certificate"
+      ]
+    },
+    "confounder": {
+      "rate": 0.03,
+      "travel_p": 0.3,
+      "atypical_res_p": 0.25
+    },
+    "device": {
+      "user_os": [
+        "Windows 11.0.22631",
+        "Windows 10.0.19045",
+        "macOS 14.4",
+        "Ubuntu 24.04"
+      ],
+      "service_os": [
+        "RHEL 9.3",
+        "Ubuntu 22.04"
+      ],
+      "edge_os": [
+        "Yocto 4.0",
+        "FreeRTOS 10.5"
+      ],
+      "user_proto": [
+        "TLS1.3",
+        "TLS1.2"
+      ],
+      "service_proto": [
+        "TLS1.2"
+      ],
+      "edge_proto": [
+        "MQTT3.1.1"
+      ],
+      "os_pool_all": [
+        "Windows 10.0.19045",
+        "Windows 11.0.22631",
+        "Ubuntu 22.04",
+        "Ubuntu 24.04",
+        "macOS 14.4",
+        "RHEL 9.3",
+        "Yocto 4.0",
+        "FreeRTOS 10.5"
+      ],
+      "proto_pool_all": [
+        "TLS1.3",
+        "TLS1.2",
+        "SSH2",
+        "MQTT3.1.1",
+        "OPC-UA",
+        "HTTPS"
+      ]
+    },
+    "attacks": {
+      "brute_force": {
+        "n": 4,
+        "events": [
+          25,
+          60
+        ],
+        "gap_s": [
+          20,
+          120
+        ],
+        "src": "private_internal",
+        "city": "home",
+        "fail_share": [
+          0.55,
+          0.8
+        ],
+        "success_end_p": 0.7,
+        "window": [
+          0.42,
+          0.97
+        ],
+        "victims": "user",
+        "hour_range": [
+          9,
+          18
+        ]
+      },
+      "credential_stuffing": {
+        "n": 3,
+        "victims": [
+          8,
+          20
+        ],
+        "n_ips": [
+          1,
+          2
+        ],
+        "src": "private_internal",
+        "city": "home",
+        "spread_s": [
+          600,
+          3600
+        ],
+        "tries": [
+          1,
+          2
+        ],
+        "success_p": 0.08,
+        "window": [
+          0.42,
+          0.97
+        ],
+        "victim_types": "user",
+        "hour_range": [
+          9,
+          18
+        ]
+      },
+      "impossible_travel": {
+        "n": 10,
+        "gap_h": [
+          0.8,
+          1.9
+        ],
+        "min_km": 2500,
+        "src2": "private_internal",
+        "near_miss": 0.8,
+        "window": [
+          0.42,
+          0.97
+        ],
+        "hops": 1,
+        "victim_types": "user",
+        "max_km": 5500,
+        "hour_range": [
+          9,
+          19
+        ]
+      },
+      "lateral_movement": {
+        "n": 4,
+        "events": [
+          12,
+          30
+        ],
+        "gap_min": [
+          8,
+          40
+        ],
+        "hours": [
+          9,
+          17
+        ],
+        "foreign": "peer",
+        "cmd": "normal",
+        "ip": "own",
+        "window": [
+          0.42,
+          0.97
+        ],
+        "victim_types": "user"
+      },
+      "device_spoofing": {
+        "n": 6,
+        "events": [
+          8,
+          30
+        ],
+        "gap_min": [
+          5,
+          30
+        ],
+        "variants": {
+          "partial_mac": 0.45,
+          "full_swap": 0.25,
+          "protocol_only": 0.3
+        },
+        "ip": "own",
+        "clone_ip_new_p": 0.0,
+        "window": [
+          0.42,
+          0.97
+        ],
+        "victim_types": "edge_service",
+        "hour_range": [
+          8,
+          18
+        ]
+      },
+      "low_slow_exfil": {
+        "n": 4,
+        "span_days": [
+          10,
+          20
+        ],
+        "per_day": [
+          1,
+          2
+        ],
+        "hours": [
+          9,
+          10,
+          11,
+          14,
+          15,
+          16
+        ],
+        "res": "mixed",
+        "ip": "own",
+        "window": [
+          0.42,
+          0.7
+        ]
+      }
+    },
+    "benign_drift": {
+      "n": 3,
+      "kind": "resources",
+      "start_frac": 0.5,
+      "days": 14
+    },
+    "drift": null
+  },
+  "integrity": {
+    "attack_events_in_onboarding": 0,
+    "benign_drift_events_in_onboarding": 0,
+    "incident_ids_unique": true,
+    "events_before_onboarding_end": 23151
+  },
+  "file_sha256": {
+    "events.csv": "aee28882b464b41f9c6a199826baa1f7df4e6e9309388106b62bff3acfdf3100",
+    "labels.csv": "229568fda4e46586415e41dda81ed9cf1b6d097d8f3ec17c73f22275c3d1f24b",
+    "incidents.json": "7b3423c1216517c81cc1716589caa85dcfcc9188117389eab7bfb04479be4fb0",
+    "entities.json": "1fc501e0bdd50a417505a48c62d3bba873bbfb098666dea7f484f91b1f75cf7a"
+  }
+}

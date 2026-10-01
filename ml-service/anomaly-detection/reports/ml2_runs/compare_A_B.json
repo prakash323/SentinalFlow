@@ -1,0 +1,267 @@
+{
+  "run_a": "A",
+  "run_b": "B",
+  "metric_leaves_compared": 9565,
+  "metric_leaves_different": 0,
+  "first_differences": [],
+  "arrays": {
+    "batch.npz": {
+      "event_id": {
+        "shape": [
+          99348
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "raw_baseline": {
+        "shape": [
+          99348
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "raw_iforest": {
+        "shape": [
+          99348
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "raw_sequence": {
+        "shape": [
+          99348
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "fused_union": {
+        "shape": [
+          99348
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "risk_union": {
+        "shape": [
+          99348
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "fused_pct": {
+        "shape": [
+          99348
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "risk_event": {
+        "shape": [
+          99348
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "lowconf": {
+        "shape": [
+          99348
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "features": {
+        "shape": [
+          99348,
+          35
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      }
+    },
+    "stream_main.npz": {
+      "pred": {
+        "shape": [
+          33498
+        ],
+        "identical": true
+      },
+      "event_id": {
+        "shape": [
+          33498
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "risk": {
+        "shape": [
+          33498
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "fused": {
+        "shape": [
+          33498
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "alert": {
+        "shape": [
+          33498
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "conf": {
+        "shape": [
+          33498
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "raw_baseline": {
+        "shape": [
+          33498
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "raw_iforest": {
+        "shape": [
+          33498
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "raw_sequence": {
+        "shape": [
+          33498
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "features": {
+        "shape": [
+          33498,
+          35
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      }
+    },
+    "stream_heldout.npz": {
+      "pred": {
+        "shape": [
+          11936
+        ],
+        "identical": true
+      },
+      "event_id": {
+        "shape": [
+          11936
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "risk": {
+        "shape": [
+          11936
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "fused": {
+        "shape": [
+          11936
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "alert": {
+        "shape": [
+          11936
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "conf": {
+        "shape": [
+          11936
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "raw_baseline": {
+        "shape": [
+          11936
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "raw_iforest": {
+        "shape": [
+          11936
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "raw_sequence": {
+        "shape": [
+          11936
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      },
+      "features": {
+        "shape": [
+          11936,
+          35
+        ],
+        "max_abs_diff": 0.0,
+        "n_elements_different": 0,
+        "identical": true
+      }
+    }
+  },
+  "everything_bit_identical": true,
+  "production_hashes_unchanged_within_each_stage": {
+    "A/batch": true,
+    "B/batch": true,
+    "A/stream_main": true,
+    "B/stream_main": true,
+    "A/stream_heldout": true,
+    "B/stream_heldout": true,
+    "A/parity": true,
+    "B/parity": true,
+    "A/assemble": true,
+    "B/assemble": true
+  }
+}

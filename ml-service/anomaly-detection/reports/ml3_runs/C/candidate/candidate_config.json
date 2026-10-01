@@ -1,0 +1,71 @@
+{
+  "candidate": "ML-3 leakage-safe candidate (NOT deployed; production model untouched)",
+  "features": [
+    "hour_sin",
+    "hour_cos",
+    "is_weekend",
+    "geo_velocity_kmh",
+    "distance_from_home_km",
+    "failed_auth_5min_entity",
+    "failed_auth_5min_ip",
+    "distinct_entities_per_ip_1h",
+    "ip_failure_rate_1h",
+    "is_new_resource",
+    "resource_novelty_ratio",
+    "resource_entropy_24h",
+    "is_sensitive_resource",
+    "peer_resource_deviation",
+    "hour_zscore",
+    "is_off_hours_for_entity",
+    "session_duration_zscore",
+    "interevent_gap_zscore",
+    "fingerprint_novelty",
+    "is_new_ip_for_entity",
+    "events_last_1h",
+    "events_last_24h",
+    "offhours_count_7d",
+    "sensitive_bytes_proxy_7d",
+    "resource_breadth_7d",
+    "sensitive_offhours_7d",
+    "sensitive_ratio_7d",
+    "cmd_len",
+    "cmd_priv_count",
+    "cmd_bigram_surprise"
+  ],
+  "excluded_features": {
+    "is_new_city": "constant on TRAIN (dead feature)",
+    "new_resources_24h": "constant on TRAIN (dead feature)",
+    "fingerprint_mismatch": "constant on TRAIN (dead feature)",
+    "auth_method_unusual": "constant on TRAIN (dead feature)",
+    "entity_event_count": "cumulative per-entity event counter = position in the stream: monotone in time by construction, so every later window looks out-of-range relative to TRAIN (ML-1: PSI 2.44; ML-2/ML-1: 24% of test rows exceed the TRAIN maximum). It encodes 'how long the stream has run', not behaviour."
+  },
+  "fusion_weights": {
+    "baseline": 0.7,
+    "iforest": 0.3,
+    "sequence": 0.0
+  },
+  "baseline": {
+    "mode": "frozen",
+    "update": "none (frozen TRAIN profile)",
+    "guard_fused_max": 0.9992376613515566
+  },
+  "score_transform": "per-signal percentile against the sorted TRAIN raw scores (searchsorted, side=right)",
+  "risk": "99 x TRAIN-fused CDF; an event at/above the whole TRAIN fused range = 100 (percentile, not a probability)",
+  "thresholds": {
+    "primary_fused": 0.9890098709187547,
+    "primary_rule": "F1-optimal on VALIDATION",
+    "label_free_q99_fused": 0.9995854214123006
+  },
+  "classifier": {
+    "classes": [
+      "brute_force",
+      "impossible_travel",
+      "low_slow_exfil"
+    ],
+    "abstain_conf": 0.65,
+    "unknown": "UNKNOWN"
+  },
+  "components_content_hash": "e76b175706a5b5d8693e9f7a52d08f3d8811c416a6832a866c5182f2818cfad9",
+  "split_manifest_sha256": "a393d7ee093bff6360d85cb73529dd02a077e95ad17eb21eb35eaa8295b495b3",
+  "ml3_config_sha256": "b1c018de4f5eb87856ddae3cc1a75671fd8f8e17b7b092dfab3532557aa6c082"
+}

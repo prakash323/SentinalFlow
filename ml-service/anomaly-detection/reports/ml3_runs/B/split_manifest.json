@@ -1,0 +1,273 @@
+{
+  "protocol": {
+    "type": "chronological (actual event timestamps, no shuffling)",
+    "t0": "2026-06-01T00:00:46.050437",
+    "train_end": "2026-06-21T00:00:46.050437",
+    "validation_end": "2026-06-26T00:00:46.050437",
+    "last_event": "2026-07-01T04:37:10.261606",
+    "train_days": 20,
+    "validation_end_days": 25,
+    "validation_rule": "shortest window after TRAIN holding >=1/3 of attack incidents by first-event time",
+    "incident_home_rule": "an incident belongs to the split of its first event",
+    "purge_rule": "events of validation-born incidents that fall in the test period are excluded from the TEST evaluation population (they remain in the stream so entity state stays causal)"
+  },
+  "splits": {
+    "train": {
+      "rows": 65850,
+      "start": "2026-06-01T00:00:46.050437",
+      "end": "2026-06-21T00:00:39.310806",
+      "entities": 200,
+      "attack_events": 0,
+      "attack_rate": 0.0,
+      "attack_incidents_with_any_event": 0,
+      "attack_incidents_born_in_split": 0,
+      "benign_drift_events": 34,
+      "class_distribution": {
+        "normal": 65816,
+        "benign_drift": 34
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 0,
+        "credential_stuffing": 0,
+        "impossible_travel": 0,
+        "lateral_movement": 0,
+        "device_spoofing": 0,
+        "low_slow_exfil": 0
+      },
+      "attack_events_by_type": {
+        "brute_force": 0,
+        "credential_stuffing": 0,
+        "impossible_travel": 0,
+        "lateral_movement": 0,
+        "device_spoofing": 0,
+        "low_slow_exfil": 0
+      }
+    },
+    "validation": {
+      "rows": 17022,
+      "start": "2026-06-21T00:00:53.422843",
+      "end": "2026-06-25T23:59:46.655377",
+      "entities": 200,
+      "attack_events": 287,
+      "attack_rate": 0.01686053342732934,
+      "attack_incidents_with_any_event": 12,
+      "attack_incidents_born_in_split": 12,
+      "benign_drift_events": 60,
+      "class_distribution": {
+        "normal": 16675,
+        "brute_force": 196,
+        "benign_drift": 60,
+        "low_slow_exfil": 56,
+        "lateral_movement": 31,
+        "impossible_travel": 4
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 2,
+        "credential_stuffing": 0,
+        "impossible_travel": 4,
+        "lateral_movement": 1,
+        "device_spoofing": 0,
+        "low_slow_exfil": 5
+      },
+      "attack_events_by_type": {
+        "brute_force": 196,
+        "credential_stuffing": 0,
+        "impossible_travel": 4,
+        "lateral_movement": 31,
+        "device_spoofing": 0,
+        "low_slow_exfil": 56
+      }
+    },
+    "test_raw_time_window": {
+      "rows": 16476,
+      "start": "2026-06-26T00:02:31.217346",
+      "end": "2026-07-01T04:37:10.261606",
+      "entities": 200,
+      "attack_events": 734,
+      "attack_rate": 0.044549647972808935,
+      "attack_incidents_with_any_event": 29,
+      "attack_incidents_born_in_split": 24,
+      "benign_drift_events": 32,
+      "class_distribution": {
+        "normal": 15710,
+        "brute_force": 424,
+        "lateral_movement": 124,
+        "device_spoofing": 77,
+        "credential_stuffing": 60,
+        "low_slow_exfil": 38,
+        "benign_drift": 32,
+        "impossible_travel": 11
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 3,
+        "credential_stuffing": 1,
+        "impossible_travel": 11,
+        "lateral_movement": 4,
+        "device_spoofing": 5,
+        "low_slow_exfil": 5
+      },
+      "attack_events_by_type": {
+        "brute_force": 424,
+        "credential_stuffing": 60,
+        "impossible_travel": 11,
+        "lateral_movement": 124,
+        "device_spoofing": 77,
+        "low_slow_exfil": 38
+      }
+    },
+    "test_evaluation_population": {
+      "rows": 16438,
+      "start": "2026-06-26T00:02:31.217346",
+      "end": "2026-07-01T04:37:10.261606",
+      "entities": 200,
+      "attack_events": 696,
+      "attack_rate": 0.04234091738654337,
+      "attack_incidents_with_any_event": 24,
+      "attack_incidents_born_in_split": 24,
+      "benign_drift_events": 32,
+      "class_distribution": {
+        "normal": 15710,
+        "brute_force": 424,
+        "lateral_movement": 124,
+        "device_spoofing": 77,
+        "credential_stuffing": 60,
+        "benign_drift": 32,
+        "impossible_travel": 11
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 3,
+        "credential_stuffing": 1,
+        "impossible_travel": 11,
+        "lateral_movement": 4,
+        "device_spoofing": 5,
+        "low_slow_exfil": 0
+      },
+      "attack_events_by_type": {
+        "brute_force": 424,
+        "credential_stuffing": 60,
+        "impossible_travel": 11,
+        "lateral_movement": 124,
+        "device_spoofing": 77,
+        "low_slow_exfil": 0
+      }
+    },
+    "legacy_days_21_30_reference": {
+      "rows": 33498,
+      "start": "2026-06-21T00:00:53.422843",
+      "end": "2026-07-01T04:37:10.261606",
+      "entities": 200,
+      "attack_events": 1021,
+      "attack_rate": 0.030479431607857186,
+      "attack_incidents_with_any_event": 36,
+      "attack_incidents_born_in_split": 36,
+      "benign_drift_events": 92,
+      "class_distribution": {
+        "normal": 32385,
+        "brute_force": 620,
+        "lateral_movement": 155,
+        "low_slow_exfil": 94,
+        "benign_drift": 92,
+        "device_spoofing": 77,
+        "credential_stuffing": 60,
+        "impossible_travel": 15
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 5,
+        "credential_stuffing": 1,
+        "impossible_travel": 15,
+        "lateral_movement": 5,
+        "device_spoofing": 5,
+        "low_slow_exfil": 5
+      },
+      "attack_events_by_type": {
+        "brute_force": 620,
+        "credential_stuffing": 60,
+        "impossible_travel": 15,
+        "lateral_movement": 155,
+        "device_spoofing": 77,
+        "low_slow_exfil": 94
+      }
+    }
+  },
+  "incidents_total": 36,
+  "incidents_by_home_split": {
+    "test": 24,
+    "validation": 12
+  },
+  "purge": {
+    "events_removed_from_test": 38,
+    "incidents": [
+      "LS000",
+      "LS001",
+      "LS002",
+      "LS003",
+      "LS004"
+    ],
+    "events_by_type": {
+      "brute_force": 0,
+      "credential_stuffing": 0,
+      "impossible_travel": 0,
+      "lateral_movement": 0,
+      "device_spoofing": 0,
+      "low_slow_exfil": 38
+    }
+  },
+  "ml3": {
+    "immutable": true,
+    "assignment_sha256": "8f14a1517818d665a96ef0ec2ffa38f955d2b37a4fdc2bbf2fd35fbc3cc776d9",
+    "assignment_definition": "sha256 over lines 'event_id|split|purged' for every event in chronological order",
+    "events": 99348,
+    "identical_to_ml2": {
+      "identical_to_ml2": true,
+      "fields_compared": 32,
+      "ml2_manifest_sha256": "9b4349c5aee77661376b12c4024cfd7146e908fc973446275e92758e29854444"
+    },
+    "dataset_sha256": {
+      "events.csv": "14adfb39392b0edf95ae0862b663cb78129aa2c847817e7cd1b801189b0f487c",
+      "labels.csv": "05a8d1055f6d09ac9f581833e52e3c8e8b8773261b3030f4474c7869b9d97239"
+    },
+    "allowed_use": {
+      "TRAIN": "fit every learned component (baseline profile, scaler, Isolation Forest, sequence autoencoder, score-transformation distributions). Contains 0 attack events, so no label is used or needed.",
+      "VALIDATION": "model selection only: fusion weights, baseline mode, operating threshold, classifier fit and its grouped CV. Labels of validation-period rows are used here.",
+      "TEST": "final evaluation, unsealed exactly once after every configuration is frozen and hashed. Test-period labels are masked from all earlier code (LabelVault.dev_labels)."
+    },
+    "incident_home": {
+      "BF000": "validation",
+      "BF001": "test",
+      "BF002": "validation",
+      "BF003": "test",
+      "BF004": "test",
+      "CS000": "test",
+      "DS000": "test",
+      "DS001": "test",
+      "DS002": "test",
+      "DS003": "test",
+      "DS004": "test",
+      "IT000": "test",
+      "IT001": "test",
+      "IT002": "test",
+      "IT003": "validation",
+      "IT004": "validation",
+      "IT005": "validation",
+      "IT006": "test",
+      "IT007": "test",
+      "IT008": "test",
+      "IT009": "test",
+      "IT010": "test",
+      "IT011": "validation",
+      "IT012": "test",
+      "IT013": "test",
+      "IT014": "test",
+      "LM000": "test",
+      "LM001": "test",
+      "LM002": "test",
+      "LM003": "test",
+      "LM004": "validation",
+      "LS000": "validation",
+      "LS001": "validation",
+      "LS002": "validation",
+      "LS003": "validation",
+      "LS004": "validation"
+    }
+  }
+}

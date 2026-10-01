@@ -1,0 +1,719 @@
+[
+ {
+  "attack_id": "BF000",
+  "type": "brute_force",
+  "entities": [
+   "drvolume-U0082"
+  ],
+  "n_entities": 1,
+  "src": "public",
+  "city": "foreign",
+  "fail_share": 1.0,
+  "day": 21,
+  "victim_type": "user",
+  "n_events": 107,
+  "t_start": "2026-06-22 22:58:17.560381",
+  "t_end": "2026-06-22 23:09:25.098629",
+  "first_day": 21.95714768959491,
+  "duration_h": 0.1854272911111111,
+  "period": "before"
+ },
+ {
+  "attack_id": "BF001",
+  "type": "brute_force",
+  "entities": [
+   "drvolume-U0075"
+  ],
+  "n_entities": 1,
+  "src": "public",
+  "city": "foreign",
+  "fail_share": 1.0,
+  "day": 25,
+  "victim_type": "user",
+  "n_events": 193,
+  "t_start": "2026-06-26 14:50:53.642096",
+  "t_end": "2026-06-26 15:11:56.663236",
+  "first_day": 25.618676413148147,
+  "duration_h": 0.3508392055555556,
+  "period": "during"
+ },
+ {
+  "attack_id": "BF002",
+  "type": "brute_force",
+  "entities": [
+   "drvolume-D0003"
+  ],
+  "n_entities": 1,
+  "src": "public",
+  "city": "foreign",
+  "fail_share": 1.0,
+  "day": 34,
+  "victim_type": "edge",
+  "n_events": 82,
+  "t_start": "2026-07-05 19:30:37.699851",
+  "t_end": "2026-07-05 19:40:00.779847",
+  "first_day": 34.812936340868056,
+  "duration_h": 0.15641111000000002,
+  "period": "after"
+ },
+ {
+  "attack_id": "BF003",
+  "type": "brute_force",
+  "entities": [
+   "drvolume-U0001"
+  ],
+  "n_entities": 1,
+  "src": "public",
+  "city": "foreign",
+  "fail_share": 1.0,
+  "day": 15,
+  "victim_type": "user",
+  "n_events": 112,
+  "t_start": "2026-06-16 19:39:57.947171",
+  "t_end": "2026-06-16 19:51:55.708117",
+  "first_day": 15.819420684849538,
+  "duration_h": 0.19937804055555555,
+  "period": "before"
+ },
+ {
+  "attack_id": "BF004",
+  "type": "brute_force",
+  "entities": [
+   "drvolume-U0086"
+  ],
+  "n_entities": 1,
+  "src": "public",
+  "city": "foreign",
+  "fail_share": 1.0,
+  "day": 27,
+  "victim_type": "user",
+  "n_events": 116,
+  "t_start": "2026-06-28 19:16:40.644021",
+  "t_end": "2026-06-28 19:29:15.824437",
+  "first_day": 27.803248194687498,
+  "duration_h": 0.2097723377777778,
+  "period": "during"
+ },
+ {
+  "attack_id": "BF005",
+  "type": "brute_force",
+  "entities": [
+   "drvolume-U0008"
+  ],
+  "n_entities": 1,
+  "src": "public",
+  "city": "foreign",
+  "fail_share": 1.0,
+  "day": 32,
+  "victim_type": "user",
+  "n_events": 77,
+  "t_start": "2026-07-03 03:14:58.499080",
+  "t_end": "2026-07-03 03:23:14.099010",
+  "first_day": 32.13539929490741,
+  "duration_h": 0.13766664722222222,
+  "period": "after"
+ },
+ {
+  "attack_id": "CS000",
+  "type": "credential_stuffing",
+  "entities": [
+   "drvolume-U0018",
+   "drvolume-D0000",
+   "drvolume-U0065",
+   "drvolume-D0012",
+   "drvolume-U0038",
+   "drvolume-U0092",
+   "drvolume-S0007",
+   "drvolume-U0044",
+   "drvolume-S0011",
+   "drvolume-U0008",
+   "drvolume-U0097",
+   "drvolume-U0089"
+  ],
+  "n_entities": 42,
+  "src": "public",
+  "n_ips": 3,
+  "city": "foreign",
+  "day": 18,
+  "n_events": 85,
+  "t_start": "2026-06-19 00:58:07.592897",
+  "t_end": "2026-06-19 01:25:42.737462",
+  "first_day": 18.040365658530092,
+  "duration_h": 0.4597623791666667,
+  "period": "before"
+ },
+ {
+  "attack_id": "CS001",
+  "type": "credential_stuffing",
+  "entities": [
+   "drvolume-U0042",
+   "drvolume-U0045",
+   "drvolume-D0012",
+   "drvolume-U0019",
+   "drvolume-U0010",
+   "drvolume-U0031",
+   "drvolume-U0079",
+   "drvolume-U0039",
+   "drvolume-D0002",
+   "drvolume-U0063",
+   "drvolume-U0099",
+   "drvolume-U0058"
+  ],
+  "n_entities": 49,
+  "src": "public",
+  "n_ips": 4,
+  "city": "foreign",
+  "day": 24,
+  "n_events": 100,
+  "t_start": "2026-06-25 16:04:44.652876",
+  "t_end": "2026-06-25 16:36:56.635437",
+  "first_day": 24.669961260138887,
+  "duration_h": 0.5366618225,
+  "period": "during"
+ },
+ {
+  "attack_id": "CS002",
+  "type": "credential_stuffing",
+  "entities": [
+   "drvolume-D0008",
+   "drvolume-U0087",
+   "drvolume-U0051",
+   "drvolume-U0074",
+   "drvolume-D0000",
+   "drvolume-U0019",
+   "drvolume-U0031",
+   "drvolume-U0064",
+   "drvolume-U0036",
+   "drvolume-S0020",
+   "drvolume-D0005",
+   "drvolume-U0095"
+  ],
+  "n_entities": 50,
+  "src": "public",
+  "n_ips": 2,
+  "city": "foreign",
+  "day": 32,
+  "n_events": 101,
+  "t_start": "2026-07-03 05:12:15.041058",
+  "t_end": "2026-07-03 05:45:07.165983",
+  "first_day": 32.216840752986116,
+  "duration_h": 0.5478124791666666,
+  "period": "after"
+ },
+ {
+  "attack_id": "IT000",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-U0062"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 17,
+  "n_events": 1,
+  "t_start": "2026-06-18 11:17:09.914143",
+  "t_end": "2026-06-18 11:17:09.914143",
+  "first_day": 17.470253635914354,
+  "duration_h": 0.0,
+  "period": "before"
+ },
+ {
+  "attack_id": "IT001",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-U0047"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 27,
+  "n_events": 1,
+  "t_start": "2026-06-28 13:51:11.198079",
+  "t_end": "2026-06-28 13:51:11.198079",
+  "first_day": 27.57721294072917,
+  "duration_h": 0.0,
+  "period": "during"
+ },
+ {
+  "attack_id": "IT002",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-U0099"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 30,
+  "n_events": 1,
+  "t_start": "2026-07-01 13:28:52.405095",
+  "t_end": "2026-07-01 13:28:52.405095",
+  "first_day": 30.561717651562496,
+  "duration_h": 0.0,
+  "period": "after"
+ },
+ {
+  "attack_id": "IT003",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-U0005"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 15,
+  "n_events": 1,
+  "t_start": "2026-06-16 20:33:56.279317",
+  "t_end": "2026-06-16 20:33:56.279317",
+  "first_day": 15.856901380983796,
+  "duration_h": 0.0,
+  "period": "before"
+ },
+ {
+  "attack_id": "IT004",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-U0058"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 27,
+  "n_events": 1,
+  "t_start": "2026-06-28 13:07:57.086257",
+  "t_end": "2026-06-28 13:07:57.086257",
+  "first_day": 27.54718849834491,
+  "duration_h": 0.0,
+  "period": "during"
+ },
+ {
+  "attack_id": "IT005",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-U0098"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 34,
+  "n_events": 1,
+  "t_start": "2026-07-05 18:48:02.338212",
+  "t_end": "2026-07-05 18:48:02.338212",
+  "first_day": 34.783360395972224,
+  "duration_h": 0.0,
+  "period": "after"
+ },
+ {
+  "attack_id": "IT006",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-U0025"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 20,
+  "n_events": 1,
+  "t_start": "2026-06-21 16:59:57.313453",
+  "t_end": "2026-06-21 16:59:57.313453",
+  "first_day": 20.70830223903935,
+  "duration_h": 0.0,
+  "period": "before"
+ },
+ {
+  "attack_id": "IT007",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-U0062"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 22,
+  "n_events": 1,
+  "t_start": "2026-06-23 14:58:51.250605",
+  "t_end": "2026-06-23 14:58:51.250605",
+  "first_day": 22.62420428940972,
+  "duration_h": 0.0,
+  "period": "during"
+ },
+ {
+  "attack_id": "IT008",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-U0007"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 30,
+  "n_events": 1,
+  "t_start": "2026-07-01 09:49:17.470843",
+  "t_end": "2026-07-01 09:49:17.470843",
+  "first_day": 30.409229986608796,
+  "duration_h": 0.0,
+  "period": "after"
+ },
+ {
+  "attack_id": "IT009",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-S0012"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 19,
+  "n_events": 1,
+  "t_start": "2026-06-20 19:02:03.613067",
+  "t_end": "2026-06-20 19:02:03.613067",
+  "first_day": 19.793097373460647,
+  "duration_h": 0.0,
+  "period": "before"
+ },
+ {
+  "attack_id": "IT010",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-S0015"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 23,
+  "n_events": 1,
+  "t_start": "2026-06-24 17:10:38.614857",
+  "t_end": "2026-06-24 17:10:38.614857",
+  "first_day": 23.715724708993058,
+  "duration_h": 0.0,
+  "period": "during"
+ },
+ {
+  "attack_id": "IT011",
+  "type": "impossible_travel",
+  "entities": [
+   "drvolume-D0011"
+  ],
+  "n_entities": 1,
+  "src2": "public",
+  "hops": 1,
+  "day": 29,
+  "n_events": 1,
+  "t_start": "2026-06-30 11:24:02.738205",
+  "t_end": "2026-06-30 11:24:02.738205",
+  "first_day": 29.4750316921875,
+  "duration_h": 0.0,
+  "period": "after"
+ },
+ {
+  "attack_id": "LM000",
+  "type": "lateral_movement",
+  "entities": [
+   "drvolume-U0096"
+  ],
+  "n_entities": 1,
+  "foreign": "all",
+  "cmd": "malicious",
+  "ip": "own",
+  "day": 17,
+  "n_events": 31,
+  "t_start": "2026-06-18 02:08:16.632745",
+  "t_end": "2026-06-18 03:56:07.233706",
+  "first_day": 17.089081397511574,
+  "duration_h": 1.7973891558333333,
+  "period": "before"
+ },
+ {
+  "attack_id": "LM001",
+  "type": "lateral_movement",
+  "entities": [
+   "drvolume-U0055"
+  ],
+  "n_entities": 1,
+  "foreign": "all",
+  "cmd": "malicious",
+  "ip": "own",
+  "day": 23,
+  "n_events": 38,
+  "t_start": "2026-06-24 01:32:08.437426",
+  "t_end": "2026-06-24 04:04:01.984585",
+  "first_day": 23.063986544282407,
+  "duration_h": 2.5315408775,
+  "period": "during"
+ },
+ {
+  "attack_id": "LM002",
+  "type": "lateral_movement",
+  "entities": [
+   "drvolume-S0020"
+  ],
+  "n_entities": 1,
+  "foreign": "all",
+  "cmd": "malicious",
+  "ip": "own",
+  "day": 31,
+  "n_events": 18,
+  "t_start": "2026-07-02 01:55:13.086461",
+  "t_end": "2026-07-02 02:57:34.440889",
+  "first_day": 31.080012574780095,
+  "duration_h": 1.0392651188888888,
+  "period": "after"
+ },
+ {
+  "attack_id": "LM003",
+  "type": "lateral_movement",
+  "entities": [
+   "drvolume-U0073"
+  ],
+  "n_entities": 1,
+  "foreign": "all",
+  "cmd": "malicious",
+  "ip": "own",
+  "day": 15,
+  "n_events": 20,
+  "t_start": "2026-06-16 03:17:49.368257",
+  "t_end": "2026-06-16 04:28:06.932671",
+  "first_day": 15.137376947418982,
+  "duration_h": 1.1715456705555556,
+  "period": "before"
+ },
+ {
+  "attack_id": "LM004",
+  "type": "lateral_movement",
+  "entities": [
+   "drvolume-U0037"
+  ],
+  "n_entities": 1,
+  "foreign": "all",
+  "cmd": "malicious",
+  "ip": "own",
+  "day": 24,
+  "n_events": 19,
+  "t_start": "2026-06-25 01:17:40.412719",
+  "t_end": "2026-06-25 02:19:56.908104",
+  "first_day": 24.053939962025463,
+  "duration_h": 1.0379153847222222,
+  "period": "during"
+ },
+ {
+  "attack_id": "LM005",
+  "type": "lateral_movement",
+  "entities": [
+   "drvolume-S0011"
+  ],
+  "n_entities": 1,
+  "foreign": "all",
+  "cmd": "malicious",
+  "ip": "own",
+  "day": 33,
+  "n_events": 18,
+  "t_start": "2026-07-04 03:49:36.290767",
+  "t_end": "2026-07-04 05:08:27.864038",
+  "first_day": 33.15944780980324,
+  "duration_h": 1.3143259086111112,
+  "period": "after"
+ },
+ {
+  "attack_id": "DS000",
+  "type": "device_spoofing",
+  "entities": [
+   "drvolume-S0014"
+  ],
+  "n_entities": 1,
+  "variant": "full_swap",
+  "new_ip": false,
+  "day": 21,
+  "n_events": 8,
+  "t_start": "2026-06-22 06:47:21.835203",
+  "t_end": "2026-06-22 07:41:23.670231",
+  "first_day": 21.282891611145835,
+  "duration_h": 0.90050973,
+  "period": "before"
+ },
+ {
+  "attack_id": "DS001",
+  "type": "device_spoofing",
+  "entities": [
+   "drvolume-S0007"
+  ],
+  "n_entities": 1,
+  "variant": "full_swap",
+  "new_ip": false,
+  "day": 26,
+  "n_events": 6,
+  "t_start": "2026-06-27 02:16:41.920805",
+  "t_end": "2026-06-27 02:55:32.134206",
+  "first_day": 26.094929638946756,
+  "duration_h": 0.6472815002777778,
+  "period": "during"
+ },
+ {
+  "attack_id": "DS002",
+  "type": "device_spoofing",
+  "entities": [
+   "drvolume-S0021"
+  ],
+  "n_entities": 1,
+  "variant": "full_swap",
+  "new_ip": false,
+  "day": 34,
+  "n_events": 19,
+  "t_start": "2026-07-05 03:46:47.243993",
+  "t_end": "2026-07-05 06:17:15.971894",
+  "first_day": 34.157491249918984,
+  "duration_h": 2.5079799725000003,
+  "period": "after"
+ },
+ {
+  "attack_id": "DS003",
+  "type": "device_spoofing",
+  "entities": [
+   "drvolume-S0012"
+  ],
+  "n_entities": 1,
+  "variant": "full_swap",
+  "new_ip": false,
+  "day": 15,
+  "n_events": 23,
+  "t_start": "2026-06-16 17:40:24.681727",
+  "t_end": "2026-06-16 21:33:17.003764",
+  "first_day": 15.736396779247686,
+  "duration_h": 3.8812005658333333,
+  "period": "before"
+ },
+ {
+  "attack_id": "DS004",
+  "type": "device_spoofing",
+  "entities": [
+   "drvolume-D0007"
+  ],
+  "n_entities": 1,
+  "variant": "full_swap",
+  "new_ip": false,
+  "day": 26,
+  "n_events": 24,
+  "t_start": "2026-06-27 23:52:08.322352",
+  "t_end": "2026-06-28 03:11:48.191653",
+  "first_day": 26.994540767962963,
+  "duration_h": 3.3277414725,
+  "period": "during"
+ },
+ {
+  "attack_id": "DS005",
+  "type": "device_spoofing",
+  "entities": [
+   "drvolume-D0012"
+  ],
+  "n_entities": 1,
+  "variant": "full_swap",
+  "new_ip": false,
+  "day": 28,
+  "n_events": 10,
+  "t_start": "2026-06-29 22:03:59.047911",
+  "t_end": "2026-06-29 23:27:55.556600",
+  "first_day": 28.919433424895832,
+  "duration_h": 1.399030191388889,
+  "period": "after"
+ },
+ {
+  "attack_id": "LS000",
+  "type": "low_slow_exfil",
+  "entities": [
+   "drvolume-U0034"
+  ],
+  "n_entities": 1,
+  "span_days": 5,
+  "start_day": 16,
+  "res": "sensitive",
+  "n_events": 10,
+  "t_start": "2026-06-17 01:42:13.943316",
+  "t_end": "2026-06-21 01:34:23.842307",
+  "first_day": 16.070994714305556,
+  "duration_h": 95.86941638638889,
+  "period": "before"
+ },
+ {
+  "attack_id": "LS001",
+  "type": "low_slow_exfil",
+  "entities": [
+   "drvolume-U0024"
+  ],
+  "n_entities": 1,
+  "span_days": 4,
+  "start_day": 22,
+  "res": "sensitive",
+  "n_events": 9,
+  "t_start": "2026-06-23 03:49:31.410738",
+  "t_end": "2026-06-26 22:24:17.661259",
+  "first_day": 22.15939132798611,
+  "duration_h": 90.57951403361112,
+  "period": "during"
+ },
+ {
+  "attack_id": "LS002",
+  "type": "low_slow_exfil",
+  "entities": [
+   "drvolume-U0045"
+  ],
+  "n_entities": 1,
+  "span_days": 4,
+  "start_day": 28,
+  "res": "sensitive",
+  "n_events": 9,
+  "t_start": "2026-06-29 01:14:43.636020",
+  "t_end": "2026-07-02 22:26:46.065926",
+  "first_day": 28.05189393541667,
+  "duration_h": 93.20067497388888,
+  "period": "after"
+ },
+ {
+  "attack_id": "LS003",
+  "type": "low_slow_exfil",
+  "entities": [
+   "drvolume-U0087"
+  ],
+  "n_entities": 1,
+  "span_days": 5,
+  "start_day": 16,
+  "res": "sensitive",
+  "n_events": 12,
+  "t_start": "2026-06-17 23:06:02.090378",
+  "t_end": "2026-06-21 23:23:04.445916",
+  "first_day": 16.962524194189815,
+  "duration_h": 96.28398764944444,
+  "period": "before"
+ },
+ {
+  "attack_id": "LS004",
+  "type": "low_slow_exfil",
+  "entities": [
+   "drvolume-U0022"
+  ],
+  "n_entities": 1,
+  "span_days": 4,
+  "start_day": 23,
+  "res": "sensitive",
+  "n_events": 10,
+  "t_start": "2026-06-24 03:31:45.154220",
+  "t_end": "2026-06-27 03:43:31.722546",
+  "first_day": 23.147050396064813,
+  "duration_h": 72.19626897944444,
+  "period": "during"
+ },
+ {
+  "attack_id": "LS005",
+  "type": "low_slow_exfil",
+  "entities": [
+   "drvolume-U0058"
+  ],
+  "n_entities": 1,
+  "span_days": 4,
+  "start_day": 30,
+  "res": "sensitive",
+  "n_events": 8,
+  "t_start": "2026-07-01 01:42:30.379790",
+  "t_end": "2026-07-04 23:06:41.305161",
+  "first_day": 30.07118495127315,
+  "duration_h": 93.40303482527779,
+  "period": "after"
+ }
+]

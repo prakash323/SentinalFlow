@@ -1,0 +1,80 @@
+{
+  "candidate": "ML-4 cross-dataset global components (NOT DEPLOYED; evaluation artifact)",
+  "train_datasets": [
+    "P0-101",
+    "P0-102",
+    "P1-201"
+  ],
+  "val_datasets": [
+    "P2-301",
+    "P3-401"
+  ],
+  "features": [
+    "hour_sin",
+    "hour_cos",
+    "is_weekend",
+    "geo_velocity_kmh",
+    "distance_from_home_km",
+    "failed_auth_5min_entity",
+    "failed_auth_5min_ip",
+    "distinct_entities_per_ip_1h",
+    "ip_failure_rate_1h",
+    "is_new_resource",
+    "resource_novelty_ratio",
+    "resource_entropy_24h",
+    "is_sensitive_resource",
+    "peer_resource_deviation",
+    "hour_zscore",
+    "is_off_hours_for_entity",
+    "session_duration_zscore",
+    "interevent_gap_zscore",
+    "fingerprint_novelty",
+    "is_new_ip_for_entity",
+    "auth_method_unusual",
+    "events_last_1h",
+    "events_last_24h",
+    "offhours_count_7d",
+    "sensitive_bytes_proxy_7d",
+    "resource_breadth_7d",
+    "sensitive_offhours_7d",
+    "sensitive_ratio_7d",
+    "cmd_len",
+    "cmd_priv_count",
+    "cmd_bigram_surprise"
+  ],
+  "fusion_weights": {
+    "baseline": 0.9,
+    "iforest": 0.1,
+    "sequence": 0.0
+  },
+  "fused_max": 0.9999555268632092,
+  "guard_alert_threshold": 0.98725055591421,
+  "thresholds": {
+    "frozen": {
+      "f1_optimal": 0.98725055591421,
+      "f1_optimal_detail": {
+        "threshold": 0.98725055591421,
+        "f1": 0.754628269174258,
+        "alerts": 1623,
+        "precision": 0.7911275415896488,
+        "recall": 0.7213483146067415
+      },
+      "q99": 0.9979031059464888
+    },
+    "adaptive": {
+      "f1_optimal": 0.9924768667957823,
+      "f1_optimal_detail": {
+        "threshold": 0.9924768667957823,
+        "f1": 0.6893106893106893,
+        "alerts": 1223,
+        "precision": 0.8462796402289452,
+        "recall": 0.5814606741573034
+      },
+      "q99": 0.997725500322789
+    }
+  },
+  "thresholds_note": "evaluation-only operating points derived on the VAL datasets; they are NOT production thresholds",
+  "content_hashes": "44c63dc9f9174de1abd880de09ebc624f1927965ace390407681208a9a089dea",
+  "ml4_config_sha256": "2c96f334b5a877552d565d92f2df1d819f1bca2bf7e3bec90f9358505e625e1b",
+  "calib_fused_sha256": "da374af25892f1433748fe74e5236540669e7cf75e34a4365f2828f690ac4cc8"
+}

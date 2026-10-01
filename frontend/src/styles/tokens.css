@@ -1,0 +1,161 @@
+/* ==========================================================================
+   SentinelFlow design tokens - one palette for the public site AND the SOC.
+   Dark is the default; light is opt-in via [data-theme="light"].
+
+   Rules:
+   - Neutrals carry the UI; colour is reserved for meaning.
+   - The two themes are tuned separately (not inverted); every text pair is
+     contrast-checked against the surfaces it sits on.
+   - --accent      = blue used as TEXT / focus / active state (contrast-safe).
+     --accent-strong = blue used as a FILL (buttons); white text on it is 4.7:1.
+   - --faint is decorative / placeholder only. It is below 4.5:1 by design
+     (Apple neutral #86868B / #71717A) and must never carry information.
+   - --c-* are semantic: severity, decision, status. Never decorative.
+   - Density (SOC vs public) is NOT a token concern: it lives in scoped
+     stylesheets (.pub for the public site, dashboard.css/pages.css for the SOC).
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* SOC type scale */
+  --fs-page: 18px;
+  --fs-panel: 13px;
+  --fs-body: 13px;
+  --fs-table: 12.5px;
+  --fs-meta: 11.5px;
+  --fs-label: 10.5px;
+
+  /* SOC radius: rectangular, small */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius: 4px;
+  --radius-lg: 4px;
+  --radius-pill: 999px; /* reserved for dots/avatars, not badges or chips */
+
+  /* SOC density */
+  --row-h: 32px;
+  --ctl-h: 28px;
+  --ctl-h-sm: 24px;
+  --pad: 12px;
+  --pad-sm: 8px;
+
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast: 100ms;
+  --dur: 160ms;
+
+  /* shell dimensions */
+  --sidebar-w: 224px;
+  --sidebar-w-collapsed: 56px;
+  --topbar-h: 48px;
+}
+
+/* ---------------------------------- DARK ---------------------------------- */
+/* `.theme-dark` lets any subtree (e.g. the public site's AI section) use the dark palette
+   while the page around it is light. Same values, declared once. */
+:root,
+:root[data-theme='dark'],
+.theme-dark {
+  color-scheme: dark;
+
+  --bg: #0b0d10;             /* page */
+  --bg-2: #0b0d10;
+  --panel: #111418;          /* primary surface */
+  --panel-2: #171b21;        /* secondary surface: table header, inputs, secondary buttons */
+  --panel-3: #1c2128;        /* elevated: drawers, modals, menus, tooltips */
+  --panel-solid: var(--panel-3);
+  --panel-hover: rgb(255 255 255 / 0.05);
+  --border: #2a2f38;
+  --border-strong: #3a414d;
+  /* boundary of an interactive control: WCAG 1.4.11 needs 3:1 against the surface around it.
+     --border/--border-strong are for dividers and frames (~1.8:1) and must not be used on controls. */
+  --control-border: #71717a;        /* 3.35-4.03:1 on every dark surface */
+  --control-border-hover: #8a8a94;
+
+  --text: #f5f5f7;
+  --text-2: #c7c7cf;         /* between text and muted: nav items, body-secondary */
+  --muted: #8a8a94;          /* informative secondary text, >= 4.7:1 on every surface */
+  --faint: #71717a;          /* decorative / placeholder only */
+
+  --accent: #2997ff;         /* links, focus, active nav, chart accent */
+  --accent-2: var(--accent);
+  --accent-hover: #409cff;   /* link hover */
+  --accent-strong: #0071e3;  /* button fill */
+  --accent-strong-hover: #0066cc;
+  --accent-soft: color-mix(in srgb, #2997ff 14%, transparent);
+  --accent-grad: var(--accent-strong);   /* legacy names, kept solid */
+  --accent-grad-soft: var(--accent-soft);
+
+  --shadow-card: 0 0 0 0 transparent;
+  --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.55), 0 0 0 1px var(--border-strong);
+  --glow: 0 0 0 1px var(--border-strong);
+
+  --grid-line: rgb(255 255 255 / 0.07);
+  --scrim: rgb(4 6 9 / 0.62);
+  --input-bg: #0d1014;
+  --code-bg: #0d1014;
+
+  /* semantic. critical and info are set so their tinted badges reach 4.5:1 even on the lightest
+     dark surface (--panel-3, the elevated one used by drawers, modals and the public hero card) */
+  --c-critical: #f26e6b;
+  --c-high: #f08a3c;
+  --c-medium: #e5b53b;
+  --c-low: #86a3c6;          /* steel blue: distinct from the interactive blue */
+  --c-ok: #3ec28f;
+  --c-unknown: #b18cff;      /* unknown anomaly / needs investigation */
+  --c-info: #369dff;
+  --c-neutral: #95a1b5;
+}
+
+/* --------------------------------- LIGHT ---------------------------------- */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f5f5f7;
+  --bg-2: #f5f5f7;
+  --panel: #ffffff;
+  --panel-2: #fafafa;
+  --panel-3: #ffffff;
+  --panel-solid: var(--panel-3);
+  --panel-hover: rgb(29 29 31 / 0.05);
+  --border: #d2d2d7;
+  --border-strong: #b9b9c0;
+  --control-border: #86868b;        /* 3.33-3.62:1 on every light surface */
+  --control-border-hover: #6e6e73;
+
+  --text: #1d1d1f;
+  --text-2: #424245;
+  --muted: #6e6e73;          /* 4.7-5.1:1 on the light surfaces */
+  --faint: #86868b;          /* decorative / placeholder only */
+
+  --accent: #0066cc;         /* text-safe blue (5.1-5.6:1); #0071E3 is 4.3:1 on the page tint */
+  --accent-2: var(--accent);
+  --accent-hover: #004fa3;
+  --accent-strong: #0071e3;
+  --accent-strong-hover: #0066cc;
+  --accent-soft: #f0f7ff;
+  --accent-grad: var(--accent-strong);
+  --accent-grad-soft: var(--accent-soft);
+
+  --shadow-card: 0 0 0 0 transparent;
+  --shadow-pop: 0 8px 24px rgb(29 29 31 / 0.14), 0 0 0 1px var(--border-strong);
+  --glow: 0 0 0 1px var(--border-strong);
+
+  --grid-line: rgb(29 29 31 / 0.09);
+  --scrim: rgb(29 29 31 / 0.32);
+  --input-bg: #ffffff;
+  --code-bg: #f5f5f7;
+
+  /* darker tones so text badges and chart marks hold contrast on white */
+  --c-critical: #bb2226;
+  --c-high: #a14708;
+  --c-medium: #855b00;
+  --c-low: #476689;
+  --c-ok: #11704b;
+  --c-unknown: #6f43cc;
+  --c-info: #0060c0;
+  --c-neutral: #626268;
+  /* badge text sits on its own 13% tint over the page (#f5f5f7), panel or panel-2: every tone above
+     is >= 4.6:1 on all three (the first-pass tones were 4.16-4.40 on the page and panel-2) */
+}

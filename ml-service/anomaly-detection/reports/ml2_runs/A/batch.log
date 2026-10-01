@@ -1,0 +1,5 @@
+17:00:46 stage=batch run=A variant=main limit=None
+17:12:14 [batch] features (99348, 39) in 675s
+17:12:57 [batch] raw signals scored in 718s
+17:12:59 [batch] done in 720s | checks: 2.22e-16 / 0.00e+00
+17:12:59 stage batch finished in 733s

@@ -1,0 +1,9 @@
+17:00:46 stage=stream run=A variant=heldout limit=None
+17:06:13 [stream:heldout] warm-up on 42569 train events in 315s
+17:08:53 [stream:heldout] scored 2000/11936 (stream position 5817/33498)  159s  alerts 5
+17:11:52 [stream:heldout] scored 4000/11936 (stream position 11565/33498)  338s  alerts 6
+17:15:02 [stream:heldout] scored 6000/11936 (stream position 17376/33498)  528s  alerts 7
+17:18:02 [stream:heldout] scored 8000/11936 (stream position 23026/33498)  708s  alerts 11
+17:25:04 [stream:heldout] scored 10000/11936 (stream position 28209/33498)  1130s  alerts 333
+17:32:24 [stream:heldout] 11936 events in 1570s
+17:32:24 stage stream_heldout finished in 1898s

@@ -1,0 +1,132 @@
+{
+  "runs": [
+    "A",
+    "B"
+  ],
+  "metric_leaves_compared": 3076,
+  "metric_leaf_differences": 0,
+  "differing_paths": [],
+  "max_abs_numeric_difference": 0.0,
+  "differing_prefixes": {},
+  "predictions": {
+    "val_event_id": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_baseline": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_iforest": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_sequence": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_fused": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "val_risk": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_event_id": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_baseline": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_iforest": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_sequence": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_fused": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_risk": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_in_population": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_alert_primary": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    },
+    "test_class_pred": {
+      "identical": true,
+      "max_abs_diff": null
+    },
+    "test_class_conf": {
+      "identical": true,
+      "max_abs_diff": 0.0
+    }
+  },
+  "predictions_all_identical": true,
+  "predictions_sha256_identical": true,
+  "candidate_content_hashes_identical": {
+    "baseline_profiler": true,
+    "scaler": true,
+    "isolation_forest": true,
+    "sequence_ae_weights": true,
+    "sequence_ae_input_scaler": true,
+    "train_score_distributions": true,
+    "feature_list": true,
+    "combined": true
+  },
+  "candidate_content_all_identical": true,
+  "candidate_classifier_content_identical": true,
+  "candidate_artifact_files": {
+    "candidate_config.json": {
+      "identical_bytes": true,
+      "sha256_A": "c3bb62a11bd3c9d188c08bda840f98f8829c005477903847d69010b6f0dc4fbd",
+      "sha256_B": "c3bb62a11bd3c9d188c08bda840f98f8829c005477903847d69010b6f0dc4fbd"
+    },
+    "classifier.joblib": {
+      "identical_bytes": true,
+      "sha256_A": "633983730bfda0473f2792cbe758c9d5743bc80f4fd44030e1466f5ee6922769",
+      "sha256_B": "633983730bfda0473f2792cbe758c9d5743bc80f4fd44030e1466f5ee6922769"
+    },
+    "components.joblib": {
+      "identical_bytes": false,
+      "sha256_A": "d7f882b218f0910195418c0ba30823e78cfeb80d495cea610ffc813e316b689f",
+      "sha256_B": "52865ea7b259cd49b50908a4196f7bfef6f0466c09f4fd3266e5e87f5d5ea6d3"
+    }
+  },
+  "split_manifest_identical": true,
+  "frozen_config_identical": true,
+  "source_hashes_identical": true,
+  "environment_identical": {
+    "python": true,
+    "platform": true,
+    "machine": true,
+    "cpu_count": true,
+    "numpy": true,
+    "pandas": true,
+    "scipy": true,
+    "sklearn": true,
+    "torch": true,
+    "lightgbm": true,
+    "shap": true,
+    "joblib": true,
+    "fastapi": true,
+    "pydantic": true
+  },
+  "elapsed_seconds": {
+    "A": 506.0858561992645,
+    "B": 508.3094816207886
+  },
+  "exactly_reproducible": true
+}

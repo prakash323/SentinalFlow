@@ -1,0 +1,24 @@
+[data] P0-711 61,274 events 200 entities 31 incidents (9.0s)
+[data] P1-712 60,584 events 140 entities 31 incidents (7.0s)
+[data] P2-713 61,801 events 240 entities 30 incidents (13.0s)
+[data] P3-714 60,436 events 200 entities 30 incidents (10.5s)
+[data] P4-715 63,741 events 200 entities 35 incidents (9.3s)
+[01:03:21] verify: ML-4 inputs intact; fresh regeneration identical: True
+[01:03:21] checkpoint after stage 'verify' saved
+[01:03:45] tests: 19 run, all passed
+[01:03:45] checkpoint after stage 'tests' saved
+[01:03:45] serving: 26 dataset passes through the boundaries + 2 canonical passes
+[01:17:28] serving: corrected path bit-identical on 11/11 compared datasets
+[01:17:28] checkpoint after stage 'serving' saved
+[01:17:28] scoring: 27 (model, dataset, path) tasks
+[01:19:46] scoring: phase-3 comparison built; corrected_full reproduces ML-4 exactly: {'ml4/frozen': True, 'shipped/adaptive': True}
+[01:19:47] checkpoint after stage 'scoring' saved
+[01:20:51] checkpoint after stage 'drift_reeval' saved
+[01:21:08] dev: alpha selected 0.001 (mean F1 by alpha {'0.001': 0.808024037139667, '0.0025': 0.7967805483598619, '0.005': 0.7718115204030522, '0.01': 0.718530936421685, '0.02': 0.63659539914515})
+[01:21:20] dev: shipped-vehicle alpha selected 0.001
+[01:21:32] dev: calibration selected isotonic_raw
+[01:21:43] FROZEN: config sha256 b6b24a475b067db4 | alpha 0.001 | calibrator isotonic_raw
+[01:21:44] checkpoint after stage 'dev' saved
+[01:23:13] checkpoint after stage 'test' saved
+[01:23:14] DONE run E in 1218s | production unchanged: True
+exit 0

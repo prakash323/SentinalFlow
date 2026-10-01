@@ -1,0 +1,188 @@
+{
+  "datasets": {
+    "P0-101": {
+      "dataset": "P0-101",
+      "rows": 61711,
+      "n_onboarding": 23537,
+      "n_eval": 38174,
+      "features_sha256": "7539275164dc64b8ad5e982ce5a1b985e22991f76ecd9371b0d946c6ea203c7b",
+      "seconds": 273.3
+    },
+    "P0-102": {
+      "dataset": "P0-102",
+      "rows": 60881,
+      "n_onboarding": 23017,
+      "n_eval": 37864,
+      "features_sha256": "2dc331030ca9ccc55c4ddb5f7af85d4c9904e3a177847a16ea9db62d367aeb58",
+      "seconds": 213.7
+    },
+    "P1-201": {
+      "dataset": "P1-201",
+      "rows": 60422,
+      "n_onboarding": 23151,
+      "n_eval": 37271,
+      "features_sha256": "256acdbb545e393118eeb6828853f6607a2a94623b3ae9dceaf4c1742b40d59a",
+      "seconds": 283.4
+    },
+    "P2-301": {
+      "dataset": "P2-301",
+      "rows": 61056,
+      "n_onboarding": 23115,
+      "n_eval": 37941,
+      "features_sha256": "938f07577cd4e423266f05c6e916d9c9031df1844c41242597f33ef57f6c6dc0",
+      "seconds": 230.4
+    },
+    "P3-401": {
+      "dataset": "P3-401",
+      "rows": 60489,
+      "n_onboarding": 23257,
+      "n_eval": 37232,
+      "features_sha256": "924e9f9947630cc57fd53235b88eb464c3619882a1a82b4d8fca73f8fd16a8de",
+      "seconds": 473.0
+    },
+    "P0-103": {
+      "dataset": "P0-103",
+      "rows": 60875,
+      "n_onboarding": 22981,
+      "n_eval": 37894,
+      "features_sha256": "a32d21b8979ef06199e3663ec03c7b1a6d544cf932218ca9311a4a8f48c4ef1c",
+      "seconds": 204.6
+    },
+    "P0-104": {
+      "dataset": "P0-104",
+      "rows": 61012,
+      "n_onboarding": 23281,
+      "n_eval": 37731,
+      "features_sha256": "72c19d338d3dda4ca8e35ebad09292e96dbb5be24413c66632229c01e27a8de4",
+      "seconds": 217.1
+    },
+    "P1-202": {
+      "dataset": "P1-202",
+      "rows": 60774,
+      "n_onboarding": 23388,
+      "n_eval": 37386,
+      "features_sha256": "16bacc7c9eebb722cc81bc7aa6c0afbed254772739bba6b5163ec57f2668e308",
+      "seconds": 309.4
+    },
+    "P2-302": {
+      "dataset": "P2-302",
+      "rows": 60834,
+      "n_onboarding": 23074,
+      "n_eval": 37760,
+      "features_sha256": "fac91b57542253ed5328cccd848c64f6d2c97099a89b62e2343d342088076f90",
+      "seconds": 148.8
+    },
+    "P3-402": {
+      "dataset": "P3-402",
+      "rows": 60689,
+      "n_onboarding": 23202,
+      "n_eval": 37487,
+      "features_sha256": "9a997fc728a009ecb3127ff51929068d1bddede16f9c01ce77888891648ad9f5",
+      "seconds": 158.9
+    },
+    "P4-501": {
+      "dataset": "P4-501",
+      "rows": 63274,
+      "n_onboarding": 23399,
+      "n_eval": 39875,
+      "features_sha256": "f70e78566e5bf97f96cddd383eb881fc5e9a1f706c81663b7f2c02e8199239ee",
+      "seconds": 157.4
+    },
+    "P4-502": {
+      "dataset": "P4-502",
+      "rows": 63530,
+      "n_onboarding": 23316,
+      "n_eval": 40214,
+      "features_sha256": "935a1f79473fdb2ffdef6e812e4fe703c9247180b305f9a4df6cbf5cc76c154a",
+      "seconds": 140.4
+    },
+    "DR-ctrl": {
+      "dataset": "DR-ctrl",
+      "rows": 46894,
+      "n_onboarding": 17746,
+      "n_eval": 29148,
+      "features_sha256": "b52fef00323348ff3b51f66b656aee12d40aacb8e8a0fec6a66d616ad942078e",
+      "seconds": 219.2
+    },
+    "DR-hours": {
+      "dataset": "DR-hours",
+      "rows": 46894,
+      "n_onboarding": 17746,
+      "n_eval": 29148,
+      "features_sha256": "a78aa38351068130660607dca75e6c7b357c4eea85524b7f854fbcca9076db70",
+      "seconds": 146.3
+    },
+    "DR-resources": {
+      "dataset": "DR-resources",
+      "rows": 46894,
+      "n_onboarding": 17746,
+      "n_eval": 29148,
+      "features_sha256": "b047f36644fb5de6509724dfcdc16c5723647ac1ae2c757951abb30a1390a5b1",
+      "seconds": 225.1
+    },
+    "DR-location": {
+      "dataset": "DR-location",
+      "rows": 46894,
+      "n_onboarding": 17746,
+      "n_eval": 29148,
+      "features_sha256": "2cdc2eb3edebbab7c79639dbf3e3084ad4a0612a9b6918d829ee18ce883758e2",
+      "seconds": 222.5
+    },
+    "DR-device": {
+      "dataset": "DR-device",
+      "rows": 46894,
+      "n_onboarding": 17746,
+      "n_eval": 29148,
+      "features_sha256": "29ef0288d906b5c22fc3d72c76aa15c78a7c4d79e731fc7a813d5f3ff83a5983",
+      "seconds": 225.9
+    },
+    "DR-volume": {
+      "dataset": "DR-volume",
+      "rows": 53108,
+      "n_onboarding": 17746,
+      "n_eval": 35362,
+      "features_sha256": "16899db0c9ef8d6a317c5ac3056b2492131b8fba12a4ff7be908c5ed463e9f78",
+      "seconds": 285.6
+    },
+    "orig42": {
+      "dataset": "orig42",
+      "rows": 99348,
+      "n_onboarding": 65850,
+      "n_eval": 33498,
+      "features_sha256": "f003d10c1742fac7716eed3114b53536c381f4ec252746b4c4d95ac01d0f2af8",
+      "seconds": 268.1
+    }
+  },
+  "seconds": 1088.5956168174744,
+  "reference_run": "A",
+  "recomputed": [
+    "DR-ctrl",
+    "DR-resources",
+    "DR-location",
+    "DR-device",
+    "DR-volume",
+    "P0-101",
+    "P0-102",
+    "P0-103",
+    "P1-201",
+    "P1-202",
+    "P2-301",
+    "P3-402",
+    "P4-502"
+  ],
+  "recomputed_identical_to_reference": {
+    "DR-ctrl": true,
+    "DR-resources": true,
+    "DR-location": true,
+    "DR-device": true,
+    "DR-volume": true,
+    "P0-101": true,
+    "P0-102": true,
+    "P0-103": true,
+    "P1-201": true,
+    "P1-202": true,
+    "P2-301": true,
+    "P3-402": true,
+    "P4-502": true
+  }
+}

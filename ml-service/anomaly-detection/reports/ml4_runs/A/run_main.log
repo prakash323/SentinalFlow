@@ -1,0 +1,46 @@
+[data] P0-101        61,711 events  200 entities   31 incidents  14.2s
+[data] P0-102        60,881 events  200 entities   31 incidents  14.3s
+[data] P1-201        60,422 events  140 entities   31 incidents  11.3s
+[data] P2-301        61,056 events  240 entities   30 incidents  17.6s
+[data] P3-401        60,489 events  200 entities   30 incidents  14.9s
+[data] P0-103        60,875 events  200 entities   31 incidents  13.0s
+[data] P0-104        61,012 events  200 entities   31 incidents  10.5s
+[data] P1-202        60,774 events  140 entities   31 incidents  8.2s
+[data] P2-302        60,834 events  240 entities   30 incidents  14.9s
+[data] P3-402        60,689 events  200 entities   30 incidents  17.0s
+[data] P4-501        63,274 events  200 entities   35 incidents  15.9s
+[data] P4-502        63,530 events  200 entities   35 incidents  21.3s
+[data] DR-ctrl       46,894 events  140 entities   39 incidents  13.8s
+[data] DR-hours      46,894 events  140 entities   39 incidents  13.9s
+[data] DR-resources  46,894 events  140 entities   39 incidents  9.5s
+[data] DR-location   46,894 events  140 entities   39 incidents  8.9s
+[data] DR-device     46,894 events  140 entities   39 incidents  9.0s
+[data] DR-volume     53,108 events  140 entities   39 incidents  9.3s
+[21:56:15] verify: 75 dataset files match the manifest; regeneration identical: True
+[21:56:15] checkpoint after stage 'verify' saved
+[21:56:15] features: reusing cache written by this run's code
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+[21:57:33] [fit:ml4] 3 dataset(s), 69,705 onboarding rows, 31 features (77.3s)
+[21:57:33] checkpoint after stage 'fit' saved
+[21:57:33] dev: scoring signals of 4 datasets x 3 models (12 tasks)
+[21:58:41] dev: fusion best {'baseline': 0.9, 'iforest': 0.1, 'sequence': 0.0} (0.5677) equal 0.5014 -> selected {'baseline': 0.9, 'iforest': 0.1, 'sequence': 0.0}
+[21:59:04] dev: FROZEN config sha256 4e9c8d80b1ad7886 | weights {'baseline': 0.9, 'iforest': 0.1, 'sequence': 0.0} | thresholds frozen 0.98725 adaptive 0.99248
+[22:00:13] checkpoint after stage 'dev' saved
+[22:00:13] sealed: scoring 24 (model, dataset) tasks with the frozen config
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+[22:05:51] checkpoint after stage 'sealed' saved
+[22:05:51] drift: scoring 6 drift datasets x 6 baseline variants
+[22:07:15] checkpoint after stage 'drift' saved
+[22:07:24] audits: group-permutation diagnostics on 4 sealed datasets
+[22:09:46] checkpoint after stage 'audits' saved
+[22:09:50] DONE run A in 918s | production unchanged: True

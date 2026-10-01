@@ -1,0 +1,283 @@
+{
+  "protocol": {
+    "type": "chronological (actual event timestamps, no shuffling)",
+    "t0": "2026-06-01T00:00:46.050437",
+    "train_end": "2026-06-21T00:00:46.050437",
+    "validation_end": "2026-06-26T00:00:46.050437",
+    "last_event": "2026-07-01T04:37:10.261606",
+    "train_days": 20,
+    "validation_end_days": 25,
+    "validation_rule": "shortest window after TRAIN holding >=1/3 of attack incidents by first-event time",
+    "incident_home_rule": "an incident belongs to the split of its first event",
+    "purge_rule": "events of validation-born incidents that fall in the test period are excluded from the TEST evaluation population (they remain in the stream so entity state stays causal)"
+  },
+  "splits": {
+    "train": {
+      "rows": 65850,
+      "start": "2026-06-01T00:00:46.050437",
+      "end": "2026-06-21T00:00:39.310806",
+      "entities": 200,
+      "attack_events": 0,
+      "attack_rate": 0.0,
+      "attack_incidents_with_any_event": 0,
+      "attack_incidents_born_in_split": 0,
+      "benign_drift_events": 34,
+      "class_distribution": {
+        "normal": 65816,
+        "benign_drift": 34
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 0,
+        "credential_stuffing": 0,
+        "impossible_travel": 0,
+        "lateral_movement": 0,
+        "device_spoofing": 0,
+        "low_slow_exfil": 0
+      },
+      "attack_events_by_type": {
+        "brute_force": 0,
+        "credential_stuffing": 0,
+        "impossible_travel": 0,
+        "lateral_movement": 0,
+        "device_spoofing": 0,
+        "low_slow_exfil": 0
+      }
+    },
+    "validation": {
+      "rows": 17022,
+      "start": "2026-06-21T00:00:53.422843",
+      "end": "2026-06-25T23:59:46.655377",
+      "entities": 200,
+      "attack_events": 287,
+      "attack_rate": 0.01686053342732934,
+      "attack_incidents_with_any_event": 12,
+      "attack_incidents_born_in_split": 12,
+      "benign_drift_events": 60,
+      "class_distribution": {
+        "normal": 16675,
+        "brute_force": 196,
+        "benign_drift": 60,
+        "low_slow_exfil": 56,
+        "lateral_movement": 31,
+        "impossible_travel": 4
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 2,
+        "credential_stuffing": 0,
+        "impossible_travel": 4,
+        "lateral_movement": 1,
+        "device_spoofing": 0,
+        "low_slow_exfil": 5
+      },
+      "attack_events_by_type": {
+        "brute_force": 196,
+        "credential_stuffing": 0,
+        "impossible_travel": 4,
+        "lateral_movement": 31,
+        "device_spoofing": 0,
+        "low_slow_exfil": 56
+      }
+    },
+    "test_raw_time_window": {
+      "rows": 16476,
+      "start": "2026-06-26T00:02:31.217346",
+      "end": "2026-07-01T04:37:10.261606",
+      "entities": 200,
+      "attack_events": 734,
+      "attack_rate": 0.044549647972808935,
+      "attack_incidents_with_any_event": 29,
+      "attack_incidents_born_in_split": 24,
+      "benign_drift_events": 32,
+      "class_distribution": {
+        "normal": 15710,
+        "brute_force": 424,
+        "lateral_movement": 124,
+        "device_spoofing": 77,
+        "credential_stuffing": 60,
+        "low_slow_exfil": 38,
+        "benign_drift": 32,
+        "impossible_travel": 11
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 3,
+        "credential_stuffing": 1,
+        "impossible_travel": 11,
+        "lateral_movement": 4,
+        "device_spoofing": 5,
+        "low_slow_exfil": 5
+      },
+      "attack_events_by_type": {
+        "brute_force": 424,
+        "credential_stuffing": 60,
+        "impossible_travel": 11,
+        "lateral_movement": 124,
+        "device_spoofing": 77,
+        "low_slow_exfil": 38
+      }
+    },
+    "test_evaluation_population": {
+      "rows": 16438,
+      "start": "2026-06-26T00:02:31.217346",
+      "end": "2026-07-01T04:37:10.261606",
+      "entities": 200,
+      "attack_events": 696,
+      "attack_rate": 0.04234091738654337,
+      "attack_incidents_with_any_event": 24,
+      "attack_incidents_born_in_split": 24,
+      "benign_drift_events": 32,
+      "class_distribution": {
+        "normal": 15710,
+        "brute_force": 424,
+        "lateral_movement": 124,
+        "device_spoofing": 77,
+        "credential_stuffing": 60,
+        "benign_drift": 32,
+        "impossible_travel": 11
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 3,
+        "credential_stuffing": 1,
+        "impossible_travel": 11,
+        "lateral_movement": 4,
+        "device_spoofing": 5,
+        "low_slow_exfil": 0
+      },
+      "attack_events_by_type": {
+        "brute_force": 424,
+        "credential_stuffing": 60,
+        "impossible_travel": 11,
+        "lateral_movement": 124,
+        "device_spoofing": 77,
+        "low_slow_exfil": 0
+      }
+    },
+    "legacy_days_21_30_reference": {
+      "rows": 33498,
+      "start": "2026-06-21T00:00:53.422843",
+      "end": "2026-07-01T04:37:10.261606",
+      "entities": 200,
+      "attack_events": 1021,
+      "attack_rate": 0.030479431607857186,
+      "attack_incidents_with_any_event": 36,
+      "attack_incidents_born_in_split": 36,
+      "benign_drift_events": 92,
+      "class_distribution": {
+        "normal": 32385,
+        "brute_force": 620,
+        "lateral_movement": 155,
+        "low_slow_exfil": 94,
+        "benign_drift": 92,
+        "device_spoofing": 77,
+        "credential_stuffing": 60,
+        "impossible_travel": 15
+      },
+      "attack_incidents_by_type": {
+        "brute_force": 5,
+        "credential_stuffing": 1,
+        "impossible_travel": 15,
+        "lateral_movement": 5,
+        "device_spoofing": 5,
+        "low_slow_exfil": 5
+      },
+      "attack_events_by_type": {
+        "brute_force": 620,
+        "credential_stuffing": 60,
+        "impossible_travel": 15,
+        "lateral_movement": 155,
+        "device_spoofing": 77,
+        "low_slow_exfil": 94
+      }
+    }
+  },
+  "incidents_total": 36,
+  "incidents_by_home_split": {
+    "test": 24,
+    "validation": 12
+  },
+  "purge": {
+    "events_removed_from_test": 38,
+    "incidents": [
+      "LS000",
+      "LS001",
+      "LS002",
+      "LS003",
+      "LS004"
+    ],
+    "events_by_type": {
+      "brute_force": 0,
+      "credential_stuffing": 0,
+      "impossible_travel": 0,
+      "lateral_movement": 0,
+      "device_spoofing": 0,
+      "low_slow_exfil": 38
+    }
+  },
+  "heldout_entities": {
+    "count": 60,
+    "fraction": 0.3,
+    "seed": 20260920,
+    "ids": [
+      "D0001",
+      "D0003",
+      "D0006",
+      "D0007",
+      "D0011",
+      "D0012",
+      "D0014",
+      "D0018",
+      "S0001",
+      "S0005",
+      "S0010",
+      "S0012",
+      "S0013",
+      "S0018",
+      "S0019",
+      "S0027",
+      "S0028",
+      "S0030",
+      "S0032",
+      "S0034",
+      "S0037",
+      "U0000",
+      "U0002",
+      "U0003",
+      "U0013",
+      "U0014",
+      "U0018",
+      "U0019",
+      "U0022",
+      "U0023",
+      "U0031",
+      "U0040",
+      "U0042",
+      "U0046",
+      "U0054",
+      "U0055",
+      "U0064",
+      "U0068",
+      "U0069",
+      "U0071",
+      "U0076",
+      "U0085",
+      "U0086",
+      "U0089",
+      "U0090",
+      "U0092",
+      "U0096",
+      "U0098",
+      "U0099",
+      "U0101",
+      "U0102",
+      "U0104",
+      "U0106",
+      "U0107",
+      "U0114",
+      "U0117",
+      "U0119",
+      "U0122",
+      "U0124",
+      "U0127"
+    ],
+    "attacked_among_them": 18
+  }
+}

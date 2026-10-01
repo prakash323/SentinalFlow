@@ -1,0 +1,125 @@
+/* ==========================================================================
+   Login - the bridge between the public site and the SOC.
+   Same tokens, brand and semantic colours as both; scoped under .login.
+   Public-site scale for the form (roomy, soft) with the SOC's restraint.
+
+   Motion is a single small rise-in (translate only, never an opacity of 0, so nothing can be
+   left invisible), and is removed entirely under prefers-reduced-motion.
+   ========================================================================== */
+
+.login {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  grid-template-areas: 'brand auth';
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ---------- brand pane (left) ---------- */
+.login-brand-pane {
+  grid-area: brand;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: clamp(32px, 4vw, 56px);
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+}
+.login-brand { display: flex; align-items: center; gap: 12px; width: fit-content; }
+.login-brand .brand-mark { width: 32px; height: 32px; border-radius: 8px; }
+.login-brand .brand-text strong { font-size: 17px; letter-spacing: -0.01em; }
+.login-brand .brand-text em { font-size: 12.5px; }
+
+.login-eyebrow { margin: 0 0 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.login-tagline { max-width: 16ch; margin: 0; font-size: clamp(1.75rem, 3.3vw, 2.875rem); line-height: 1.08; font-weight: 650; letter-spacing: -0.03em; }
+.login-lede { max-width: 44ch; margin: 20px 0 0; font-size: 1.0625rem; line-height: 1.55; color: var(--muted); text-wrap: pretty; }
+
+/* restrained product visual: the four objects, one under the other */
+.login-flow { list-style: none; margin: 32px 0 0; padding: 0; display: grid; max-width: 420px; }
+.login-flow li { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; padding: 10px 0; animation: login-rise 0.5s var(--ease) both; animation-delay: calc(var(--i) * 70ms + 150ms); }
+.login-flow li:not(:last-child)::before { content: ''; position: absolute; left: 17.5px; top: 46px; bottom: -10px; width: 1px; background: var(--border-strong); }
+.login-node { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; color: var(--accent); background: color-mix(in srgb, var(--accent) 13%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.login-flow strong { display: block; font-size: 15px; font-weight: 600; }
+.login-flow span.t { font-size: 13.5px; color: var(--muted); }
+.login-copy { margin: 0; font-size: 13px; color: var(--muted); }
+
+/* ---------- auth pane (right) ---------- */
+.login-auth { grid-area: auth; display: flex; flex-direction: column; padding: 20px clamp(24px, 4vw, 56px) 40px; min-width: 0; }
+.login-auth-top { display: flex; align-items: center; justify-content: flex-end; gap: 12px; min-height: 40px; }
+.login-auth-brand { display: none; margin-right: auto; }
+.login .icon-btn { width: 36px; height: 36px; border-radius: 8px; }
+
+.login-panel { width: min(400px, 100%); margin: auto; padding: 24px 0 8px; animation: login-rise 0.45s var(--ease) both; }
+.login .login-title { margin: 0; font-size: 1.75rem; line-height: 1.15; font-weight: 650; letter-spacing: -0.025em; }
+.login-sub { margin: 8px 0 28px; font-size: 15px; color: var(--muted); }
+
+.login-form { display: grid; gap: 18px; }
+.login-field { display: grid; gap: 8px; min-width: 0; }
+.login-field label { font-size: 13.5px; font-weight: 600; color: var(--text-2); }
+.login-input,
+.login-input-wrap input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 10px;
+  /* --faint, not --border-strong: a form control's boundary needs 3:1 (WCAG 1.4.11) and
+     --border-strong is only ~1.8:1. --faint clears 3:1 on every surface in both themes. */
+  border: 1px solid var(--faint);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 15px;
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.login-input:hover, .login-input-wrap input:hover { border-color: var(--muted); }
+.login-input:focus, .login-input-wrap input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.login-input[aria-invalid='true'], .login-input-wrap input[aria-invalid='true'] { border-color: var(--c-critical); }
+.login-input-wrap { position: relative; }
+.login-input-wrap input { padding-right: 48px; }
+.login-input-wrap .icon-btn { position: absolute; right: 5px; top: 5px; width: 36px; height: 36px; }
+.login-field-error { font-size: 13px; color: var(--c-critical); }
+
+/* the live region is always present; when empty it must not add a grid gap of its own */
+.login-error-region:empty { margin-top: -18px; }
+.login-error { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--c-critical) 45%, transparent); background: color-mix(in srgb, var(--c-critical) 9%, transparent); }
+.login-error svg { flex: none; margin-top: 2px; color: var(--c-critical); }
+/* text tokens, not --muted: this sits on a tinted background */
+.login-error strong { display: block; font-size: 14px; font-weight: 600; color: var(--text); }
+.login-error span { font-size: 13.5px; color: var(--text-2); }
+
+.login .btn-lg { width: 100%; height: 48px; border-radius: 10px; font-size: 16px; }
+.login-note { margin: 24px 0 0; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.55; color: var(--muted); }
+
+@keyframes login-rise { from { transform: translateY(10px); } to { transform: none; } }
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .login { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'auth'; }
+  .login-brand-pane { display: none; }
+  .login-auth-brand { display: flex; }
+  .login-auth { padding-inline: 20px; }
+  .login-panel { margin: 24px auto auto; }
+}
+
+/* short desktop windows (e.g. 1366x768 with browser chrome): the flow visual is secondary, so it
+   yields instead of forcing the page to scroll */
+@media (min-width: 901px) and (max-height: 720px) {
+  .login-flow { display: none; }
+  .login-brand-pane { gap: 32px; }
+}
+
+@media (max-width: 420px) {
+  .login-auth-brand .brand-text em { display: none; }
+  .login .login-title { font-size: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login *, .login *::before { animation: none !important; transition: none !important; }
+}

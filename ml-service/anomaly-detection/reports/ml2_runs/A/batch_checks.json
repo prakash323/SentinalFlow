@@ -1,0 +1,17 @@
+{
+  "vectorised_fuse_vs_fuse_single_max_abs_diff": 2.220446049250313e-16,
+  "vectorised_risk_vs_to_risk_100_max_abs_diff": 0.0,
+  "train_integrity": {
+    "artifact_profiler_training_events": 65850,
+    "protocol_train_events": 65850,
+    "artifact_calibration_rows": 65850,
+    "sig_calib_max_abs_diff_vs_recomputed_train": {
+      "baseline": 0.0,
+      "iforest": 0.0,
+      "sequence": 3.814697265625e-06
+    },
+    "fused_calib_max_abs_diff_vs_recomputed_train": 2.0131458424721416e-06,
+    "artifact_threshold": 99.50227340267459,
+    "artifact_entities_profiled": 200
+  }
+}

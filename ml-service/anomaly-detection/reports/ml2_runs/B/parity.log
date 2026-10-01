@@ -1,0 +1,8 @@
+17:31:24 stage=parity run=B variant=main limit=None
+17:33:39 [parity] pass 20000/99348 76s
+17:35:11 [parity] pass 40000/99348 168s
+17:38:07 [parity] pass 60000/99348 344s
+17:41:08 [parity] pass 80000/99348 525s
+17:43:02 [parity] causal pass done in 639s; scoring warm-scope copies
+17:43:26 [parity] done
+17:43:26 stage parity finished in 718s

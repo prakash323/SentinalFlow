@@ -1,0 +1,58 @@
+[data] P0-101        61,711 events  200 entities   31 incidents  22.5s
+[data] P0-102        60,881 events  200 entities   31 incidents  22.6s
+[data] P1-201        60,422 events  140 entities   31 incidents  17.2s
+[data] P2-301        61,056 events  240 entities   30 incidents  30.8s
+[data] P3-401        60,489 events  200 entities   30 incidents  24.7s
+[data] P0-103        60,875 events  200 entities   31 incidents  22.2s
+[data] P0-104        61,012 events  200 entities   31 incidents  24.7s
+[data] P1-202        60,774 events  140 entities   31 incidents  18.8s
+[data] P2-302        60,834 events  240 entities   30 incidents  34.0s
+[data] P3-402        60,689 events  200 entities   30 incidents  27.8s
+[data] P4-501        63,274 events  200 entities   35 incidents  25.0s
+[data] P4-502        63,530 events  200 entities   35 incidents  24.8s
+[data] DR-ctrl       46,894 events  140 entities   39 incidents  16.6s
+[data] DR-hours      46,894 events  140 entities   39 incidents  17.8s
+[data] DR-resources  46,894 events  140 entities   39 incidents  18.0s
+[data] DR-location   46,894 events  140 entities   39 incidents  17.1s
+[data] DR-device     46,894 events  140 entities   39 incidents  16.7s
+[data] DR-volume     53,108 events  140 entities   39 incidents  16.4s
+[22:51:50] verify: 75 dataset files match the manifest; regeneration identical: True
+[22:51:50] checkpoint after stage 'verify' saved
+[22:55:43] [features] DR-ctrl        46,894 rows (17,746 onboarding)  219.2s
+[22:55:49] [features] DR-resources   46,894 rows (17,746 onboarding)  225.1s
+[22:55:49] [features] DR-location    46,894 rows (17,746 onboarding)  222.5s
+[22:59:29] [features] DR-device      46,894 rows (17,746 onboarding)  225.9s
+[23:00:32] [features] DR-volume      53,108 rows (17,746 onboarding)  285.6s
+[23:00:32] [features] P0-101         61,711 rows (23,537 onboarding)  273.3s
+[23:03:03] [features] P0-102         60,881 rows (23,017 onboarding)  213.7s
+[23:03:47] [features] P0-103         60,875 rows (22,981 onboarding)  204.6s
+[23:05:16] [features] P1-201         60,422 rows (23,151 onboarding)  283.4s
+[23:08:12] [features] P1-202         60,774 rows (23,388 onboarding)  309.4s
+[23:08:12] [features] P2-301         61,056 rows (23,115 onboarding)  230.4s
+[23:08:12] [features] P3-402         60,689 rows (23,202 onboarding)  158.9s
+[23:09:58] [features] P4-502         63,530 rows (23,316 onboarding)  140.4s
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+[23:11:48] [fit:ml4] 3 dataset(s), 69,705 onboarding rows, 31 features (108.3s)
+[23:11:48] checkpoint after stage 'fit' saved
+[23:11:48] dev: scoring signals of 7 datasets x 3 models (21 tasks)
+[23:14:03] dev: fusion best {'baseline': 0.9, 'iforest': 0.1, 'sequence': 0.0} (0.5677) equal 0.5014 -> selected {'baseline': 0.9, 'iforest': 0.1, 'sequence': 0.0}
+[23:14:28] dev: FROZEN config sha256 4e9c8d80b1ad7886 | weights {'baseline': 0.9, 'iforest': 0.1, 'sequence': 0.0} | thresholds frozen 0.98725 adaptive 0.99248
+[23:19:08] checkpoint after stage 'dev' saved
+[23:19:08] sealed: scoring 24 (model, dataset) tasks with the frozen config
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+[23:25:15] checkpoint after stage 'sealed' saved
+[23:25:15] drift: scoring 6 drift datasets x 6 baseline variants
+[23:26:41] checkpoint after stage 'drift' saved
+[23:26:50] audits: group-permutation diagnostics on 4 sealed datasets
+[23:28:45] checkpoint after stage 'audits' saved
+[23:28:47] DONE run D in 2380s | production unchanged: True

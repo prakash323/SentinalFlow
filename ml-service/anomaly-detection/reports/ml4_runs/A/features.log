@@ -1,0 +1,20 @@
+[features] P0-101         61,711 rows (23,537 onboarding)  577.5s
+[features] P0-102         60,881 rows (23,017 onboarding)  564.3s
+[features] P1-201         60,422 rows (23,151 onboarding)  616.9s
+[features] P2-301         61,056 rows (23,115 onboarding)  557.9s
+[features] P3-401         60,489 rows (23,257 onboarding)  473.0s
+[features] P0-103         60,875 rows (22,981 onboarding)  571.9s
+[features] P0-104         61,012 rows (23,281 onboarding)  217.1s
+[features] P1-202         60,774 rows (23,388 onboarding)  232.5s
+[features] P2-302         60,834 rows (23,074 onboarding)  148.8s
+[features] P3-402         60,689 rows (23,202 onboarding)  109.7s
+[features] P4-501         63,274 rows (23,399 onboarding)  157.4s
+[features] P4-502         63,530 rows (23,316 onboarding)  160.1s
+[features] DR-ctrl        46,894 rows (17,746 onboarding)  146.0s
+[features] DR-hours       46,894 rows (17,746 onboarding)  146.3s
+[features] DR-resources   46,894 rows (17,746 onboarding)  132.3s
+[features] DR-location    46,894 rows (17,746 onboarding)  132.1s
+[features] DR-device      46,894 rows (17,746 onboarding)  117.8s
+[features] DR-volume      53,108 rows (17,746 onboarding)  139.2s
+[features] orig42         99,348 rows (65,850 onboarding)  268.1s
+done 1101 s

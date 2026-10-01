@@ -1,0 +1,10 @@
+[21:39:27] verify: 75 dataset files match the manifest; regeneration identical: None
+[21:39:27] features: reusing cache written by this run's code
+D:\D_Downloads\oracle\capstone\setinalflow\ml-service\anomaly-detection\src\detect.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  tot += float(loss) * len(xb)
+[21:40:30] [fit:ml4] 3 dataset(s), 69,705 onboarding rows, 31 features (62.9s)
+[21:40:31] dev: scoring signals of 4 datasets x 3 models (12 tasks)
+[21:41:23] dev: fusion best {'baseline': 0.9, 'iforest': 0.1, 'sequence': 0.0} (0.5677) equal 0.5014 -> selected {'baseline': 0.9, 'iforest': 0.1, 'sequence': 0.0}
+[21:41:38] dev: FROZEN config sha256 4e9c8d80b1ad7886 | weights {'baseline': 0.9, 'iforest': 0.1, 'sequence': 0.0} | thresholds frozen 0.98725 adaptive 0.99248
+[21:43:02] DONE run A in 222s | production unchanged: True

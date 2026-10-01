@@ -1,0 +1,3926 @@
+{
+  "note": "Diagnostic. Profiler frozen (no EWMA updates) so differences are purely representational. alert = risk >= shipped ML threshold",
+  "threshold": 99.50227340267459,
+  "sample_size": 19,
+  "representative_events": [
+    {
+      "sample": "attack:low_slow_exfil",
+      "event_id": 65916,
+      "entity_id": "U0076",
+      "true_entity_type": "user",
+      "label": "low_slow_exfil",
+      "V0_risk": 87.50337129840547,
+      "V1_entity_type_user": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 87.50337129840547,
+        "risk_other": 87.50337129840547,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.10522275079081744,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.9565664554190478,
+            -1.0617892062098653
+          ]
+        },
+        "risk_ref": 87.50337129840547,
+        "risk_other": 87.51389521640091,
+        "risk_delta": 0.010523917995442389,
+        "fused_delta": 9.111617312063114e-05,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": -0.0005528083073952361,
+          "sequence": 0.0006585419178009033
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [
+          "cmd_len"
+        ],
+        "n_features_changed": 1,
+        "linf": 1.0,
+        "changed_detail": {
+          "cmd_len": [
+            2.0,
+            1.0
+          ]
+        },
+        "risk_ref": 87.50337129840547,
+        "risk_other": 87.39512528473804,
+        "risk_delta": -0.1082460136674257,
+        "fused_delta": -0.00177676537585425,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": -0.007394726037254329,
+          "sequence": -0.0037010610103607178
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "session_duration_zscore",
+          "cmd_len"
+        ],
+        "n_features_changed": 2,
+        "linf": 1.0,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.9565664554190478,
+            -1.0617892062098653
+          ],
+          "cmd_len": [
+            2.0,
+            1.0
+          ]
+        },
+        "risk_ref": 87.50337129840547,
+        "risk_other": 87.40715261958998,
+        "risk_delta": -0.09621867881548951,
+        "fused_delta": -0.001637053910402475,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": -0.007940179792332636,
+          "sequence": -0.003040134906768799
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "attack:lateral_movement",
+      "event_id": 69088,
+      "entity_id": "S0035",
+      "true_entity_type": "service_account",
+      "label": "lateral_movement",
+      "V0_risk": 97.81079726651481,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.00425469483568075,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            1.0,
+            0.9957453051643192
+          ]
+        },
+        "risk_ref": 97.81079726651481,
+        "risk_other": 97.77922551252847,
+        "risk_delta": -0.03157175398634138,
+        "fused_delta": -0.0004616552771450344,
+        "raw_delta": {
+          "baseline": -0.15554792297182019,
+          "iforest": 0.0,
+          "sequence": -0.0001347661018371582
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 12.904930258779594,
+        "changed_detail": {
+          "session_duration_zscore": [
+            10.0,
+            -2.9049302587795944
+          ]
+        },
+        "risk_ref": 97.81079726651481,
+        "risk_other": 95.18432801822324,
+        "risk_delta": -2.6264692482915706,
+        "fused_delta": -0.04334396355353065,
+        "raw_delta": {
+          "baseline": -0.43622477530526726,
+          "iforest": -0.027698525527361406,
+          "sequence": -0.23907583951950073
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [
+          "cmd_len",
+          "cmd_priv_count"
+        ],
+        "n_features_changed": 2,
+        "linf": 2.0,
+        "changed_detail": {
+          "cmd_len": [
+            3.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ]
+        },
+        "risk_ref": 97.81079726651481,
+        "risk_other": 97.21243735763098,
+        "risk_delta": -0.5983599088838361,
+        "fused_delta": -0.009555049354593836,
+        "raw_delta": {
+          "baseline": -0.45988425555710855,
+          "iforest": -0.025738299859747515,
+          "sequence": -0.02743983268737793
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore",
+          "cmd_len",
+          "cmd_priv_count"
+        ],
+        "n_features_changed": 4,
+        "linf": 12.904930258779594,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            1.0,
+            0.9957453051643192
+          ],
+          "session_duration_zscore": [
+            10.0,
+            -2.9049302587795944
+          ],
+          "cmd_len": [
+            3.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ]
+        },
+        "risk_ref": 97.81079726651481,
+        "risk_other": 89.74646924829158,
+        "risk_delta": -8.064328018223236,
+        "fused_delta": -0.11701138952164014,
+        "raw_delta": {
+          "baseline": -3.3499076717495093,
+          "iforest": -0.05334852839284182,
+          "sequence": -0.2639469504356384
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "attack:impossible_travel",
+      "event_id": 71039,
+      "entity_id": "U0126",
+      "true_entity_type": "user",
+      "label": "impossible_travel",
+      "V0_risk": 98.99699316628701,
+      "V1_entity_type_user": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 98.99699316628701,
+        "risk_other": 98.99699316628701,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 1.4721154035452462,
+        "changed_detail": {
+          "session_duration_zscore": [
+            0.6631849687119421,
+            -0.8089304348333042
+          ]
+        },
+        "risk_ref": 98.99699316628701,
+        "risk_other": 98.99699316628701,
+        "risk_delta": 0.0,
+        "fused_delta": 7.593014426732214e-05,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0005833834036045316,
+          "sequence": -0.016172409057617188
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 98.99699316628701,
+        "risk_other": 98.99699316628701,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 1.4721154035452462,
+        "changed_detail": {
+          "session_duration_zscore": [
+            0.6631849687119421,
+            -0.8089304348333042
+          ]
+        },
+        "risk_ref": 98.99699316628701,
+        "risk_other": 98.99699316628701,
+        "risk_delta": 0.0,
+        "fused_delta": 7.593014426732214e-05,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0005833834036045316,
+          "sequence": -0.016172409057617188
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "attack:brute_force",
+      "event_id": 78815,
+      "entity_id": "S0029",
+      "true_entity_type": "service_account",
+      "label": "brute_force",
+      "V0_risk": 100.0,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.0210591934084996,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.9789408065915004,
+            1.0
+          ]
+        },
+        "risk_ref": 100.0,
+        "risk_other": 100.0,
+        "risk_delta": 0.0,
+        "fused_delta": 7.896735003798394e-05,
+        "raw_delta": {
+          "baseline": -0.002207379475753335,
+          "iforest": 0.0008533532153552903,
+          "sequence": 0.00101470947265625
+        },
+        "alert_ref": true,
+        "alert_other": true,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.25416943460975716,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -2.6790330495514896,
+            -2.9332024841612467
+          ]
+        },
+        "risk_ref": 100.0,
+        "risk_other": 100.0,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0002824601366743229,
+        "raw_delta": {
+          "baseline": 0.031250388625970515,
+          "iforest": 0.0,
+          "sequence": 0.0012054443359375
+        },
+        "alert_ref": true,
+        "alert_other": true,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 100.0,
+        "risk_other": 100.0,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": true,
+        "alert_other": true,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 2,
+        "linf": 0.25416943460975716,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.9789408065915004,
+            1.0
+          ],
+          "session_duration_zscore": [
+            -2.6790330495514896,
+            -2.9332024841612467
+          ]
+        },
+        "risk_ref": 100.0,
+        "risk_other": 100.0,
+        "risk_delta": 0.0,
+        "fused_delta": 0.00037053910402440327,
+        "raw_delta": {
+          "baseline": 0.028827484182857077,
+          "iforest": 0.0008533532153552903,
+          "sequence": 0.002227783203125
+        },
+        "alert_ref": true,
+        "alert_other": true,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "attack:device_spoofing",
+      "event_id": 83482,
+      "entity_id": "S0031",
+      "true_entity_type": "service_account",
+      "label": "device_spoofing",
+      "V0_risk": 98.84214123006834,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.11955186089560177,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.8793456032719836,
+            0.9988974641675854
+          ]
+        },
+        "risk_ref": 98.84214123006834,
+        "risk_other": 98.91430523917995,
+        "risk_delta": 0.07216400911161713,
+        "fused_delta": 0.001962034927866285,
+        "raw_delta": {
+          "baseline": -0.005645123591440537,
+          "iforest": 0.005901702627908456,
+          "sequence": 0.007045745849609375
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.5461217367121725,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -3.1284451759336904,
+            -3.674566912645863
+          ]
+        },
+        "risk_ref": 98.84214123006834,
+        "risk_other": 98.84214123006834,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.07571296007139061,
+          "iforest": 0.0,
+          "sequence": 0.01251840591430664
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 98.84214123006834,
+        "risk_other": 98.84214123006834,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 2,
+        "linf": 0.5461217367121725,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.8793456032719836,
+            0.9988974641675854
+          ],
+          "session_duration_zscore": [
+            -3.1284451759336904,
+            -3.674566912645863
+          ]
+        },
+        "risk_ref": 98.84214123006834,
+        "risk_other": 98.91430523917995,
+        "risk_delta": 0.07216400911161713,
+        "fused_delta": 0.00196810933940772,
+        "raw_delta": {
+          "baseline": 0.06902959991467661,
+          "iforest": 0.005901702627908456,
+          "sequence": 0.019133567810058594
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:user:2",
+      "event_id": 83651,
+      "entity_id": "U0018",
+      "true_entity_type": "user",
+      "label": "normal",
+      "V0_risk": 93.08555808656037,
+      "V1_entity_type_user": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 93.08555808656037,
+        "risk_other": 93.08555808656037,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 4.665232005902541,
+        "changed_detail": {
+          "session_duration_zscore": [
+            2.7534389832074337,
+            -1.9117930226951074
+          ]
+        },
+        "risk_ref": 93.08555808656037,
+        "risk_other": 77.24255125284738,
+        "risk_delta": -15.843006833712991,
+        "fused_delta": -0.18190129081245254,
+        "raw_delta": {
+          "baseline": -0.7028286498800564,
+          "iforest": -0.007774486892726418,
+          "sequence": -0.02307090163230896
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 3,
+        "linf": 2.4119264744280766,
+        "changed_detail": {
+          "cmd_len": [
+            2.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.4119264744280766,
+            0.0
+          ]
+        },
+        "risk_ref": 93.08555808656037,
+        "risk_other": 94.58296127562642,
+        "risk_delta": 1.4974031890660484,
+        "fused_delta": 0.022858010630220194,
+        "raw_delta": {
+          "baseline": 0.20228931553536444,
+          "iforest": -0.007091065854643364,
+          "sequence": 0.0586511492729187
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "session_duration_zscore",
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 4,
+        "linf": 4.665232005902541,
+        "changed_detail": {
+          "session_duration_zscore": [
+            2.7534389832074337,
+            -1.9117930226951074
+          ],
+          "cmd_len": [
+            2.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.4119264744280766,
+            0.0
+          ]
+        },
+        "risk_ref": 93.08555808656037,
+        "risk_other": 92.03917995444192,
+        "risk_delta": -1.0463781321184484,
+        "fused_delta": -0.013828397873955955,
+        "raw_delta": {
+          "baseline": -0.10871224930441947,
+          "iforest": -0.01875047963497989,
+          "sequence": 0.036526381969451904
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:user:3",
+      "event_id": 84007,
+      "entity_id": "U0073",
+      "true_entity_type": "user",
+      "label": "normal",
+      "V0_risk": 62.779681093394075,
+      "V1_entity_type_user": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 62.779681093394075,
+        "risk_other": 62.779681093394075,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.26556206520292114,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -1.1082646145393529,
+            -1.373826679742274
+          ]
+        },
+        "risk_ref": 62.779681093394075,
+        "risk_other": 64.05307517084283,
+        "risk_delta": 1.2733940774487564,
+        "fused_delta": 0.008832194381169334,
+        "raw_delta": {
+          "baseline": 0.016018391916244656,
+          "iforest": 0.002530844195819837,
+          "sequence": 0.0014393329620361328
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 3,
+        "linf": 2.3200680740227546,
+        "changed_detail": {
+          "cmd_len": [
+            2.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.3200680740227546,
+            0.0
+          ]
+        },
+        "risk_ref": 62.779681093394075,
+        "risk_other": 85.09489749430524,
+        "risk_delta": 22.31521640091117,
+        "fused_delta": 0.20135763097949888,
+        "raw_delta": {
+          "baseline": 0.5435447035024297,
+          "iforest": -0.022040213410754905,
+          "sequence": 0.05715525150299072
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "session_duration_zscore",
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 4,
+        "linf": 2.3200680740227546,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -1.1082646145393529,
+            -1.373826679742274
+          ],
+          "cmd_len": [
+            2.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.3200680740227546,
+            0.0
+          ]
+        },
+        "risk_ref": 62.779681093394075,
+        "risk_other": 85.15202733485194,
+        "risk_delta": 22.372346241457862,
+        "fused_delta": 0.20181321184510248,
+        "raw_delta": {
+          "baseline": 0.5435447035024297,
+          "iforest": -0.020183103579108796,
+          "sequence": 0.058667778968811035
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:service_account:5",
+      "event_id": 86539,
+      "entity_id": "S0009",
+      "true_entity_type": "service_account",
+      "label": "normal",
+      "V0_risk": 26.766833712984056,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.7919516338156692,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.20639556468579068,
+            0.9983471985014599
+          ]
+        },
+        "risk_ref": 26.766833712984056,
+        "risk_other": 65.22123006833714,
+        "risk_delta": 38.45439635535308,
+        "fused_delta": 0.27511313591495823,
+        "raw_delta": {
+          "baseline": 0.5427857399076748,
+          "iforest": 0.0246124961033658,
+          "sequence": 0.008992388844490051
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 2.0684104367687866,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.02835425619137544,
+            -2.096764692960162
+          ]
+        },
+        "risk_ref": 26.766833712984056,
+        "risk_other": 59.8525284738041,
+        "risk_delta": 33.08569476082005,
+        "fused_delta": 0.2386393318147304,
+        "raw_delta": {
+          "baseline": 0.45937188730489953,
+          "iforest": 0.015092932337246012,
+          "sequence": 0.008979588747024536
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 26.766833712984056,
+        "risk_other": 26.766833712984056,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 2,
+        "linf": 2.0684104367687866,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.20639556468579068,
+            0.9983471985014599
+          ],
+          "session_duration_zscore": [
+            -0.02835425619137544,
+            -2.096764692960162
+          ]
+        },
+        "risk_ref": 26.766833712984056,
+        "risk_other": 72.77138952164009,
+        "risk_delta": 46.004555808656036,
+        "fused_delta": 0.33421412300683373,
+        "raw_delta": {
+          "baseline": 0.674777345447531,
+          "iforest": 0.037330215111337106,
+          "sequence": 0.017766565084457397
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:edge_device:9",
+      "event_id": 88027,
+      "entity_id": "D0003",
+      "true_entity_type": "edge_device",
+      "label": "normal",
+      "V0_risk": 31.024510250569477,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.832522658081674,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.16747734191832597,
+            1.0
+          ]
+        },
+        "risk_ref": 31.024510250569477,
+        "risk_other": 81.60847380410023,
+        "risk_delta": 50.58396355353075,
+        "fused_delta": 0.3882490508731966,
+        "raw_delta": {
+          "baseline": 1.0045440805210442,
+          "iforest": 0.013239379163542286,
+          "sequence": 0.0051234811544418335
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 4.391485856100331,
+        "changed_detail": {
+          "session_duration_zscore": [
+            1.26582054826911,
+            -3.125665307831221
+          ]
+        },
+        "risk_ref": 31.024510250569477,
+        "risk_other": 86.43744874715262,
+        "risk_delta": 55.41293849658314,
+        "fused_delta": 0.4434897494305239,
+        "raw_delta": {
+          "baseline": 1.3557480026362052,
+          "iforest": 0.005603259643623626,
+          "sequence": 0.022082820534706116
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 31.024510250569477,
+        "risk_other": 31.024510250569477,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 2,
+        "linf": 4.391485856100331,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.16747734191832597,
+            1.0
+          ],
+          "session_duration_zscore": [
+            1.26582054826911,
+            -3.125665307831221
+          ]
+        },
+        "risk_ref": 31.024510250569477,
+        "risk_other": 88.59936218678816,
+        "risk_delta": 57.57485193621868,
+        "fused_delta": 0.47052391799544413,
+        "raw_delta": {
+          "baseline": 1.5659445565273704,
+          "iforest": 0.01876805187946823,
+          "sequence": 0.027353867888450623
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:edge_device:8",
+      "event_id": 88363,
+      "entity_id": "D0009",
+      "true_entity_type": "edge_device",
+      "label": "normal",
+      "V0_risk": 75.6549430523918,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.8325673699603092,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.16743263003969078,
+            1.0
+          ]
+        },
+        "risk_ref": 75.6549430523918,
+        "risk_other": 81.43858769931663,
+        "risk_delta": 5.783644646924827,
+        "fused_delta": 0.059049354593773695,
+        "raw_delta": {
+          "baseline": 0.37241148985574846,
+          "iforest": 0.02034609094273737,
+          "sequence": 0.008209042251110077
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 2.9929574661319034,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.35414193493568724,
+            -3.3470994010675907
+          ]
+        },
+        "risk_ref": 75.6549430523918,
+        "risk_other": 82.58719817767654,
+        "risk_delta": 6.93225512528474,
+        "fused_delta": 0.07187851176917248,
+        "raw_delta": {
+          "baseline": 0.323537254287082,
+          "iforest": 0.014977290975694502,
+          "sequence": 0.029939070343971252
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 75.6549430523918,
+        "risk_other": 75.6549430523918,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 2,
+        "linf": 2.9929574661319034,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.16743263003969078,
+            1.0
+          ],
+          "session_duration_zscore": [
+            -0.35414193493568724,
+            -3.3470994010675907
+          ]
+        },
+        "risk_ref": 75.6549430523918,
+        "risk_other": 85.6661958997722,
+        "risk_delta": 10.011252847380405,
+        "fused_delta": 0.10731359149582398,
+        "raw_delta": {
+          "baseline": 0.6493855559276431,
+          "iforest": 0.03303536010802449,
+          "sequence": 0.03810963034629822
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:service_account:4",
+      "event_id": 88932,
+      "entity_id": "S0028",
+      "true_entity_type": "service_account",
+      "label": "normal",
+      "V0_risk": 33.67202733485193,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.7904722238222331,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.20734782086685077,
+            0.9978200446890839
+          ]
+        },
+        "risk_ref": 33.67202733485193,
+        "risk_other": 79.89608200455581,
+        "risk_delta": 46.224054669703875,
+        "fused_delta": 0.35107061503416853,
+        "raw_delta": {
+          "baseline": 0.9738230442944491,
+          "iforest": 0.010403507529205158,
+          "sequence": 0.009232670068740845
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 2.127785233355171,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.4125296779788757,
+            -2.540314911334047
+          ]
+        },
+        "risk_ref": 33.67202733485193,
+        "risk_other": 76.95239179954442,
+        "risk_delta": 43.28036446469248,
+        "fused_delta": 0.32119969627942285,
+        "raw_delta": {
+          "baseline": 0.8144306914915702,
+          "iforest": 0.013133420527514428,
+          "sequence": 0.015770502388477325
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 33.67202733485193,
+        "risk_other": 33.67202733485193,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 2,
+        "linf": 2.127785233355171,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.20734782086685077,
+            0.9978200446890839
+          ],
+          "session_duration_zscore": [
+            -0.4125296779788757,
+            -2.540314911334047
+          ]
+        },
+        "risk_ref": 33.67202733485193,
+        "risk_other": 84.11015945330296,
+        "risk_delta": 50.43813211845102,
+        "fused_delta": 0.39742141230068334,
+        "raw_delta": {
+          "baseline": 1.177281931336556,
+          "iforest": 0.020999199230067378,
+          "sequence": 0.02530355006456375
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:edge_device:7",
+      "event_id": 92087,
+      "entity_id": "D0014",
+      "true_entity_type": "edge_device",
+      "label": "normal",
+      "V0_risk": 34.81161731207289,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.8281987782730725,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.17180122172692747,
+            1.0
+          ]
+        },
+        "risk_ref": 34.81161731207289,
+        "risk_other": 81.90164009111618,
+        "risk_delta": 47.09002277904329,
+        "fused_delta": 0.3641883067577828,
+        "raw_delta": {
+          "baseline": 0.8562997186263677,
+          "iforest": 0.01985045078452674,
+          "sequence": 0.010286301374435425
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 3.3652308946606078,
+        "changed_detail": {
+          "session_duration_zscore": [
+            0.19629411475295708,
+            -3.168936779907651
+          ]
+        },
+        "risk_ref": 34.81161731207289,
+        "risk_other": 89.83066059225513,
+        "risk_delta": 55.01904328018224,
+        "fused_delta": 0.4578648443432042,
+        "raw_delta": {
+          "baseline": 1.3426659582390728,
+          "iforest": 0.011314781206800628,
+          "sequence": 0.025714784860610962
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 34.81161731207289,
+        "risk_other": 34.81161731207289,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 2,
+        "linf": 3.3652308946606078,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.17180122172692747,
+            1.0
+          ],
+          "session_duration_zscore": [
+            0.19629411475295708,
+            -3.168936779907651
+          ]
+        },
+        "risk_ref": 34.81161731207289,
+        "risk_other": 92.4751708428246,
+        "risk_delta": 57.663553530751706,
+        "fused_delta": 0.48977372817008347,
+        "raw_delta": {
+          "baseline": 1.5230977464765476,
+          "iforest": 0.03140075768345979,
+          "sequence": 0.036662131547927856
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:user:12",
+      "event_id": 93549,
+      "entity_id": "U0094",
+      "true_entity_type": "user",
+      "label": "normal",
+      "V0_risk": 77.83038724373576,
+      "V1_entity_type_user": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 77.83038724373576,
+        "risk_other": 77.83038724373576,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.4703310883045184,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -1.0467884112939454,
+            -1.5171194995984638
+          ]
+        },
+        "risk_ref": 77.83038724373576,
+        "risk_other": 78.24833712984055,
+        "risk_delta": 0.4179498861047932,
+        "fused_delta": 0.00402429764616552,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.007084645777659937,
+          "sequence": 0.0023662149906158447
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 3,
+        "linf": 1.975845292930446,
+        "changed_detail": {
+          "cmd_len": [
+            2.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            1.975845292930446,
+            0.0
+          ]
+        },
+        "risk_ref": 77.83038724373576,
+        "risk_other": 76.51640091116172,
+        "risk_delta": -1.3139863325740322,
+        "fused_delta": -0.013287775246772937,
+        "raw_delta": {
+          "baseline": 0.07414050164650599,
+          "iforest": -0.04194371921175338,
+          "sequence": 0.02720007300376892
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "session_duration_zscore",
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 4,
+        "linf": 1.975845292930446,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -1.0467884112939454,
+            -1.5171194995984638
+          ],
+          "cmd_len": [
+            2.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            1.975845292930446,
+            0.0
+          ]
+        },
+        "risk_ref": 77.83038724373576,
+        "risk_other": 77.57330296127563,
+        "risk_delta": -0.25708428246012716,
+        "fused_delta": -0.0022809415337888828,
+        "raw_delta": {
+          "baseline": 0.07414050164650599,
+          "iforest": -0.03451365526795236,
+          "sequence": 0.029590725898742676
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:user:0",
+      "event_id": 93654,
+      "entity_id": "U0074",
+      "true_entity_type": "user",
+      "label": "normal",
+      "V0_risk": 81.45362186788155,
+      "V1_entity_type_user": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 81.45362186788155,
+        "risk_other": 81.45362186788155,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.5765977211145275,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.4859820626604661,
+            -1.0625797837749935
+          ]
+        },
+        "risk_ref": 81.45362186788155,
+        "risk_other": 81.51526195899773,
+        "risk_delta": 0.061640091116174744,
+        "fused_delta": 0.0007593014426726663,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.002724484310898556,
+          "sequence": 0.0012929737567901611
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 3,
+        "linf": 5.0,
+        "changed_detail": {
+          "cmd_len": [
+            6.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            2.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.323897646997804,
+            0.0
+          ]
+        },
+        "risk_ref": 81.45362186788155,
+        "risk_other": 58.39421412300683,
+        "risk_delta": -23.05940774487472,
+        "fused_delta": -0.19030523917995446,
+        "raw_delta": {
+          "baseline": -0.3992439372611445,
+          "iforest": -0.08218599361989298,
+          "sequence": -0.00684008002281189
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "session_duration_zscore",
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 4,
+        "linf": 5.0,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.4859820626604661,
+            -1.0625797837749935
+          ],
+          "cmd_len": [
+            6.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            2.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.323897646997804,
+            0.0
+          ]
+        },
+        "risk_ref": 81.45362186788155,
+        "risk_other": 59.00760820045558,
+        "risk_delta": -22.446013667425973,
+        "fused_delta": -0.18585573272589218,
+        "raw_delta": {
+          "baseline": -0.3992439372611445,
+          "iforest": -0.07982697092100238,
+          "sequence": -0.005239576101303101
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "attack:credential_stuffing",
+      "event_id": 95107,
+      "entity_id": "S0032",
+      "true_entity_type": "service_account",
+      "label": "credential_stuffing",
+      "V0_risk": 98.99248291571755,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.021009565135896247,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.978836335829791,
+            0.9998459009656873
+          ]
+        },
+        "risk_ref": 98.99248291571755,
+        "risk_other": 98.99548974943052,
+        "risk_delta": 0.003006833712973389,
+        "fused_delta": 0.00022171602126042078,
+        "raw_delta": {
+          "baseline": 0.00866392253777537,
+          "iforest": 0.0008040261754554967,
+          "sequence": 0.0008993148803710938
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.1255904093685749,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -2.4333818051937652,
+            -2.55897221456234
+          ]
+        },
+        "risk_ref": 98.99248291571755,
+        "risk_other": 98.99248291571755,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0012884140014648438
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 98.99248291571755,
+        "risk_other": 98.99248291571755,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 2,
+        "linf": 0.1255904093685749,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.978836335829791,
+            0.9998459009656873
+          ],
+          "session_duration_zscore": [
+            -2.4333818051937652,
+            -2.55897221456234
+          ]
+        },
+        "risk_ref": 98.99248291571755,
+        "risk_other": 98.99548974943052,
+        "risk_delta": 0.003006833712973389,
+        "fused_delta": 0.00022171602126042078,
+        "raw_delta": {
+          "baseline": 0.00866392253777537,
+          "iforest": 0.0008040261754554967,
+          "sequence": 0.0021905899047851562
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:user:10",
+      "event_id": 96643,
+      "entity_id": "U0014",
+      "true_entity_type": "user",
+      "label": "normal",
+      "V0_risk": 39.4676993166287,
+      "V1_entity_type_user": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 39.4676993166287,
+        "risk_other": 39.4676993166287,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 1.2708843411529462,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.0753519647621303,
+            -1.3462363059150766
+          ]
+        },
+        "risk_ref": 39.4676993166287,
+        "risk_other": 40.279544419134396,
+        "risk_delta": 0.8118451025056928,
+        "fused_delta": 0.00585269552012152,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0053571046527322586,
+          "sequence": 0.003913775086402893
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [
+          "cmd_len",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 2,
+        "linf": 2.4135188136748607,
+        "changed_detail": {
+          "cmd_len": [
+            3.0,
+            1.0
+          ],
+          "cmd_bigram_surprise": [
+            2.4135188136748607,
+            0.0
+          ]
+        },
+        "risk_ref": 39.4676993166287,
+        "risk_other": 68.82492027334852,
+        "risk_delta": 29.35722095671982,
+        "fused_delta": 0.2089810174639331,
+        "raw_delta": {
+          "baseline": 0.6145503612443315,
+          "iforest": -0.035257522294104116,
+          "sequence": 0.029527723789215088
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "session_duration_zscore",
+          "cmd_len",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 3,
+        "linf": 2.4135188136748607,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.0753519647621303,
+            -1.3462363059150766
+          ],
+          "cmd_len": [
+            3.0,
+            1.0
+          ],
+          "cmd_bigram_surprise": [
+            2.4135188136748607,
+            0.0
+          ]
+        },
+        "risk_ref": 39.4676993166287,
+        "risk_other": 70.1298861047836,
+        "risk_delta": 30.66218678815489,
+        "fused_delta": 0.21940470766894443,
+        "raw_delta": {
+          "baseline": 0.6145503612443315,
+          "iforest": -0.030971315232240892,
+          "sequence": 0.033466145396232605
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:user:11",
+      "event_id": 97349,
+      "entity_id": "U0028",
+      "true_entity_type": "user",
+      "label": "normal",
+      "V0_risk": 92.74728929384966,
+      "V1_entity_type_user": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 92.74728929384966,
+        "risk_other": 92.74728929384966,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 1.6360533959820094,
+        "changed_detail": {
+          "session_duration_zscore": [
+            0.32813947332776,
+            -1.3079139226542493
+          ]
+        },
+        "risk_ref": 92.74728929384966,
+        "risk_other": 92.80141230068337,
+        "risk_delta": 0.054123006833705745,
+        "fused_delta": 0.0007775246772968591,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0024284338310104348,
+          "sequence": 0.004989266395568848
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 3,
+        "linf": 3.0,
+        "changed_detail": {
+          "cmd_len": [
+            4.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            3.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.7846520535810666,
+            0.0
+          ]
+        },
+        "risk_ref": 92.74728929384966,
+        "risk_other": 93.67489749430524,
+        "risk_delta": 0.9276082004555803,
+        "fused_delta": 0.012871678056188163,
+        "raw_delta": {
+          "baseline": 0.14048088951543614,
+          "iforest": -0.053687915609926695,
+          "sequence": 0.0440596342086792
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "session_duration_zscore",
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 4,
+        "linf": 3.0,
+        "changed_detail": {
+          "session_duration_zscore": [
+            0.32813947332776,
+            -1.3079139226542493
+          ],
+          "cmd_len": [
+            4.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            3.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.7846520535810666,
+            0.0
+          ]
+        },
+        "risk_ref": 92.74728929384966,
+        "risk_other": 93.68842824601367,
+        "risk_delta": 0.9411389521640103,
+        "fused_delta": 0.013272589217919406,
+        "raw_delta": {
+          "baseline": 0.14048088951543614,
+          "iforest": -0.05326086474136649,
+          "sequence": 0.04895353317260742
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:service_account:6",
+      "event_id": 98201,
+      "entity_id": "S0005",
+      "true_entity_type": "service_account",
+      "label": "normal",
+      "V0_risk": 23.69986332574032,
+      "V1_entity_type_user": {
+        "features_changed": [
+          "peer_resource_deviation"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.7897574744820983,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.20822252256179974,
+            0.9979799970438981
+          ]
+        },
+        "risk_ref": 23.69986332574032,
+        "risk_other": 70.75981776765376,
+        "risk_delta": 47.05995444191343,
+        "fused_delta": 0.3420774487471527,
+        "raw_delta": {
+          "baseline": 0.8676753028969304,
+          "iforest": 0.015404553373818186,
+          "sequence": 0.008152268826961517
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 2.565024682973931,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.6462009201854606,
+            -3.2112256031593915
+          ]
+        },
+        "risk_ref": 23.69986332574032,
+        "risk_other": 77.35530751708428,
+        "risk_delta": 53.65544419134396,
+        "fused_delta": 0.4001548974943053,
+        "raw_delta": {
+          "baseline": 1.2082669718761467,
+          "iforest": 0.01258180464919878,
+          "sequence": 0.02655380219221115
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 23.69986332574032,
+        "risk_other": 23.69986332574032,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "peer_resource_deviation",
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 2,
+        "linf": 2.565024682973931,
+        "changed_detail": {
+          "peer_resource_deviation": [
+            0.20822252256179974,
+            0.9979799970438981
+          ],
+          "session_duration_zscore": [
+            -0.6462009201854606,
+            -3.2112256031593915
+          ]
+        },
+        "risk_ref": 23.69986332574032,
+        "risk_other": 81.69717539863326,
+        "risk_delta": 57.99731207289294,
+        "fused_delta": 0.44512376613515575,
+        "raw_delta": {
+          "baseline": 1.400957455941815,
+          "iforest": 0.026324769775894596,
+          "sequence": 0.03450468182563782
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    },
+    {
+      "sample": "normal:user:1",
+      "event_id": 98472,
+      "entity_id": "U0038",
+      "true_entity_type": "user",
+      "label": "normal",
+      "V0_risk": 76.61412300683371,
+      "V1_entity_type_user": {
+        "features_changed": [],
+        "n_features_changed": 0,
+        "linf": 0.0,
+        "changed_detail": {},
+        "risk_ref": 76.61412300683371,
+        "risk_other": 76.61412300683371,
+        "risk_delta": 0.0,
+        "fused_delta": 0.0,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.0,
+          "sequence": 0.0
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V2_minutes_as_seconds": {
+        "features_changed": [
+          "session_duration_zscore"
+        ],
+        "n_features_changed": 1,
+        "linf": 0.4270527546317873,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.41616367258425274,
+            -0.8432164272160401
+          ]
+        },
+        "risk_ref": 76.61412300683371,
+        "risk_other": 76.63817767653758,
+        "risk_delta": 0.024054669703872378,
+        "fused_delta": 0.0002520880789672608,
+        "raw_delta": {
+          "baseline": 0.0,
+          "iforest": 0.000933908073023737,
+          "sequence": 0.001048058271408081
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V3_space_separated_commands": {
+        "features_changed": [
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 3,
+        "linf": 5.0,
+        "changed_detail": {
+          "cmd_len": [
+            6.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.5823754492616935,
+            0.0
+          ]
+        },
+        "risk_ref": 76.61412300683371,
+        "risk_other": 89.31949886104783,
+        "risk_delta": 12.705375854214125,
+        "fused_delta": 0.14260592255125282,
+        "raw_delta": {
+          "baseline": 0.49381836096756615,
+          "iforest": -0.03042199536148471,
+          "sequence": 0.06207925081253052
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      },
+      "V4_full_api_path": {
+        "features_changed": [
+          "session_duration_zscore",
+          "cmd_len",
+          "cmd_priv_count",
+          "cmd_bigram_surprise"
+        ],
+        "n_features_changed": 4,
+        "linf": 5.0,
+        "changed_detail": {
+          "session_duration_zscore": [
+            -0.41616367258425274,
+            -0.8432164272160401
+          ],
+          "cmd_len": [
+            6.0,
+            1.0
+          ],
+          "cmd_priv_count": [
+            1.0,
+            0.0
+          ],
+          "cmd_bigram_surprise": [
+            2.5823754492616935,
+            0.0
+          ]
+        },
+        "risk_ref": 76.61412300683371,
+        "risk_other": 89.35257403189065,
+        "risk_delta": 12.738451025056946,
+        "fused_delta": 0.14293090356871674,
+        "raw_delta": {
+          "baseline": 0.49381836096756615,
+          "iforest": -0.029183670917571125,
+          "sequence": 0.06316322088241577
+        },
+        "alert_ref": false,
+        "alert_other": false,
+        "alert_flip": false
+      }
+    }
+  ],
+  "variant_summary": {
+    "V1_entity_type_user": {
+      "samples": 19,
+      "features_changed_counts": {
+        "peer_resource_deviation": 10
+      },
+      "max_linf": 0.8325673699603092,
+      "mean_abs_risk_delta": 12.384356791751587,
+      "max_abs_risk_delta": 50.58396355353075,
+      "alert_flips_at_production_threshold": 0
+    },
+    "V2_minutes_as_seconds": {
+      "samples": 19,
+      "features_changed_counts": {
+        "session_duration_zscore": 19
+      },
+      "max_linf": 12.904930258779594,
+      "mean_abs_risk_delta": 14.132039323822081,
+      "max_abs_risk_delta": 55.41293849658314,
+      "alert_flips_at_production_threshold": 0
+    },
+    "V3_space_separated_commands": {
+      "samples": 19,
+      "features_changed_counts": {
+        "cmd_len": 9,
+        "cmd_priv_count": 7,
+        "cmd_bigram_surprise": 7
+      },
+      "max_linf": 5.0,
+      "mean_abs_risk_delta": 4.83593813691404,
+      "max_abs_risk_delta": 29.35722095671982,
+      "alert_flips_at_production_threshold": 0
+    },
+    "V4_full_api_path": {
+      "samples": 19,
+      "features_changed_counts": {
+        "session_duration_zscore": 19,
+        "cmd_len": 9,
+        "peer_resource_deviation": 10,
+        "cmd_priv_count": 7,
+        "cmd_bigram_surprise": 7
+      },
+      "max_linf": 12.904930258779594,
+      "mean_abs_risk_delta": 19.915209207529074,
+      "max_abs_risk_delta": 57.99731207289294,
+      "alert_flips_at_production_threshold": 0
+    }
+  },
+  "warmup_scope": {
+    "by_type": {
+      "brute_force": {
+        "incidents": 5,
+        "mean_risk_causal": 99.17594533029612,
+        "alerts_causal": 1,
+        "novelty_fires_causal": 5,
+        "mean_risk_train_only": 99.59458769931663,
+        "alerts_train_only": 3,
+        "novelty_fires_train_only": 5,
+        "mean_risk_all_days": 99.58526651480638,
+        "alerts_all_days": 3,
+        "novelty_fires_all_days": 0
+      },
+      "credential_stuffing": {
+        "incidents": 1,
+        "mean_risk_causal": 98.99248291571755,
+        "alerts_causal": 0,
+        "novelty_fires_causal": 1,
+        "mean_risk_train_only": 100.0,
+        "alerts_train_only": 1,
+        "novelty_fires_train_only": 1,
+        "mean_risk_all_days": 100.0,
+        "alerts_all_days": 1,
+        "novelty_fires_all_days": 0
+      },
+      "impossible_travel": {
+        "incidents": 15,
+        "mean_risk_causal": 99.7993986332574,
+        "alerts_causal": 12,
+        "novelty_fires_causal": 15,
+        "mean_risk_train_only": 99.79889749430525,
+        "alerts_train_only": 12,
+        "novelty_fires_train_only": 15,
+        "mean_risk_all_days": 99.51158390280942,
+        "alerts_all_days": 8,
+        "novelty_fires_all_days": 4
+      },
+      "lateral_movement": {
+        "incidents": 5,
+        "mean_risk_causal": 97.91874259681093,
+        "alerts_causal": 0,
+        "novelty_fires_causal": 5,
+        "mean_risk_train_only": 98.59257403189066,
+        "alerts_train_only": 0,
+        "novelty_fires_train_only": 5,
+        "mean_risk_all_days": 98.6612209567198,
+        "alerts_all_days": 2,
+        "novelty_fires_all_days": 0
+      },
+      "device_spoofing": {
+        "incidents": 5,
+        "mean_risk_causal": 98.92663325740318,
+        "alerts_causal": 0,
+        "novelty_fires_causal": 5,
+        "mean_risk_train_only": 99.7993986332574,
+        "alerts_train_only": 4,
+        "novelty_fires_train_only": 5,
+        "mean_risk_all_days": 97.65293849658313,
+        "alerts_all_days": 0,
+        "novelty_fires_all_days": 0
+      },
+      "low_slow_exfil": {
+        "incidents": 5,
+        "mean_risk_causal": 93.84448291571755,
+        "alerts_causal": 0,
+        "novelty_fires_causal": 5,
+        "mean_risk_train_only": 96.25656492027335,
+        "alerts_train_only": 0,
+        "novelty_fires_train_only": 5,
+        "mean_risk_all_days": 99.18952164009112,
+        "alerts_all_days": 2,
+        "novelty_fires_all_days": 0
+      }
+    },
+    "incidents": [
+      {
+        "incident": "LS003",
+        "type": "low_slow_exfil",
+        "event_id": 65916,
+        "risk_causal_state": 87.50337129840547,
+        "risk_train_only_state": 92.92018223234624,
+        "risk_all_days_state": 100.0,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 11,
+        "features_changed_train_vs_all_days": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "is_off_hours_for_entity",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.009433962264150943,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.009433962264150943,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.005,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "LS002",
+        "type": "low_slow_exfil",
+        "event_id": 65918,
+        "risk_causal_state": 92.76833712984055,
+        "risk_train_only_state": 95.55416856492027,
+        "risk_all_days_state": 98.51740318906606,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 12,
+        "features_changed_train_vs_all_days": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "is_off_hours_for_entity",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.008771929824561403,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.008771929824561403,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.005263157894736842,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "LS001",
+        "type": "low_slow_exfil",
+        "event_id": 66142,
+        "risk_causal_state": 97.77170842824601,
+        "risk_train_only_state": 98.04683371298405,
+        "risk_all_days_state": 98.97895216400912,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 12,
+        "features_changed_train_vs_all_days": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "is_off_hours_for_entity",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.008130081300813009,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.008130081300813009,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.004975124378109453,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "LS004",
+        "type": "low_slow_exfil",
+        "event_id": 68371,
+        "risk_causal_state": 94.55439635535308,
+        "risk_train_only_state": 97.961138952164,
+        "risk_all_days_state": 98.45125284738042,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 13,
+        "features_changed_train_vs_all_days": [
+          "is_new_resource",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "is_off_hours_for_entity",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.010309278350515464,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.010526315789473684,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006211180124223602,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "LS000",
+        "type": "low_slow_exfil",
+        "event_id": 68404,
+        "risk_causal_state": 96.6246013667426,
+        "risk_train_only_state": 96.80050113895216,
+        "risk_all_days_state": 100.0,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 11,
+        "features_changed_train_vs_all_days": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "is_off_hours_for_entity",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.009174311926605505,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.009433962264150943,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.005,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "LM004",
+        "type": "lateral_movement",
+        "event_id": 69088,
+        "risk_causal_state": 97.81079726651481,
+        "risk_train_only_state": 98.98045558086561,
+        "risk_all_days_state": 98.39412300683371,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 8,
+        "features_changed_train_vs_all_days": [
+          "is_new_resource",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_novelty",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0011614401858304297,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0012285012285012285,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0008090614886731392,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT011",
+        "type": "impossible_travel",
+        "event_id": 71039,
+        "risk_causal_state": 98.99699316628701,
+        "risk_train_only_state": 98.99248291571755,
+        "risk_all_days_state": 98.93234624145786,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 10,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "offhours_count_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.009433962264150943,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.010416666666666666,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006578947368421052,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT005",
+        "type": "impossible_travel",
+        "event_id": 75309,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 98.9984965831435,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 12,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.010309278350515464,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.011904761904761904,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.007633587786259542,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        }
+      },
+      {
+        "incident": "IT003",
+        "type": "impossible_travel",
+        "event_id": 76116,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 7,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0016286644951140066,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.001876172607879925,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0013003901170351106,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "BF002",
+        "type": "brute_force",
+        "event_id": 78815,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 8,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0008038585209003215,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0009560229445506692,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0006067961165048543,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "BF000",
+        "type": "brute_force",
+        "event_id": 80988,
+        "risk_causal_state": 98.99097949886105,
+        "risk_train_only_state": 98.98045558086561,
+        "risk_all_days_state": 98.94738041002277,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 10,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "sensitive_bytes_proxy_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0125,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.015873015873015872,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.004405286343612335,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT004",
+        "type": "impossible_travel",
+        "event_id": 82455,
+        "risk_causal_state": 98.99699316628701,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 98.9984965831435,
+        "alert_causal": false,
+        "alert_train_only": true,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 11,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006896551724137931,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.00909090909090909,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006060606060606061,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        }
+      },
+      {
+        "incident": "IT008",
+        "type": "impossible_travel",
+        "event_id": 82904,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 7,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0021691973969631237,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.00273224043715847,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0018050541516245488,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "DS004",
+        "type": "device_spoofing",
+        "event_id": 83482,
+        "risk_causal_state": 98.84214123006834,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 97.11922551252847,
+        "alert_causal": false,
+        "alert_train_only": true,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 7,
+        "features_changed_train_vs_all_days": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_mismatch",
+          "fingerprint_novelty",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.07692307692307693,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "BF001",
+        "type": "brute_force",
+        "event_id": 86231,
+        "risk_causal_state": 98.99699316628701,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": false,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 13,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "is_off_hours_for_entity",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.009615384615384616,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.013333333333333334,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.004424778761061947,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "DS000",
+        "type": "device_spoofing",
+        "event_id": 87966,
+        "risk_causal_state": 98.86018223234625,
+        "risk_train_only_state": 98.99699316628701,
+        "risk_all_days_state": 97.74765375854214,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 8,
+        "features_changed_train_vs_all_days": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_mismatch",
+          "fingerprint_novelty",
+          "offhours_count_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.14285714285714285,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT013",
+        "type": "impossible_travel",
+        "event_id": 88365,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 12,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.007751937984496124,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.010526315789473684,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.007142857142857143,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "LM001",
+        "type": "lateral_movement",
+        "event_id": 88670,
+        "risk_causal_state": 96.60806378132118,
+        "risk_train_only_state": 97.2650569476082,
+        "risk_all_days_state": 95.91348519362187,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 13,
+        "features_changed_train_vs_all_days": [
+          "is_new_resource",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "is_off_hours_for_entity",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.009523809523809525,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.012987012987012988,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006172839506172839,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "LM003",
+        "type": "lateral_movement",
+        "event_id": 88711,
+        "risk_causal_state": 98.31293849658314,
+        "risk_train_only_state": 98.8120728929385,
+        "risk_all_days_state": 100.0,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 13,
+        "features_changed_train_vs_all_days": [
+          "is_new_resource",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "is_off_hours_for_entity",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.004694835680751174,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.005917159763313609,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0036231884057971015,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "DS001",
+        "type": "device_spoofing",
+        "event_id": 88744,
+        "risk_causal_state": 98.99699316628701,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 97.49658314350798,
+        "alert_causal": false,
+        "alert_train_only": true,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 7,
+        "features_changed_train_vs_all_days": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_mismatch",
+          "fingerprint_novelty",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.041666666666666664,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT012",
+        "type": "impossible_travel",
+        "event_id": 90549,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 11,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0072992700729927005,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.009708737864077669,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006711409395973154,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "BF004",
+        "type": "brute_force",
+        "event_id": 90742,
+        "risk_causal_state": 98.99548974943052,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": false,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 8,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0005633802816901409,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.00076103500761035,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0004710315591144607,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "BF003",
+        "type": "brute_force",
+        "event_id": 90804,
+        "risk_causal_state": 98.89626423690206,
+        "risk_train_only_state": 98.99248291571755,
+        "risk_all_days_state": 98.97895216400912,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 10,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "offhours_count_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.008547008547008548,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.011111111111111112,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.00398406374501992,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT014",
+        "type": "impossible_travel",
+        "event_id": 91709,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 13,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "is_new_resource",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0056179775280898875,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.007462686567164179,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.005235602094240838,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        }
+      },
+      {
+        "incident": "IT009",
+        "type": "impossible_travel",
+        "event_id": 92436,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 98.99699316628701,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 11,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006493506493506494,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.00909090909090909,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006060606060606061,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        }
+      },
+      {
+        "incident": "DS003",
+        "type": "device_spoofing",
+        "event_id": 92934,
+        "risk_causal_state": 98.99699316628701,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 98.64519362186788,
+        "alert_causal": false,
+        "alert_train_only": true,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 6,
+        "features_changed_train_vs_all_days": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "fingerprint_mismatch",
+          "fingerprint_novelty",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0625,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT007",
+        "type": "impossible_travel",
+        "event_id": 93894,
+        "risk_causal_state": 98.99699316628701,
+        "risk_train_only_state": 98.99248291571755,
+        "risk_all_days_state": 98.91881548974943,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 10,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "sensitive_bytes_proxy_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006756756756756757,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.009615384615384616,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.006211180124223602,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "CS000",
+        "type": "credential_stuffing",
+        "event_id": 95107,
+        "risk_causal_state": 98.99248291571755,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": false,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 8,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0006238303181534623,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0008928571428571428,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0005952380952380953,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "DS002",
+        "type": "device_spoofing",
+        "event_id": 95902,
+        "risk_causal_state": 98.93685649202733,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 97.25603644646925,
+        "alert_causal": false,
+        "alert_train_only": true,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 7,
+        "features_changed_train_vs_all_days": [
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_mismatch",
+          "fingerprint_novelty",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 1.0,
+          "fingerprint_novelty": 1.0,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.045454545454545456,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT000",
+        "type": "impossible_travel",
+        "event_id": 96327,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 98.9984965831435,
+        "risk_all_days_state": 98.95940774487471,
+        "alert_causal": true,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 10,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "sensitive_bytes_proxy_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.005235602094240838,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.007692307692307693,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.005050505050505051,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "LM002",
+        "type": "lateral_movement",
+        "event_id": 96634,
+        "risk_causal_state": 98.39261958997722,
+        "risk_train_only_state": 98.92633257403189,
+        "risk_all_days_state": 100.0,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 9,
+        "features_changed_train_vs_all_days": [
+          "is_new_resource",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_novelty",
+          "sensitive_bytes_proxy_7d",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0006422607578676942,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0009337068160597573,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0006169031462060457,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT002",
+        "type": "impossible_travel",
+        "event_id": 98049,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 7,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.001736111111111111,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0025252525252525255,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.001718213058419244,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT006",
+        "type": "impossible_travel",
+        "event_id": 98567,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 8,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0018248175182481751,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.00273224043715847,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0018050541516245488,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "LM000",
+        "type": "lateral_movement",
+        "event_id": 98611,
+        "risk_causal_state": 98.46929384965831,
+        "risk_train_only_state": 98.97895216400912,
+        "risk_all_days_state": 98.9984965831435,
+        "alert_causal": false,
+        "alert_train_only": false,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 9,
+        "features_changed_train_vs_all_days": [
+          "is_new_resource",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "session_duration_zscore",
+          "fingerprint_novelty",
+          "sensitive_bytes_proxy_7d",
+          "cmd_bigram_surprise",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0006142506142506142,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0009033423667570009,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 1.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0006016847172081829,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT010",
+        "type": "impossible_travel",
+        "event_id": 98807,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 100.0,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": true,
+        "n_features_changed_train_vs_all_days": 7,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0008481764206955047,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0012642225031605564,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.0008424599831508003,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      },
+      {
+        "incident": "IT001",
+        "type": "impossible_travel",
+        "event_id": 98816,
+        "risk_causal_state": 100.0,
+        "risk_train_only_state": 100.0,
+        "risk_all_days_state": 98.8692027334852,
+        "alert_causal": true,
+        "alert_train_only": true,
+        "alert_all_days": false,
+        "n_features_changed_train_vs_all_days": 13,
+        "features_changed_train_vs_all_days": [
+          "geo_velocity_kmh",
+          "resource_novelty_ratio",
+          "peer_resource_deviation",
+          "hour_zscore",
+          "is_off_hours_for_entity",
+          "session_duration_zscore",
+          "interevent_gap_zscore",
+          "fingerprint_novelty",
+          "is_new_ip_for_entity",
+          "offhours_count_7d",
+          "sensitive_bytes_proxy_7d",
+          "sensitive_offhours_7d",
+          "entity_event_count"
+        ],
+        "novelty_features_causal": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.010101010101010102,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_train_only": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.015384615384615385,
+          "is_new_ip_for_entity": 1.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 1.0
+        },
+        "novelty_features_all_days": {
+          "fingerprint_mismatch": 0.0,
+          "fingerprint_novelty": 0.01,
+          "is_new_ip_for_entity": 0.0,
+          "is_new_resource": 0.0,
+          "is_off_hours_for_entity": 0.0
+        }
+      }
+    ],
+    "state_content_difference": {
+      "entities_with_more_known_fingerprints": 5,
+      "entities_with_more_known_ips": 158,
+      "entities_with_more_known_resources": 41,
+      "extra_fingerprints": 5,
+      "extra_ips": 784,
+      "extra_resources": 123,
+      "extra_events_in_entity_counters": 33498,
+      "entries_that_exist_only_because_of_attack_events": {
+        "fingerprints": 5,
+        "ips": 67,
+        "resources": 91
+      },
+      "timespans": {
+        "train_only_state_events": 65850,
+        "api_state_events": 99348
+      }
+    }
+  },
+  "code_facts": {
+    "api.py_entity_type": "hard-coded 'user' in _canonical_event",
+    "api.py_session_duration": "reads sessionDurationMinutes into session_duration (training data is in seconds)",
+    "api.py_commands": "reads commandSequence verbatim; features.py splits on '|'",
+    "api.py_warmup": "StreamingScorer.warmup(load_events(events.csv)) = ALL events (all 30 days incl. attacks)",
+    "run_realtime.py_warmup_replay_path": "warm = events[ts < cut] (TRAIN window only)",
+    "run_realtime.py_warmup_live_source_path": "scorer.warmup(events) = ALL events",
+    "platform_simulator_payload": "sessionDurationMinutes / space-separated commandSequence (frontend/src/pages/Simulator.tsx)"
+  }
+}

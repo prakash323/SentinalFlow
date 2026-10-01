@@ -1,0 +1,3399 @@
+{
+  "phase": "ML-4",
+  "purpose": "serving-parity audit: effect of each api.py contract mismatch, NOT compensated",
+  "mismatches": {
+    "V0_canonical": "training representation (control)",
+    "V1_entity_type_forced_user": "P1 entity_type := 'user' for every live event",
+    "V2_duration_minutes_as_seconds": "P2 session duration delivered in minutes into the seconds field (seconds / 60)",
+    "V3_command_space_separated": "P3 command separator '|' -> ' '",
+    "V4a_utc_timestamps_live_only": "P4 live timestamps shifted -5.5 h (UTC) while warm-up stays naive local (api behaviour)",
+    "V4b_utc_all_consistent": "P4 hour-of-day semantics only: EVERY timestamp shifted -5.5 h (state and live consistent)",
+    "V5a_missing_geo": "P5 geo_location empty",
+    "V5b_missing_fingerprint": "P5 device_fingerprint empty",
+    "V5c_auth_defaults": "P5 auth_success := 1 and auth_method := 'password'",
+    "V6_unseen_entity_namespace": "P6 live entity ids not known to profiler / warm-up",
+    "V7_duplicate_delivery_2pct": "P7 2% of live events delivered twice (immediately)",
+    "V8_out_of_order_5pct": "P8 5% of live events swapped with their successor in delivery order",
+    "V9_api_contract_definite": "P1+P2+P3+P4a combined (the mismatches that are certain for every event)",
+    "V10_fresh_platform": "V9 + P6 unseen entity namespace (a new platform deployment)"
+  },
+  "datasets": {
+    "orig42": {
+      "dataset": "orig42",
+      "variants": {
+        "V0_canonical": {
+          "description": "training representation (control)",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 0,
+          "top_changed_features": [
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "geo_velocity_kmh",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "distance_from_home_km",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_new_city",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 0.0,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 0.0,
+              "max_abs_score_change": 0.0,
+              "spearman_vs_canonical": 0.9999999999999998,
+              "pr_auc": 0.8347055090146712,
+              "roc_auc": 0.9826497269204332,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.022090871096781897,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9391891891891891,
+              "recall": 0.6807051909892262,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0013855959602180005,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7893242475865985,
+              "incidents_detected": 18,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9935483870967742,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.7333333333333333,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 11,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.06451612903225806,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 49.733491097814834,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.0,
+              "max_abs_score_change": 0.0,
+              "spearman_vs_canonical": 1.0,
+              "pr_auc": 0.930206513766221,
+              "roc_auc": 0.995385508563176,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.027434473699922385,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.9162132752992383,
+              "recall": 0.8246816846229187,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.0023709086430396898,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.868041237113402,
+              "incidents_detected": 31,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9967741935483871,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 15,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.6838709677419355,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.4787234042553192,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.47359418602756387,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V1_entity_type_forced_user": {
+          "description": "P1 entity_type := 'user' for every live event",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 1,
+          "top_changed_features": [
+            {
+              "feature": "peer_resource_deviation",
+              "mean_abs_change": 0.42566791674688365,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "geo_velocity_kmh",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "distance_from_home_km",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 0.012161940478482389,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 4.182249116698363,
+              "max_abs_score_change": 57.25763097949886,
+              "spearman_vs_canonical": 0.9698838129385181,
+              "pr_auc": 0.8250893721568658,
+              "roc_auc": 0.9814990595167521,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.02173264075467192,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9423076923076923,
+              "recall": 0.6718903036238981,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.001293222896203467,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7844482561463694,
+              "incidents_detected": 18,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9935483870967742,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.7333333333333333,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 11,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.0064516129032258064,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 52.48859686790793,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.10552934072878158,
+              "max_abs_score_change": 0.5832862566438877,
+              "spearman_vs_canonical": 0.9021114355426323,
+              "pr_auc": 0.929236398436808,
+              "roc_auc": 0.9952374794463901,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.02761358887097737,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.9113513513513514,
+              "recall": 0.8256611165523996,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.0025248637497305784,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.86639260020555,
+              "incidents_detected": 31,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9967741935483871,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9833333333333333,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 15,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.6838709677419355,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.4787234042553192,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.5800279639103801,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V2_duration_minutes_as_seconds": {
+          "description": "P2 session duration delivered in minutes into the seconds field (seconds / 60)",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 2,
+          "top_changed_features": [
+            {
+              "feature": "sensitive_bytes_proxy_7d",
+              "mean_abs_change": 530.1513444086214,
+              "share_events_changed": 0.13433637829124126
+            },
+            {
+              "feature": "session_duration_zscore",
+              "mean_abs_change": 1.6161630472267474,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "geo_velocity_kmh",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 15.193357355881375,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 4.15630410192782,
+              "max_abs_score_change": 85.28733485193622,
+              "spearman_vs_canonical": 0.9368608458709327,
+              "pr_auc": 0.826115022969076,
+              "roc_auc": 0.9811706420609514,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.021643083169144428,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9420689655172414,
+              "recall": 0.6689520078354554,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.001293222896203467,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7823596792668958,
+              "incidents_detected": 15,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9935483870967742,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.5333333333333333,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 8,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.0064516129032258064,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 48.2453154364682,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.10392951670683044,
+              "max_abs_score_change": 0.773222475322703,
+              "spearman_vs_canonical": 0.8355640871462254,
+              "pr_auc": 0.919521553909861,
+              "roc_auc": 0.9945804485096769,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.026509045316138277,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.9166666666666666,
+              "recall": 0.7972575905974535,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.0022785355790251563,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.8528025144054479,
+              "incidents_detected": 28,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9951612903225806,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.95,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.8,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 12,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.5870967741935483,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.39361702127659576,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.5574100327436291,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V3_command_space_separated": {
+          "description": "P3 command separator '|' -> ' '",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 3,
+          "top_changed_features": [
+            {
+              "feature": "cmd_len",
+              "mean_abs_change": 0.3629768941429339,
+              "share_events_changed": 0.12212669413099289
+            },
+            {
+              "feature": "cmd_bigram_surprise",
+              "mean_abs_change": 0.2829630165618561,
+              "share_events_changed": 0.12084303540509882
+            },
+            {
+              "feature": "cmd_priv_count",
+              "mean_abs_change": 0.10242402531494417,
+              "share_events_changed": 0.07555674965669593
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 0.021381826743420977,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 0.9368311370984511,
+              "max_abs_score_change": 80.65831435079727,
+              "spearman_vs_canonical": 0.9894774018283324,
+              "pr_auc": 0.8183291376704424,
+              "roc_auc": 0.980927751869122,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.02179234581169025,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9410958904109589,
+              "recall": 0.672869735553379,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0013240139175416448,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7846944603083951,
+              "incidents_detected": 18,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9935483870967742,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.7333333333333333,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 11,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.012903225806451613,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 49.064775490495016,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.012705113776667635,
+              "max_abs_score_change": 0.5121852695520122,
+              "spearman_vs_canonical": 0.983062852798886,
+              "pr_auc": 0.9148428074823465,
+              "roc_auc": 0.9946076206058823,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.025016418890680042,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.9164677804295943,
+              "recall": 0.752203721841332,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.002155371493672445,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.8262506724045185,
+              "incidents_detected": 31,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9967741935483871,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 15,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.3870967741935484,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.18085106382978725,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.4827914064473684,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V4a_utc_timestamps_live_only": {
+          "description": "P4 live timestamps shifted -5.5 h (UTC) while warm-up stays naive local (api behaviour)",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 19,
+          "top_changed_features": [
+            {
+              "feature": "hour_zscore",
+              "mean_abs_change": 1.13315601721149,
+              "share_events_changed": 0.9996119171293809
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.8784745672300971,
+              "share_events_changed": 0.9986267836885784
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.8012478934303413,
+              "share_events_changed": 0.9979700280613768
+            },
+            {
+              "feature": "sensitive_bytes_proxy_7d",
+              "mean_abs_change": 42.45413158994567,
+              "share_events_changed": 0.039136664875514954
+            },
+            {
+              "feature": "interevent_gap_zscore",
+              "mean_abs_change": 0.038627591126694484,
+              "share_events_changed": 0.9999104424144725
+            },
+            {
+              "feature": "offhours_count_7d",
+              "mean_abs_change": 0.9936115588990387,
+              "share_events_changed": 0.21231118275717953
+            }
+          ],
+          "mean_abs_feature_change_all": 1.545877648927842,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 8.51208176573558,
+              "max_abs_score_change": 84.07858769931663,
+              "spearman_vs_canonical": 0.8731431383138273,
+              "pr_auc": 0.8139618425115052,
+              "roc_auc": 0.9744153302252597,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.02268792166696519,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9144736842105263,
+              "recall": 0.6807051909892262,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0020014163869815564,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7804604154969119,
+              "incidents_detected": 17,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9951612903225806,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.6666666666666666,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 10,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.06451612903225806,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 53.56800566644967,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.1004946894006478,
+              "max_abs_score_change": 0.8581898253606681,
+              "spearman_vs_canonical": 0.8426119694544107,
+              "pr_auc": 0.8559179470423175,
+              "roc_auc": 0.9883750021902037,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.04456982506418294,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.5820495646349632,
+              "recall": 0.8511263467189031,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.01921359731502294,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.6913285600636436,
+              "incidents_detected": 31,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9967741935483871,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 15,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.7612903225806451,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.6382978723404256,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.5337190918534354,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V4b_utc_all_consistent": {
+          "description": "P4 hour-of-day semantics only: EVERY timestamp shifted -5.5 h (state and live consistent)",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 7,
+          "top_changed_features": [
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.8784745672300971,
+              "share_events_changed": 0.9986267836885784
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.8012478934303413,
+              "share_events_changed": 0.9979700280613768
+            },
+            {
+              "feature": "hour_zscore",
+              "mean_abs_change": 0.40534797562952213,
+              "share_events_changed": 0.9994029494298167
+            },
+            {
+              "feature": "sensitive_offhours_7d",
+              "mean_abs_change": 1.2400740342707026,
+              "share_events_changed": 0.14063526180667502
+            },
+            {
+              "feature": "offhours_count_7d",
+              "mean_abs_change": 0.158934861782793,
+              "share_events_changed": 0.12349991044241447
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.04089796405755568,
+              "share_events_changed": 0.04089796405755568
+            }
+          ],
+          "mean_abs_feature_change_all": 0.10086375261196073,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 4.036674330402345,
+              "max_abs_score_change": 78.41371298405467,
+              "spearman_vs_canonical": 0.9685989995142159,
+              "pr_auc": 0.8276148924110579,
+              "roc_auc": 0.9793369628538746,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.022359543853364378,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9305740987983978,
+              "recall": 0.682664054848188,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.001601133109585245,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7875706214689265,
+              "incidents_detected": 19,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9951612903225806,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.7333333333333333,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 11,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.07096774193548387,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 2,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 51.186336885766806,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.04106826754194189,
+              "max_abs_score_change": 0.6872847380410022,
+              "spearman_vs_canonical": 0.9687268656330098,
+              "pr_auc": 0.913827253046895,
+              "roc_auc": 0.9943118639494049,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.027076243357812408,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.9117971334068358,
+              "recall": 0.8099902056807052,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.002463281707054223,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.8578838174273858,
+              "incidents_detected": 29,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9983870967741936,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.95,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 15,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.7806451612903226,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.1595744680851064,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.4828534612457912,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V5a_missing_geo": {
+          "description": "P5 geo_location empty",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 2,
+          "top_changed_features": [
+            {
+              "feature": "distance_from_home_km",
+              "mean_abs_change": 8446.622130971517,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "geo_velocity_kmh",
+              "mean_abs_change": 1128.2431016812232,
+              "share_events_changed": 0.061167830915278526
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_new_city",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 273.56757807579254,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 25.99714616219566,
+              "max_abs_score_change": 94.41157175398634,
+              "spearman_vs_canonical": 0.7201688967344387,
+              "pr_auc": 0.815691295461585,
+              "roc_auc": 0.9593683522041682,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.02406113797838677,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9454094292803971,
+              "recall": 0.7463271302644466,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0013548049388798227,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.8341543513957308,
+              "incidents_detected": 16,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9903225806451613,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9166666666666666,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.5483870967741935,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.05194805194805195,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 2,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0425531914893617,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 76.05681241385763,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.45593851426345655,
+              "max_abs_score_change": 0.9030356871678056,
+              "spearman_vs_canonical": 0.8597692981463054,
+              "pr_auc": 0.930222642434787,
+              "roc_auc": 0.9951784909667256,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.042241327840468086,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.6593639575971731,
+              "recall": 0.9138099902056807,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.014841272285001693,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.7660098522167489,
+              "incidents_detected": 21,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9919354838709677,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.13333333333333333,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 2,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.9935483870967742,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.2597402597402597,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.9361702127659575,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.9446076926368392,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V5b_missing_fingerprint": {
+          "description": "P5 device_fingerprint empty",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 2,
+          "top_changed_features": [
+            {
+              "feature": "fingerprint_novelty",
+              "mean_abs_change": 0.028223717847353644,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "fingerprint_mismatch",
+              "mean_abs_change": 0.006119768344378769,
+              "share_events_changed": 0.006119768344378769
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "geo_velocity_kmh",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 0.0009812424626209262,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 2.0232600470758735,
+              "max_abs_score_change": 87.67175398633258,
+              "spearman_vs_canonical": 0.979054334240945,
+              "pr_auc": 0.7969892092248102,
+              "roc_auc": 0.9718537193065766,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.02558361693235417,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.8168028004667445,
+              "recall": 0.6856023506366308,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0048341903500939126,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7454739084132056,
+              "incidents_detected": 22,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9935483870967742,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.7333333333333333,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 11,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.07096774193548387,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 2,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0425531914893617,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 51.76183680188844,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.023466042442815405,
+              "max_abs_score_change": 0.7966697038724373,
+              "spearman_vs_canonical": 0.955926363868425,
+              "pr_auc": 0.9006610802171824,
+              "roc_auc": 0.9891571574633831,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.02961370828109141,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.8538306451612904,
+              "recall": 0.8295788442703232,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.004464698094035779,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.8415300546448088,
+              "incidents_detected": 31,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9967741935483871,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 15,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.6903225806451613,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.5212765957446809,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.4968866918969981,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V5c_auth_defaults": {
+          "description": "P5 auth_success := 1 and auth_method := 'password'",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 4,
+          "top_changed_features": [
+            {
+              "feature": "auth_method_unusual",
+              "mean_abs_change": 0.09302047883455729,
+              "share_events_changed": 0.09302047883455729
+            },
+            {
+              "feature": "ip_failure_rate_1h",
+              "mean_abs_change": 0.031290362361527886,
+              "share_events_changed": 0.04418174219356379
+            },
+            {
+              "feature": "failed_auth_5min_ip",
+              "mean_abs_change": 0.6073198399904471,
+              "share_events_changed": 0.021822198340199415
+            },
+            {
+              "feature": "failed_auth_5min_entity",
+              "mean_abs_change": 0.5973490954683862,
+              "share_events_changed": 0.020478834557287003
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 0.03797085076156911,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 5.710025480051098,
+              "max_abs_score_change": 97.69653758542141,
+              "spearman_vs_canonical": 0.8350510474368203,
+              "pr_auc": 0.4179181145622576,
+              "roc_auc": 0.8988063789707639,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.005880948116305451,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.8223350253807107,
+              "recall": 0.15866797257590598,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0010776857468362225,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.2660098522167488,
+              "incidents_detected": 15,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.16774193548387098,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 2,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.6166666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.7333333333333333,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 11,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.06451612903225806,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 51.45694451191056,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.03850813192396758,
+              "max_abs_score_change": 0.9206362946089598,
+              "spearman_vs_canonical": 0.8852761521855681,
+              "pr_auc": 0.9213952323277982,
+              "roc_auc": 0.995366659994776,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.026329930145083287,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.9172335600907029,
+              "recall": 0.7923604309500489,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.0022477445576869785,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.8502364687335785,
+              "incidents_detected": 31,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9596774193548387,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.8,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 15,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.6838709677419355,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.4787234042553192,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.4936546583090754,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V6_unseen_entity_namespace": {
+          "description": "P6 live entity ids not known to profiler / warm-up",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 21,
+          "top_changed_features": [
+            {
+              "feature": "entity_event_count",
+              "mean_abs_change": 797.6878022568511,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "sensitive_bytes_proxy_7d",
+              "mean_abs_change": 250.79867454773418,
+              "share_events_changed": 0.07624335781240671
+            },
+            {
+              "feature": "offhours_count_7d",
+              "mean_abs_change": 12.831422771508747,
+              "share_events_changed": 0.924801480685414
+            },
+            {
+              "feature": "distance_from_home_km",
+              "mean_abs_change": 51.98430350954736,
+              "share_events_changed": 0.05477938981431727
+            },
+            {
+              "feature": "hour_zscore",
+              "mean_abs_change": 0.6755852895203518,
+              "share_events_changed": 0.999820884828945
+            },
+            {
+              "feature": "interevent_gap_zscore",
+              "mean_abs_change": 0.16308501094532007,
+              "share_events_changed": 0.9999104424144725
+            }
+          ],
+          "mean_abs_feature_change_all": 31.902979618243858,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 13.44715316087956,
+              "max_abs_score_change": 88.69708428246014,
+              "spearman_vs_canonical": 0.7837369218574262,
+              "pr_auc": 0.8261441281086742,
+              "roc_auc": 0.9750182280735282,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.02191175592572691,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.946866485013624,
+              "recall": 0.6807051909892262,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0012008498321889338,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.792022792022792,
+              "incidents_detected": 19,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9935483870967742,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.8,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 12,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.05806451612903226,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 50.27882906362552,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.1507276513250057,
+              "max_abs_score_change": 0.8906469248291571,
+              "spearman_vs_canonical": 0.7573290277312884,
+              "pr_auc": 0.8769326101521729,
+              "roc_auc": 0.9849799226557289,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.030300316436802196,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.812807881773399,
+              "recall": 0.8080313418217434,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.005850294054253779,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.8104125736738702,
+              "incidents_detected": 29,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9983870967741936,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.9333333333333333,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 14,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.6838709677419355,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.2978723404255319,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.5900027091950502,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V7_duplicate_delivery_2pct": {
+          "description": "P7 2% of live events delivered twice (immediately)",
+          "events": 33498,
+          "delivered": 34179,
+          "features_changed": 19,
+          "top_changed_features": [
+            {
+              "feature": "entity_event_count",
+              "mean_abs_change": 4.198071526658308,
+              "share_events_changed": 0.7911218580213744
+            },
+            {
+              "feature": "resource_novelty_ratio",
+              "mean_abs_change": 4.582353503827827e-05,
+              "share_events_changed": 0.9995223595438534
+            },
+            {
+              "feature": "peer_resource_deviation",
+              "mean_abs_change": 6.092583201087762e-05,
+              "share_events_changed": 0.996387844050391
+            },
+            {
+              "feature": "events_last_24h",
+              "mean_abs_change": 0.7958684100543316,
+              "share_events_changed": 0.494387724640277
+            },
+            {
+              "feature": "hour_zscore",
+              "mean_abs_change": 0.016361437215556062,
+              "share_events_changed": 0.7911218580213744
+            },
+            {
+              "feature": "interevent_gap_zscore",
+              "mean_abs_change": 0.003276322973349457,
+              "share_events_changed": 0.7910621529643561
+            }
+          ],
+          "mean_abs_feature_change_all": 0.5096966752930419,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 1.0866480152964628,
+              "max_abs_score_change": 59.74127562642369,
+              "spearman_vs_canonical": 0.9955291693374625,
+              "pr_auc": 0.8330932434720293,
+              "roc_auc": 0.9819143613334497,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.022120723625291064,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9379217273954116,
+              "recall": 0.6807051909892262,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0014163869815561783,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7888762769580022,
+              "incidents_detected": 18,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9935483870967742,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.7333333333333333,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 11,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.06451612903225806,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 49.92632292081003,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.008249557935507024,
+              "max_abs_score_change": 0.45151708428246007,
+              "spearman_vs_canonical": 0.9953430432717986,
+              "pr_auc": 0.9304231643810829,
+              "roc_auc": 0.9954463366631164,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.027434473699922385,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.9151251360174102,
+              "recall": 0.8237022526934378,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.0024016996643778676,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.8670103092783503,
+              "incidents_detected": 31,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9967741935483871,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 15,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.6903225806451613,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.4574468085106383,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.47905749535562375,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V8_out_of_order_5pct": {
+          "description": "P8 5% of live events swapped with their successor in delivery order",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 17,
+          "top_changed_features": [
+            {
+              "feature": "interevent_gap_zscore",
+              "mean_abs_change": 0.0014325586135985836,
+              "share_events_changed": 0.17006985491671145
+            },
+            {
+              "feature": "resource_novelty_ratio",
+              "mean_abs_change": 3.6832540868199777e-07,
+              "share_events_changed": 0.09917009970744523
+            },
+            {
+              "feature": "peer_resource_deviation",
+              "mean_abs_change": 3.3950596251598713e-07,
+              "share_events_changed": 0.041733834855812287
+            },
+            {
+              "feature": "geo_velocity_kmh",
+              "mean_abs_change": 20.35333716185915,
+              "share_events_changed": 0.0005373455131649651
+            },
+            {
+              "feature": "events_last_1h",
+              "mean_abs_change": 0.0022687921666965194,
+              "share_events_changed": 0.0022687921666965194
+            },
+            {
+              "feature": "events_last_24h",
+              "mean_abs_change": 0.0022687921666965194,
+              "share_events_changed": 0.0022687921666965194
+            }
+          ],
+          "mean_abs_feature_change_all": 0.5818331955900558,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 0.01958369662976513,
+              "max_abs_score_change": 57.188473804100234,
+              "spearman_vs_canonical": 0.9996645745952376,
+              "pr_auc": 0.83476822983502,
+              "roc_auc": 0.982650752282554,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.022061018568272733,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9404600811907984,
+              "recall": 0.6807051909892262,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0013548049388798227,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7897727272727273,
+              "incidents_detected": 18,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9935483870967742,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.7333333333333333,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 11,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.06451612903225806,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 49.735102859496166,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.00015790695558474163,
+              "max_abs_score_change": 0.576422171602126,
+              "spearman_vs_canonical": 0.9997511664014753,
+              "pr_auc": 0.9302398464883613,
+              "roc_auc": 0.9953868807389554,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.027374768642904054,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.9171210468920392,
+              "recall": 0.8237022526934378,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.002340117621701512,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.8679050567595459,
+              "incidents_detected": 31,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9967741935483871,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.95,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 15,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.6838709677419355,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.4787234042553192,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.47362437951989217,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V9_api_contract_definite": {
+          "description": "P1+P2+P3+P4a combined (the mismatches that are certain for every event)",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 24,
+          "top_changed_features": [
+            {
+              "feature": "sensitive_bytes_proxy_7d",
+              "mean_abs_change": 498.1679830139112,
+              "share_events_changed": 0.1383664696399785
+            },
+            {
+              "feature": "session_duration_zscore",
+              "mean_abs_change": 1.6161630472267474,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "hour_zscore",
+              "mean_abs_change": 1.13315601721149,
+              "share_events_changed": 0.9996119171293809
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.8784745672300971,
+              "share_events_changed": 0.9986267836885784
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.8012478934303413,
+              "share_events_changed": 0.9979700280613768
+            },
+            {
+              "feature": "peer_resource_deviation",
+              "mean_abs_change": 0.42566791674688365,
+              "share_events_changed": 1.0
+            }
+          ],
+          "mean_abs_feature_change_all": 14.645993258183815,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 12.124208137540869,
+              "max_abs_score_change": 84.08911161731207,
+              "spearman_vs_canonical": 0.7928073220638229,
+              "pr_auc": 0.7813168462803213,
+              "roc_auc": 0.9672429975834325,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.02185205086870858,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9316939890710383,
+              "recall": 0.6679725759059746,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0015395510669088894,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7780946948088991,
+              "incidents_detected": 13,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9951612903225806,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.4666666666666667,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 7,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 53.591944922334264,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.20742176794697972,
+              "max_abs_score_change": 0.8611328777524677,
+              "spearman_vs_canonical": 0.7086457712153593,
+              "pr_auc": 0.8357519449071038,
+              "roc_auc": 0.9839887141407117,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.029852528509164727,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.757,
+              "recall": 0.7414299706170421,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.007482218185177202,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.7491340920336467,
+              "incidents_detected": 28,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9967741935483871,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9666666666666667,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.8,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 12,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.23870967741935484,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.3404255319148936,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.6711215854148473,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        },
+        "V10_fresh_platform": {
+          "description": "V9 + P6 unseen entity namespace (a new platform deployment)",
+          "events": 33498,
+          "delivered": 33498,
+          "features_changed": 29,
+          "top_changed_features": [
+            {
+              "feature": "entity_event_count",
+              "mean_abs_change": 797.6878022568511,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "sensitive_bytes_proxy_7d",
+              "mean_abs_change": 780.9500189563556,
+              "share_events_changed": 0.1503970386291719
+            },
+            {
+              "feature": "offhours_count_7d",
+              "mean_abs_change": 12.645650486596214,
+              "share_events_changed": 0.9341751746372918
+            },
+            {
+              "feature": "distance_from_home_km",
+              "mean_abs_change": 51.98430350954736,
+              "share_events_changed": 0.05477938981431727
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.8784745672300971,
+              "share_events_changed": 0.9986267836885784
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.8012478934303413,
+              "share_events_changed": 0.9979700280613768
+            }
+          ],
+          "mean_abs_feature_change_all": 47.15106688225292,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 21.42693316610477,
+              "max_abs_score_change": 93.26446469248292,
+              "spearman_vs_canonical": 0.5798601499515623,
+              "pr_auc": 0.7764956631734635,
+              "roc_auc": 0.9509632025581457,
+              "canonical_pr_auc": 0.8347055090146712,
+              "alert_rate": 0.02140426294107111,
+              "canonical_alert_rate": 0.022090871096781897,
+              "precision": 0.9581589958158996,
+              "recall": 0.672869735553379,
+              "canonical_recall": 0.6807051909892262,
+              "false_positive_rate": 0.0009237306401453337,
+              "canonical_false_positive_rate": 0.0013855959602180005,
+              "f1": 0.7905638665132335,
+              "incidents_detected": 20,
+              "canonical_incidents_detected": 18,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9951612903225806,
+                  "canonical_event_detection_rate": 0.9935483870967742,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9333333333333333,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.8666666666666667,
+                  "canonical_event_detection_rate": 0.7333333333333333,
+                  "incidents": 15,
+                  "incidents_detected": 13,
+                  "canonical_incidents_detected": 11
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.0064516129032258064,
+                  "canonical_event_detection_rate": 0.06451612903225806,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 65.38401998028418,
+              "canonical_mean_score_on_normal_events": 49.733491097814834
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.38236965418169094,
+              "max_abs_score_change": 0.9493470007593013,
+              "spearman_vs_canonical": 0.5047791794862031,
+              "pr_auc": 0.8081080849690647,
+              "roc_auc": 0.9375088984091416,
+              "canonical_pr_auc": 0.930206513766221,
+              "alert_rate": 0.03218102573287957,
+              "canonical_alert_rate": 0.027434473699922385,
+              "precision": 0.7142857142857143,
+              "recall": 0.7541625857002938,
+              "canonical_recall": 0.8246816846229187,
+              "false_positive_rate": 0.009483634572158759,
+              "canonical_false_positive_rate": 0.0023709086430396898,
+              "f1": 0.7336827060505002,
+              "incidents_detected": 28,
+              "canonical_incidents_detected": 31,
+              "incidents": 36,
+              "per_attack": {
+                "brute_force": {
+                  "events": 620,
+                  "event_detection_rate": 0.9983870967741936,
+                  "canonical_event_detection_rate": 0.9967741935483871,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "credential_stuffing": {
+                  "events": 60,
+                  "event_detection_rate": 0.9833333333333333,
+                  "canonical_event_detection_rate": 0.9666666666666667,
+                  "incidents": 1,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "impossible_travel": {
+                  "events": 15,
+                  "event_detection_rate": 0.9333333333333333,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 15,
+                  "incidents_detected": 14,
+                  "canonical_incidents_detected": 15
+                },
+                "lateral_movement": {
+                  "events": 155,
+                  "event_detection_rate": 0.45161290322580644,
+                  "canonical_event_detection_rate": 0.6838709677419355,
+                  "incidents": 5,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 5
+                },
+                "device_spoofing": {
+                  "events": 77,
+                  "event_detection_rate": 0.03896103896103896,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 5,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 94,
+                  "event_detection_rate": 0.05319148936170213,
+                  "canonical_event_detection_rate": 0.4787234042553192,
+                  "incidents": 5,
+                  "incidents_detected": 2,
+                  "canonical_incidents_detected": 5
+                }
+              },
+              "mean_score_on_normal_events": 0.8553709731613843,
+              "canonical_mean_score_on_normal_events": 0.47359418602756387
+            }
+          }
+        }
+      }
+    },
+    "P0-103": {
+      "dataset": "P0-103",
+      "variants": {
+        "V0_canonical": {
+          "description": "training representation (control)",
+          "events": 37894,
+          "delivered": 37894,
+          "features_changed": 0,
+          "top_changed_features": [
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "geo_velocity_kmh",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "distance_from_home_km",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_new_city",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 0.0,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 0.0,
+              "max_abs_score_change": 0.0,
+              "spearman_vs_canonical": 1.0,
+              "pr_auc": 0.8867259974829538,
+              "roc_auc": 0.9927898883309256,
+              "canonical_pr_auc": 0.8867259974829538,
+              "alert_rate": 0.017232279516546156,
+              "canonical_alert_rate": 0.017232279516546156,
+              "precision": 0.9877488514548239,
+              "recall": 0.738831615120275,
+              "canonical_recall": 0.738831615120275,
+              "false_positive_rate": 0.00021609356851516706,
+              "canonical_false_positive_rate": 0.00021609356851516706,
+              "f1": 0.8453473132372216,
+              "incidents_detected": 18,
+              "canonical_incidents_detected": 18,
+              "incidents": 31,
+              "per_attack": {
+                "brute_force": {
+                  "events": 413,
+                  "event_detection_rate": 0.9927360774818402,
+                  "canonical_event_detection_rate": 0.9927360774818402,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "credential_stuffing": {
+                  "events": 195,
+                  "event_detection_rate": 0.9794871794871794,
+                  "canonical_event_detection_rate": 0.9794871794871794,
+                  "incidents": 3,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 3
+                },
+                "impossible_travel": {
+                  "events": 10,
+                  "event_detection_rate": 0.8,
+                  "canonical_event_detection_rate": 0.8,
+                  "incidents": 10,
+                  "incidents_detected": 8,
+                  "canonical_incidents_detected": 8
+                },
+                "lateral_movement": {
+                  "events": 108,
+                  "event_detection_rate": 0.3333333333333333,
+                  "canonical_event_detection_rate": 0.3333333333333333,
+                  "incidents": 4,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 3
+                },
+                "device_spoofing": {
+                  "events": 74,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 6,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 73,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 4,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 48.535549683717434,
+              "canonical_mean_score_on_normal_events": 48.535549683717434
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.0,
+              "max_abs_score_change": 0.0,
+              "spearman_vs_canonical": 1.0,
+              "pr_auc": 0.923656469508279,
+              "roc_auc": 0.9954173249800669,
+              "canonical_pr_auc": 0.923656469508279,
+              "alert_rate": 0.020742069984694148,
+              "canonical_alert_rate": 0.020742069984694148,
+              "precision": 0.9236641221374046,
+              "recall": 0.8316151202749141,
+              "canonical_recall": 0.8316151202749141,
+              "false_positive_rate": 0.001620701763863753,
+              "canonical_false_positive_rate": 0.001620701763863753,
+              "f1": 0.8752260397830018,
+              "incidents_detected": 24,
+              "canonical_incidents_detected": 24,
+              "incidents": 31,
+              "per_attack": {
+                "brute_force": {
+                  "events": 413,
+                  "event_detection_rate": 0.9975786924939467,
+                  "canonical_event_detection_rate": 0.9975786924939467,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "credential_stuffing": {
+                  "events": 195,
+                  "event_detection_rate": 0.9897435897435898,
+                  "canonical_event_detection_rate": 0.9897435897435898,
+                  "incidents": 3,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 3
+                },
+                "impossible_travel": {
+                  "events": 10,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 10,
+                  "incidents_detected": 10,
+                  "canonical_incidents_detected": 10
+                },
+                "lateral_movement": {
+                  "events": 108,
+                  "event_detection_rate": 0.8611111111111112,
+                  "canonical_event_detection_rate": 0.8611111111111112,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "device_spoofing": {
+                  "events": 74,
+                  "event_detection_rate": 0.013513513513513514,
+                  "canonical_event_detection_rate": 0.013513513513513514,
+                  "incidents": 6,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "low_slow_exfil": {
+                  "events": 73,
+                  "event_detection_rate": 0.2328767123287671,
+                  "canonical_event_detection_rate": 0.2328767123287671,
+                  "incidents": 4,
+                  "incidents_detected": 2,
+                  "canonical_incidents_detected": 2
+                }
+              },
+              "mean_score_on_normal_events": 0.5173627617130323,
+              "canonical_mean_score_on_normal_events": 0.5173627617130323
+            }
+          }
+        },
+        "V1_entity_type_forced_user": {
+          "description": "P1 entity_type := 'user' for every live event",
+          "events": 37894,
+          "delivered": 37894,
+          "features_changed": 1,
+          "top_changed_features": [
+            {
+              "feature": "peer_resource_deviation",
+              "mean_abs_change": 0.377326993416935,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "geo_velocity_kmh",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "distance_from_home_km",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 0.010780771240483857,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 4.679085205067294,
+              "max_abs_score_change": 64.38683371298406,
+              "spearman_vs_canonical": 0.9597383028442078,
+              "pr_auc": 0.8725324148379955,
+              "roc_auc": 0.9927486746090954,
+              "canonical_pr_auc": 0.8867259974829538,
+              "alert_rate": 0.016282261043964744,
+              "canonical_alert_rate": 0.017232279516546156,
+              "precision": 0.9886547811993517,
+              "recall": 0.6987399770904925,
+              "canonical_recall": 0.738831615120275,
+              "false_positive_rate": 0.00018908187245077117,
+              "canonical_false_positive_rate": 0.00021609356851516706,
+              "f1": 0.8187919463087248,
+              "incidents_detected": 16,
+              "canonical_incidents_detected": 18,
+              "incidents": 31,
+              "per_attack": {
+                "brute_force": {
+                  "events": 413,
+                  "event_detection_rate": 0.9927360774818402,
+                  "canonical_event_detection_rate": 0.9927360774818402,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "credential_stuffing": {
+                  "events": 195,
+                  "event_detection_rate": 0.9794871794871794,
+                  "canonical_event_detection_rate": 0.9794871794871794,
+                  "incidents": 3,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 3
+                },
+                "impossible_travel": {
+                  "events": 10,
+                  "event_detection_rate": 0.8,
+                  "canonical_event_detection_rate": 0.8,
+                  "incidents": 10,
+                  "incidents_detected": 8,
+                  "canonical_incidents_detected": 8
+                },
+                "lateral_movement": {
+                  "events": 108,
+                  "event_detection_rate": 0.009259259259259259,
+                  "canonical_event_detection_rate": 0.3333333333333333,
+                  "incidents": 4,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 3
+                },
+                "device_spoofing": {
+                  "events": 74,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 6,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 73,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 4,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 50.7995444228285,
+              "canonical_mean_score_on_normal_events": 48.535549683717434
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.05871005713535967,
+              "max_abs_score_change": 0.6007486712224754,
+              "spearman_vs_canonical": 0.9335346955201489,
+              "pr_auc": 0.9217002025143406,
+              "roc_auc": 0.9952654654104403,
+              "canonical_pr_auc": 0.923656469508279,
+              "alert_rate": 0.020900406396791048,
+              "canonical_alert_rate": 0.020742069984694148,
+              "precision": 0.9166666666666666,
+              "recall": 0.8316151202749141,
+              "canonical_recall": 0.8316151202749141,
+              "false_positive_rate": 0.0017827719402501282,
+              "canonical_false_positive_rate": 0.001620701763863753,
+              "f1": 0.872072072072072,
+              "incidents_detected": 24,
+              "canonical_incidents_detected": 24,
+              "incidents": 31,
+              "per_attack": {
+                "brute_force": {
+                  "events": 413,
+                  "event_detection_rate": 0.9975786924939467,
+                  "canonical_event_detection_rate": 0.9975786924939467,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "credential_stuffing": {
+                  "events": 195,
+                  "event_detection_rate": 0.9897435897435898,
+                  "canonical_event_detection_rate": 0.9897435897435898,
+                  "incidents": 3,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 3
+                },
+                "impossible_travel": {
+                  "events": 10,
+                  "event_detection_rate": 1.0,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 10,
+                  "incidents_detected": 10,
+                  "canonical_incidents_detected": 10
+                },
+                "lateral_movement": {
+                  "events": 108,
+                  "event_detection_rate": 0.8425925925925926,
+                  "canonical_event_detection_rate": 0.8611111111111112,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "device_spoofing": {
+                  "events": 74,
+                  "event_detection_rate": 0.02702702702702703,
+                  "canonical_event_detection_rate": 0.013513513513513514,
+                  "incidents": 6,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "low_slow_exfil": {
+                  "events": 73,
+                  "event_detection_rate": 0.2465753424657534,
+                  "canonical_event_detection_rate": 0.2328767123287671,
+                  "incidents": 4,
+                  "incidents_detected": 2,
+                  "canonical_incidents_detected": 2
+                }
+              },
+              "mean_score_on_normal_events": 0.5654693099830181,
+              "canonical_mean_score_on_normal_events": 0.5173627617130323
+            }
+          }
+        },
+        "V2_duration_minutes_as_seconds": {
+          "description": "P2 session duration delivered in minutes into the seconds field (seconds / 60)",
+          "events": 37894,
+          "delivered": 37894,
+          "features_changed": 2,
+          "top_changed_features": [
+            {
+              "feature": "sensitive_bytes_proxy_7d",
+              "mean_abs_change": 280.5343892172903,
+              "share_events_changed": 0.10252282683274397
+            },
+            {
+              "feature": "session_duration_zscore",
+              "mean_abs_change": 1.190677349910955,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "is_weekend",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            },
+            {
+              "feature": "geo_velocity_kmh",
+              "mean_abs_change": 0.0,
+              "share_events_changed": 0.0
+            }
+          ],
+          "mean_abs_feature_change_all": 8.049287616205751,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 4.202716564717814,
+              "max_abs_score_change": 86.60132118451025,
+              "spearman_vs_canonical": 0.9388722606812535,
+              "pr_auc": 0.8679809150156139,
+              "roc_auc": 0.9916042667093408,
+              "canonical_pr_auc": 0.8867259974829538,
+              "alert_rate": 0.016176703435900143,
+              "canonical_alert_rate": 0.017232279516546156,
+              "precision": 0.9885807504078303,
+              "recall": 0.6941580756013745,
+              "canonical_recall": 0.738831615120275,
+              "false_positive_rate": 0.00018908187245077117,
+              "canonical_false_positive_rate": 0.00021609356851516706,
+              "f1": 0.8156123822341858,
+              "incidents_detected": 13,
+              "canonical_incidents_detected": 18,
+              "incidents": 31,
+              "per_attack": {
+                "brute_force": {
+                  "events": 413,
+                  "event_detection_rate": 0.9903147699757869,
+                  "canonical_event_detection_rate": 0.9927360774818402,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "credential_stuffing": {
+                  "events": 195,
+                  "event_detection_rate": 0.9794871794871794,
+                  "canonical_event_detection_rate": 0.9794871794871794,
+                  "incidents": 3,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 3
+                },
+                "impossible_travel": {
+                  "events": 10,
+                  "event_detection_rate": 0.5,
+                  "canonical_event_detection_rate": 0.8,
+                  "incidents": 10,
+                  "incidents_detected": 5,
+                  "canonical_incidents_detected": 8
+                },
+                "lateral_movement": {
+                  "events": 108,
+                  "event_detection_rate": 0.009259259259259259,
+                  "canonical_event_detection_rate": 0.3333333333333333,
+                  "incidents": 4,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 3
+                },
+                "device_spoofing": {
+                  "events": 74,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 6,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 73,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 4,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 45.861241922699506,
+              "canonical_mean_score_on_normal_events": 48.535549683717434
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.04288271720191066,
+              "max_abs_score_change": 0.7671025056947609,
+              "spearman_vs_canonical": 0.9002390522513615,
+              "pr_auc": 0.9175044996767057,
+              "roc_auc": 0.9950615936288041,
+              "canonical_pr_auc": 0.923656469508279,
+              "alert_rate": 0.02002955613025809,
+              "canonical_alert_rate": 0.020742069984694148,
+              "precision": 0.9433465085638999,
+              "recall": 0.8201603665521191,
+              "canonical_recall": 0.8316151202749141,
+              "false_positive_rate": 0.001161502930769023,
+              "canonical_false_positive_rate": 0.001620701763863753,
+              "f1": 0.8774509803921569,
+              "incidents_detected": 21,
+              "canonical_incidents_detected": 24,
+              "incidents": 31,
+              "per_attack": {
+                "brute_force": {
+                  "events": 413,
+                  "event_detection_rate": 0.9975786924939467,
+                  "canonical_event_detection_rate": 0.9975786924939467,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "credential_stuffing": {
+                  "events": 195,
+                  "event_detection_rate": 0.9897435897435898,
+                  "canonical_event_detection_rate": 0.9897435897435898,
+                  "incidents": 3,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 3
+                },
+                "impossible_travel": {
+                  "events": 10,
+                  "event_detection_rate": 0.7,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 10,
+                  "incidents_detected": 7,
+                  "canonical_incidents_detected": 10
+                },
+                "lateral_movement": {
+                  "events": 108,
+                  "event_detection_rate": 0.8055555555555556,
+                  "canonical_event_detection_rate": 0.8611111111111112,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "device_spoofing": {
+                  "events": 74,
+                  "event_detection_rate": 0.013513513513513514,
+                  "canonical_event_detection_rate": 0.013513513513513514,
+                  "incidents": 6,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 1
+                },
+                "low_slow_exfil": {
+                  "events": 73,
+                  "event_detection_rate": 0.2191780821917808,
+                  "canonical_event_detection_rate": 0.2328767123287671,
+                  "incidents": 4,
+                  "incidents_detected": 2,
+                  "canonical_incidents_detected": 2
+                }
+              },
+              "mean_score_on_normal_events": 0.5287773981749428,
+              "canonical_mean_score_on_normal_events": 0.5173627617130323
+            }
+          }
+        },
+        "V9_api_contract_definite": {
+          "description": "P1+P2+P3+P4a combined (the mismatches that are certain for every event)",
+          "events": 37894,
+          "delivered": 37894,
+          "features_changed": 24,
+          "top_changed_features": [
+            {
+              "feature": "sensitive_bytes_proxy_7d",
+              "mean_abs_change": 277.8168222321915,
+              "share_events_changed": 0.10455481078798755
+            },
+            {
+              "feature": "session_duration_zscore",
+              "mean_abs_change": 1.190677349910955,
+              "share_events_changed": 1.0
+            },
+            {
+              "feature": "hour_zscore",
+              "mean_abs_change": 0.8972629955149826,
+              "share_events_changed": 0.9988652557133055
+            },
+            {
+              "feature": "hour_cos",
+              "mean_abs_change": 0.8697352478550219,
+              "share_events_changed": 0.9987069193012086
+            },
+            {
+              "feature": "hour_sin",
+              "mean_abs_change": 0.8081233146944725,
+              "share_events_changed": 0.9986805298991925
+            },
+            {
+              "feature": "peer_resource_deviation",
+              "mean_abs_change": 0.377326993416935,
+              "share_events_changed": 1.0
+            }
+          ],
+          "mean_abs_feature_change_all": 8.148545109337364,
+          "models": {
+            "shipped": {
+              "score_kind": "risk",
+              "threshold": 99.50227340267459,
+              "mean_abs_score_change": 11.819055537127724,
+              "max_abs_score_change": 88.40692482915718,
+              "spearman_vs_canonical": 0.7968022491781027,
+              "pr_auc": 0.8199247124468898,
+              "roc_auc": 0.9852554661322992,
+              "canonical_pr_auc": 0.8867259974829538,
+              "alert_rate": 0.016493376260093947,
+              "canonical_alert_rate": 0.017232279516546156,
+              "precision": 0.9696,
+              "recall": 0.6941580756013745,
+              "canonical_recall": 0.738831615120275,
+              "false_positive_rate": 0.0005132222252235218,
+              "canonical_false_positive_rate": 0.00021609356851516706,
+              "f1": 0.8090787716955941,
+              "incidents_detected": 13,
+              "canonical_incidents_detected": 18,
+              "incidents": 31,
+              "per_attack": {
+                "brute_force": {
+                  "events": 413,
+                  "event_detection_rate": 0.9927360774818402,
+                  "canonical_event_detection_rate": 0.9927360774818402,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "credential_stuffing": {
+                  "events": 195,
+                  "event_detection_rate": 0.9743589743589743,
+                  "canonical_event_detection_rate": 0.9794871794871794,
+                  "incidents": 3,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 3
+                },
+                "impossible_travel": {
+                  "events": 10,
+                  "event_detection_rate": 0.6,
+                  "canonical_event_detection_rate": 0.8,
+                  "incidents": 10,
+                  "incidents_detected": 6,
+                  "canonical_incidents_detected": 8
+                },
+                "lateral_movement": {
+                  "events": 108,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.3333333333333333,
+                  "incidents": 4,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 3
+                },
+                "device_spoofing": {
+                  "events": 74,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 6,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                },
+                "low_slow_exfil": {
+                  "events": 73,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.0,
+                  "incidents": 4,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 0
+                }
+              },
+              "mean_score_on_normal_events": 50.35455988570951,
+              "canonical_mean_score_on_normal_events": 48.535549683717434
+            },
+            "ml3": {
+              "score_kind": "fused",
+              "threshold": 0.9890098709187547,
+              "mean_abs_score_change": 0.1226755780691686,
+              "max_abs_score_change": 0.8895307517084282,
+              "spearman_vs_canonical": 0.7343999377406034,
+              "pr_auc": 0.8498547661478175,
+              "roc_auc": 0.987380417163931,
+              "canonical_pr_auc": 0.923656469508279,
+              "alert_rate": 0.019765662110096584,
+              "canonical_alert_rate": 0.020742069984694148,
+              "precision": 0.8718291054739653,
+              "recall": 0.7479954180985109,
+              "canonical_recall": 0.8316151202749141,
+              "false_positive_rate": 0.002593122822182005,
+              "canonical_false_positive_rate": 0.001620701763863753,
+              "f1": 0.8051787916152897,
+              "incidents_detected": 20,
+              "canonical_incidents_detected": 24,
+              "incidents": 31,
+              "per_attack": {
+                "brute_force": {
+                  "events": 413,
+                  "event_detection_rate": 0.9951573849878934,
+                  "canonical_event_detection_rate": 0.9975786924939467,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "credential_stuffing": {
+                  "events": 195,
+                  "event_detection_rate": 0.9846153846153847,
+                  "canonical_event_detection_rate": 0.9897435897435898,
+                  "incidents": 3,
+                  "incidents_detected": 3,
+                  "canonical_incidents_detected": 3
+                },
+                "impossible_travel": {
+                  "events": 10,
+                  "event_detection_rate": 0.8,
+                  "canonical_event_detection_rate": 1.0,
+                  "incidents": 10,
+                  "incidents_detected": 8,
+                  "canonical_incidents_detected": 10
+                },
+                "lateral_movement": {
+                  "events": 108,
+                  "event_detection_rate": 0.25,
+                  "canonical_event_detection_rate": 0.8611111111111112,
+                  "incidents": 4,
+                  "incidents_detected": 4,
+                  "canonical_incidents_detected": 4
+                },
+                "device_spoofing": {
+                  "events": 74,
+                  "event_detection_rate": 0.0,
+                  "canonical_event_detection_rate": 0.013513513513513514,
+                  "incidents": 6,
+                  "incidents_detected": 0,
+                  "canonical_incidents_detected": 1
+                },
+                "low_slow_exfil": {
+                  "events": 73,
+                  "event_detection_rate": 0.2054794520547945,
+                  "canonical_event_detection_rate": 0.2328767123287671,
+                  "incidents": 4,
+                  "incidents_detected": 1,
+                  "canonical_incidents_detected": 2
+                }
+              },
+              "mean_score_on_normal_events": 0.5964893069596037,
+              "canonical_mean_score_on_normal_events": 0.5173627617130323
+            }
+          }
+        }
+      }
+    }
+  },
+  "hard_coded_vocabulary_note": "P9 quantified in the cross-profile evaluation (production SENSITIVE/_PRIV constants vs profile vocabularies)"
+}

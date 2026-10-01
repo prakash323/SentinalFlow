@@ -1,0 +1,60 @@
+{
+  "candidate": "ML-5 deployment-threshold rule + score calibrator (NOT DEPLOYED; evaluation artifact)",
+  "ml4_artifact": "models/candidates/ml4/ml4_global.joblib",
+  "ml4_frozen_config_sha256": "4e9c8d80b1ad78860e2547b45933b043bcf6883bd185e59bb14e70c3703376c4",
+  "fusion_weights": {
+    "baseline": 0.9,
+    "iforest": 0.1,
+    "sequence": 0.0
+  },
+  "contract_version": "1.0",
+  "deployment_timezone_convention": "Asia/Kolkata",
+  "threshold_rule": {
+    "population": "deployment's own attack-free onboarding tail (last 35% of onboarding rows, scored with a baseline fitted on the head)",
+    "formula": "t_d = quantile_(1-alpha)(tail fused scores), method='higher'",
+    "alpha_grid": [
+      0.001,
+      0.0025,
+      0.005,
+      0.01,
+      0.02
+    ],
+    "selected_alpha": 0.001,
+    "alpha_selection": "maximise the mean F1 over the DEV deployments of the deployment-specific rule (alpha grid above); ties -> larger alpha",
+    "onboard_head_fraction": 0.65
+  },
+  "shipped_detector_vehicle_threshold_rule": {
+    "selected_alpha": 0.001,
+    "note": "same rule on the shipped detector's frozen fused score (secondary vehicle)"
+  },
+  "calibration": {
+    "method": "isotonic_raw",
+    "fitted_on": [
+      "P2-301",
+      "P3-401",
+      "P0-103",
+      "P0-104",
+      "P1-202",
+      "P2-302",
+      "P3-402",
+      "P4-501",
+      "P4-502",
+      "orig42"
+    ],
+    "params_sha256": "9525c97dd049845a6579267aea73475fafe15d438859bdf1534abc00b5a3eb90",
+    "selection": "lowest mean log-loss in leave-one-profile-out cross-validation on the DEV pool; must also lower the mean ECE vs identity"
+  },
+  "ml5_config_sha256": "707f485b292876f0b08841e6ebbf6d14094346c18ba043310013d095f0de7e34",
+  "dev_pool": [
+    "P2-301",
+    "P3-401",
+    "P0-103",
+    "P0-104",
+    "P1-202",
+    "P2-302",
+    "P3-402",
+    "P4-501",
+    "P4-502",
+    "orig42"
+  ]
+}

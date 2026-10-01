@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE / EVALUATION ARTIFACT - NOT DEPLOYED. Never loaded by api.py, run_pipeline.py or run_realtime.py. models/pipeline.joblib is untouched.",
+  "created_by": "eval_ml4 canonical run C",
+  "files": {
+    "ml4_global.joblib": "30fcd28d66b3a45b3f3558ec7ea7fdd6887a87789b4d2357445c9d1bdfbdec63",
+    "frozen_config.json": "4e9c8d80b1ad78860e2547b45933b043bcf6883bd185e59bb14e70c3703376c4",
+    "frozen_calib_fused.npy": "da374af25892f1433748fe74e5236540669e7cf75e34a4365f2828f690ac4cc8"
+  },
+  "content_hashes": {
+    "scaler": "b036997ddad1907e9b9d3ce4723716de34abaff03c53d9ac8883aefb9a5b7026",
+    "isolation_forest": "718618d571af7bc5c56192dbb2da2732bbe17653bd7f3a42440b43b0d4952e69",
+    "sequence_ae_weights": "8b3801f4ea2760d934b483476149563c516e1e3a71847b18dd083a35c9fd2fed",
+    "sequence_ae_input_scaler": "360b3855799438292fa0f676cf3a3940449a158002a66135616fe8c401a8179d",
+    "train_score_distributions": "b13dc39bb3481a98993d86701ac1df5ac69793250be5b882aaa6c8569e09b3b7",
+    "feature_list": "9b243d8bee0775d7ad4ee741ac98b02bb579073bd2ae546d33181cd6ebef8243",
+    "combined": "44c63dc9f9174de1abd880de09ebc624f1927965ace390407681208a9a089dea"
+  },
+  "frozen_config_sha256": "4e9c8d80b1ad78860e2547b45933b043bcf6883bd185e59bb14e70c3703376c4",
+  "trained_on": [
+    "P0-101",
+    "P0-102",
+    "P1-201"
+  ],
+  "production_model_sha256_unchanged": "381ae379ae1c5a7c3b4ac38f3df039c1b0de3268889f7df344670510de861684"
+}

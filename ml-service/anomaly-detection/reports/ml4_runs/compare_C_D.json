@@ -1,0 +1,49 @@
+{
+  "runs": [
+    "C",
+    "D"
+  ],
+  "metric_leaves_compared": 115534,
+  "metric_leaf_differences": 0,
+  "differing_paths": [],
+  "differing_prefixes": {},
+  "max_abs_numeric_difference": 0.0,
+  "prediction_arrays": 126,
+  "prediction_arrays_identical": 126,
+  "differences_on_shared_keys": 0,
+  "shared_key_differing_paths": [],
+  "keys_only_in_first_run": 0,
+  "keys_only_in_second_run": 0,
+  "prediction_arrays_only_in_first": [],
+  "prediction_arrays_only_in_second": [],
+  "all_predictions_identical": true,
+  "feature_matrices_identical": true,
+  "feature_matrices": 19,
+  "dataset_set_identical": true,
+  "frozen_config_identical": true,
+  "ml4_content_hashes_identical": true,
+  "ml4_artifact_file_identical_bytes": false,
+  "config_identical": true,
+  "source_identical": true,
+  "environment_identical": {
+    "python": true,
+    "platform": true,
+    "machine": true,
+    "cpu_count": true,
+    "numpy": true,
+    "pandas": true,
+    "scipy": true,
+    "sklearn": true,
+    "torch": true,
+    "lightgbm": true,
+    "shap": true,
+    "joblib": true,
+    "fastapi": true,
+    "pydantic": true
+  },
+  "parity_report": {
+    "identical": null,
+    "note": "missing"
+  },
+  "exactly_reproducible": true
+}
