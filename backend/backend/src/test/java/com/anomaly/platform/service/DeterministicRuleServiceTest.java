@@ -208,6 +208,37 @@ class DeterministicRuleServiceTest {
                 eq(existingActive.getId()), any(), any());
     }
 
+    // Rules run on every processing attempt; while the ML service is down an
+    // event is retried many times, and each attempt used to write another
+    // identical DETECTION_SUPPRESSED audit row.
+    @Test
+    void authBurst_suppressionIsRecordedOnce_acrossRetriedAttemptsOfTheSameEvent() {
+
+        EntityProfile ent = entity("HOST-6");
+        List<Event> logins = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            logins.add(event(ent, "LOGIN", NOW.minusMinutes(4 - i), Map.of("loginSuccess", false)));
+        }
+        stubEventsOfType("HOST-6", "LOGIN", logins);
+        Event triggering = logins.get(logins.size() - 1);
+        when(alertRepository.existsByEvent_IdAndRuleId(triggering.getId(), "AUTH_BURST")).thenReturn(false);
+        Alert existingActive = new Alert();
+        existingActive.setId(UUID.randomUUID());
+        existingActive.setStatus(AlertStatus.OPEN);
+        when(alertRepository.findTopByEntity_EntityIdAndRuleIdAndStatusInOrderByCreatedAtDesc(
+                eq("HOST-6"), eq("AUTH_BURST"), any())).thenReturn(java.util.Optional.of(existingActive));
+        when(auditLogService.hasSuppressionRecord(existingActive.getId(), "AUTH_BURST", triggering.getEventId()))
+                .thenReturn(false, true, true);   // recorded by attempt 1
+
+        service.evaluate(triggering);   // attempt 1
+        service.evaluate(triggering);   // retry
+        service.evaluate(triggering);   // retry
+
+        verify(auditLogService, times(1)).log(eq("system"), eq("DETECTION_SUPPRESSED"), eq("ALERT"),
+                eq(existingActive.getId()), any(), any());
+        verify(alertRepository, never()).save(any());
+    }
+
     @Test
     void authBurst_idempotent_sameTriggeringEventRedelivered() {
 
@@ -473,5 +504,52 @@ class DeterministicRuleServiceTest {
                 .thenThrow(new RuntimeException("simulated DB failure"));
 
         assertThatCode(() -> service.evaluate(login)).doesNotThrowAnyException();
+    }
+
+    // ---------------------------------------------------------------
+    // Concurrent evaluation of the same event (consumer + admin replay)
+    // ---------------------------------------------------------------
+
+    @Test
+    void ruleEvaluation_locksTheEventBeforeCheckingForAnExistingAlert() {
+
+        EntityProfile ent = entity("HOST-20");
+        List<Event> logins = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            logins.add(event(ent, "LOGIN", NOW.minusMinutes(4 - i), Map.of("loginSuccess", false)));
+        }
+        stubEventsOfType("HOST-20", "LOGIN", logins);
+        Event triggering = logins.get(logins.size() - 1);
+        when(alertRepository.existsByEvent_IdAndRuleId(triggering.getId(), "AUTH_BURST")).thenReturn(true);
+
+        service.evaluate(triggering);
+
+        // the second of two concurrent evaluations waits on the lock, then sees the first one's alert
+        org.mockito.InOrder order = org.mockito.Mockito.inOrder(eventRepository, alertRepository);
+        order.verify(eventRepository).lockForProcessing(triggering.getId());
+        order.verify(alertRepository).existsByEvent_IdAndRuleId(triggering.getId(), "AUTH_BURST");
+        verify(alertRepository, never()).save(any());
+    }
+
+    @Test
+    void networkConnectionEvaluation_alsoLocksTheEvent() {
+
+        EntityProfile ent = entity("HOST-21");
+        Map<String, Object> netPayload = new HashMap<>();
+        netPayload.put("pid", 1);
+        netPayload.put("processCreateTime", iso(NOW.minusMinutes(1)));
+        netPayload.put("remoteAddress", "127.0.0.1");   // loopback: rule exits early, after the lock
+
+        service.evaluate(event(ent, "NETWORK_CONNECTION", NOW, netPayload));
+
+        verify(eventRepository).lockForProcessing(any());
+    }
+
+    @Test
+    void eventTypesWithoutRules_takeNoLock() {
+
+        service.evaluate(event(entity("HOST-22"), "LOGOUT", NOW, Map.of()));
+
+        verify(eventRepository, never()).lockForProcessing(any());
     }
 }

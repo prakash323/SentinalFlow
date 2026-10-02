@@ -215,4 +215,36 @@ class PredictionServiceIdempotencyTest {
         assertThat(captor.getAllValues().get(0).getFactor()).hasSize(128).endsWith("...");
         assertThat(captor.getAllValues().get(1).getFactor()).isEqualTo("short factor");
     }
+
+    @Test
+    void hasPrediction_reflectsWhetherAnyPredictionIsOnRecordForTheEvent() {
+
+        when(predictionRepository.findTopByEvent_IdOrderByCreatedAtDesc(eventDbId))
+                .thenReturn(Optional.of(existingPrediction()));
+        assertThat(predictionService.hasPrediction(eventDbId)).isTrue();
+
+        UUID other = UUID.randomUUID();
+        when(predictionRepository.findTopByEvent_IdOrderByCreatedAtDesc(other)).thenReturn(Optional.empty());
+        assertThat(predictionService.hasPrediction(other)).isFalse();
+    }
+
+    @Test
+    void create_locksTheEventBeforeItsIdempotencyCheck_soAConcurrentCreateFindsThePrediction() {
+
+        Prediction existing = existingPrediction();
+        when(predictionRepository.findTopByEvent_IdAndModelNameAndModelVersionOrderByCreatedAtDesc(
+                eq(eventDbId), eq("anomaly-detector"), eq("v1")
+        )).thenReturn(Optional.of(existing));
+
+        PredictionResponse response = predictionService.create(request());
+
+        org.mockito.InOrder order = org.mockito.Mockito.inOrder(eventRepository, predictionRepository);
+        order.verify(eventRepository).lockForProcessing(eventDbId);
+        order.verify(predictionRepository).findTopByEvent_IdAndModelNameAndModelVersionOrderByCreatedAtDesc(
+                eventDbId, "anomaly-detector", "v1");
+        // the waiting thread returns the winner's prediction: no insert, no alert, no incident
+        assertThat(response.id()).isEqualTo(existing.getId());
+        verify(predictionRepository, never()).save(any());
+        verify(alertRepository, never()).save(any());
+    }
 }

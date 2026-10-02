@@ -117,8 +117,10 @@ public class DeterministicRuleService {
             String eventType = databaseEvent.getEventType();
 
             if ("LOGIN".equals(eventType)) {
+                lockEvent(databaseEvent);
                 evaluateAuthBurst(databaseEvent);
             } else if ("NETWORK_CONNECTION".equals(eventType)) {
+                lockEvent(databaseEvent);
                 evaluateNewProcessExternalConnection(databaseEvent);
             }
 
@@ -367,6 +369,18 @@ public class DeterministicRuleService {
      * that method's own STEP 5-7. prediction is left null by construction
      * (never set on this Alert).
      */
+    /*
+     * The same event can be evaluated by two threads at once (Kafka consumer
+     * and an admin replay). Both would see "no alert yet" and both insert one.
+     * Locking the event row for the rest of this transaction makes the second
+     * evaluation wait and then find the first one's alert, so the existing
+     * existsByEvent_IdAndRuleId / suppression checks stay the single place
+     * that decides. uk_alerts_event_rule (V15) backs this up in the database.
+     */
+    private void lockEvent(Event databaseEvent) {
+        eventRepository.lockForProcessing(databaseEvent.getId());
+    }
+
     private void raiseAlert(
             Event databaseEvent,
             EntityProfile entity,
@@ -440,6 +454,14 @@ public class DeterministicRuleService {
     }
 
     private void recordSuppressed(String ruleId, Event triggeringEvent, Alert existingAlert, String evidence) {
+
+        // Rules run on every processing attempt, so a retried event (e.g. while
+        // the ML service is unavailable) reaches this again: record the
+        // suppression once per (alert, rule, triggering event), not per attempt.
+        if (triggeringEvent.getEventId() != null
+                && auditLogService.hasSuppressionRecord(existingAlert.getId(), ruleId, triggeringEvent.getEventId())) {
+            return;
+        }
 
         Map<String, Object> details = new HashMap<>();
         details.put("ruleId", ruleId);

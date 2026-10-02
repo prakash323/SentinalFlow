@@ -119,4 +119,58 @@ public interface EventRepository
             GROUP BY e.entity.id
             """)
     List<Object[]> summarizeByEntity(@Param("ids") java.util.Collection<UUID> ids);
+
+    /*
+     * PendingEventReconciler: claims (row-locks) the oldest event that was
+     * stored but apparently never published. Must run inside a transaction;
+     * SKIP LOCKED means a concurrent run skips this row instead of waiting.
+     *
+     * Eligible only if ALL hold:
+     *  - PENDING with 0 attempts: the consumer never finished or failed it
+     *    (markProcessed / markFailed both move it off this state);
+     *  - no prediction on record: excludes events that were processed before
+     *    status tracking existed (V12 backfilled them as PENDING) - re-sending
+     *    those would re-score them;
+     *  - created in [notBefore, staleBefore): old enough that the normal
+     *    post-commit publish and consumer processing are long over, young
+     *    enough to still be worth automatic recovery;
+     *  - not given up on, fewer than :maxAttempts republish attempts, and no
+     *    attempt since :retryBefore (attempts are EVENT_REPUBLISH_ATTEMPT
+     *    audit rows, so the history survives restarts).
+     */
+    @Query(value = """
+            SELECT e.id
+            FROM events e
+            WHERE e.processing_status = 'PENDING'
+              AND e.processing_attempts = 0
+              AND e.created_at < :staleBefore
+              AND e.created_at >= :notBefore
+              AND NOT EXISTS (SELECT 1 FROM predictions p WHERE p.event_id = e.id)
+              AND NOT EXISTS (
+                    SELECT 1 FROM audit_logs a
+                    WHERE a.resource_type = 'EVENT' AND a.resource_id = e.id
+                      AND (a.action = 'EVENT_REPUBLISH_EXHAUSTED'
+                           OR (a.action = 'EVENT_REPUBLISH_ATTEMPT' AND a.created_at >= :retryBefore)))
+              AND (SELECT COUNT(*) FROM audit_logs a
+                   WHERE a.resource_type = 'EVENT' AND a.resource_id = e.id
+                     AND a.action = 'EVENT_REPUBLISH_ATTEMPT') < :maxAttempts
+            ORDER BY e.created_at
+            LIMIT 1
+            FOR UPDATE OF e SKIP LOCKED
+            """, nativeQuery = true)
+    Optional<UUID> claimNextUnpublished(
+            @Param("staleBefore") OffsetDateTime staleBefore,
+            @Param("notBefore") OffsetDateTime notBefore,
+            @Param("retryBefore") OffsetDateTime retryBefore,
+            @Param("maxAttempts") long maxAttempts
+    );
+
+    /*
+     * Row-locks one event until the surrounding transaction ends, so two
+     * threads processing the same event (Kafka consumer and admin replay)
+     * create its rule alerts and prediction one after the other. Must be
+     * called inside a transaction. Empty if the event does not exist.
+     */
+    @Query(value = "SELECT e.id FROM events e WHERE e.id = :id FOR UPDATE", nativeQuery = true)
+    Optional<UUID> lockForProcessing(@Param("id") UUID id);
 }

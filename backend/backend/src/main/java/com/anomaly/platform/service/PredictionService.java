@@ -113,10 +113,29 @@ public class PredictionService {
         return toResponse(prediction);
     }
 
+    /*
+     * Whether any prediction is on record for this event. Used before the ML
+     * call, when the model name/version (the create() idempotency key) is not
+     * known yet - it only arrives in the ML response.
+     */
+    @Transactional(readOnly = true)
+    public boolean hasPrediction(UUID eventDbId) {
+        return predictionRepository.findTopByEvent_IdOrderByCreatedAtDesc(eventDbId).isPresent();
+    }
+
     @Transactional
     public PredictionResponse create(
             CreatePredictionRequest request
     ) {
+
+        /*
+         * Serialize concurrent creates for the same event (Kafka consumer and
+         * an admin replay racing): the second waits here, then finds the
+         * first one's prediction below and returns it - instead of both
+         * inserting, the loser hitting uk_predictions_event_model_version at
+         * commit and its caller marking a fully processed event FAILED.
+         */
+        eventRepository.lockForProcessing(request.eventId());
 
         /*
          * STEP 1
