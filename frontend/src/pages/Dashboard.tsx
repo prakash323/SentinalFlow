@@ -54,6 +54,13 @@ const HEALTH_NAMES: Record<string, string> = {
   PostgreSQL: 'Postgres',
 };
 
+// Headline cards always summarise the last 8 hours (the dashboard's original default window),
+// independent of the alerts chart's own 8h/24h/3d control.
+const CARD_HOURS = 8;
+
+const SEVERITY_FILTERS = ['ALL', ...SEVERITY_ORDER] as const;
+type SeverityFilter = (typeof SEVERITY_FILTERS)[number];
+
 const tone = (t: Tone) => ({ ['--tone' as string]: toneColor(t) }) as CSSProperties;
 const pad = (n: number) => String(n).padStart(2, '0');
 const pct = (n: number, total: number) => (total ? `${Math.round((n / total) * 100)}%` : '—');
@@ -159,6 +166,23 @@ function ChartTip({ active, payload }: TipProps) {
   );
 }
 
+type SevTipProps = { active?: boolean; payload?: { dataKey: string; name: string; value: number; color?: string; payload: { bucketStart: string } }[] };
+
+function SeverityTip({ active, payload }: SevTipProps) {
+  if (!active || !payload?.length) return null;
+  const rows = [...payload].reverse();
+  const total = rows.reduce((a, p) => a + (p.value ?? 0), 0);
+  return (
+    <div className="soc-tip">
+      <strong>{fmtDate(payload[0].payload.bucketStart)}</strong>
+      {rows.map((p) => (
+        <div key={p.dataKey}><i style={{ background: p.color }} />{p.name} <b>{p.value}</b></div>
+      ))}
+      {rows.length > 1 && <div className="soc-tip-total">Total <b>{total}</b></div>}
+    </div>
+  );
+}
+
 /** One tile per trend bucket, shaded by its event count relative to the busiest bucket. */
 function EventTiles({ trend, hours }: { trend: DashboardSummary['trend']; hours: number }) {
   const max = Math.max(1, ...trend.map((t) => t.events));
@@ -212,6 +236,8 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const { isAdmin } = useAuth();
   const [hours, setHours] = useState(8);
+  // Filters only the alerts-over-time chart; it never changes alert records or the route.
+  const [severity, setSeverity] = useState<SeverityFilter>('ALL');
 
   // The summary is the one aggregate call (shared with the shell's open-alert badge);
   // everything else is a small, server-filtered query.
@@ -221,6 +247,15 @@ export default function Dashboard() {
     refetchInterval: 30000,
     staleTime: 10000,
     placeholderData: (prev) => prev,
+  });
+
+  // Same key and options as the shell's open-alert badge, so this is normally a cache hit,
+  // and the same request as `summary` whenever the chart window is 8h.
+  const baseline = useQuery({
+    queryKey: ['dashboard', CARD_HOURS],
+    queryFn: () => dashboardApi.summary(CARD_HOURS),
+    refetchInterval: 30000,
+    staleTime: 10000,
   });
 
   const status = useQuery({ queryKey: ['system-status'], queryFn: systemApi.status, refetchInterval: 20000, retry: false });
@@ -259,7 +294,6 @@ export default function Dashboard() {
     return {
       sev,
       sevTotal: sev.reduce((a, s) => a + s.value, 0),
-      windowEvents: data.trend.reduce((a, t) => a + t.events, 0),
       windowAlerts: data.trend.reduce((a, t) => a + t.alerts, 0),
       openAlerts: data.alertsByStatus?.OPEN ?? 0,
       critical: bySeverity.CRITICAL ?? 0,
@@ -268,13 +302,34 @@ export default function Dashboard() {
       pending,
       failed,
       pipeTotal: processed + pending + failed,
-      chart: data.trend.map((t) => ({ ...t, tick: tickLabel(t.bucketStart, hours, t.label) })),
+      chart: data.trend.map((t) => ({
+        ...t,
+        tick: tickLabel(t.bucketStart, hours, t.label),
+        ...Object.fromEntries(SEVERITY_ORDER.map((s) => [s, t.alertsBySeverity?.[s] ?? 0])),
+      })),
+      // false on a backend that predates trend[].alertsBySeverity: never guess a split
+      hasSeverityTrend: data.trend.every((t) => t.alertsBySeverity != null),
+      windowBySeverity: Object.fromEntries(
+        SEVERITY_ORDER.map((s) => [s, data.trend.reduce((a, t) => a + (t.alertsBySeverity?.[s] ?? 0), 0)]),
+      ) as Record<string, number>,
       types: Object.entries(data.eventsByType ?? {}).sort((a, b) => b[1] - a[1]).slice(0, 8),
     };
   }, [data, hours]);
 
+  const cards = useMemo(() => {
+    const b = baseline.data;
+    if (!b) return null;
+    return {
+      trend: b.trend,
+      events: b.trend.reduce((a, t) => a + t.events, 0),
+      alerts: b.trend.reduce((a, t) => a + t.alerts, 0),
+      chart: b.trend.map((t) => ({ ...t, tick: tickLabel(t.bucketStart, CARD_HOURS, t.label) })),
+    };
+  }, [baseline.data]);
+
   const refreshAll = () => {
     summary.refetch();
+    baseline.refetch();
     status.refetch();
     critical.refetch();
     incidents.refetch();
@@ -282,15 +337,25 @@ export default function Dashboard() {
   };
   const refreshing = summary.isFetching || status.isFetching || critical.isFetching || incidents.isFetching;
 
+  // Counts are all alerts on record (summary.alertsBySeverity); selecting one filters the alerts chart.
   const severityPills = derived && (
-    <nav className="soc-sevbar" aria-label="Alerts by severity">
-      <Link to="/alerts" className="is-all">All alerts <b>{num(data?.alertCount)}</b></Link>
+    <div className="soc-sevbar" role="group" aria-label="Filter the alerts chart by severity (counts are all alerts on record)">
+      <button type="button" className="is-all" aria-pressed={severity === 'ALL'} onClick={() => setSeverity('ALL')} title={`${num(data?.alertCount)} alerts on record`}>
+        All alerts <b>{num(data?.alertCount)}</b>
+      </button>
       {derived.sev.map((s) => (
-        <Link key={s.key} to={`/alerts?severity=${s.key}`} style={tone(s.tone)}>
+        <button
+          key={s.key}
+          type="button"
+          aria-pressed={severity === s.key}
+          onClick={() => setSeverity(s.key as SeverityFilter)}
+          style={tone(s.tone)}
+          title={`${num(s.value)} ${s.label.toLowerCase()} alerts on record`}
+        >
           <i />{s.label} <b>{num(s.value)}</b>
-        </Link>
+        </button>
       ))}
-    </nav>
+    </div>
   );
 
   const header = (
@@ -309,8 +374,6 @@ export default function Dashboard() {
         </p>
       </div>
       <div className="soc-head-actions">
-        {severityPills}
-        <Segmented value={hours} onChange={setHours} options={RANGES} />
         <Button variant="secondary" size="sm" icon={RefreshCw} loading={refreshing} onClick={refreshAll}>Refresh</Button>
       </div>
     </header>
@@ -382,15 +445,17 @@ export default function Dashboard() {
           label="Alerts raised"
           value={num(data.alertCount)}
           valueTone="critical"
-          sub={<><b>{num(derived.windowAlerts)}</b> in the last {hours}h · {num(derived.openAlerts)} open</>}
+          sub={cards ? <><b>{num(cards.alerts)}</b> in the last {CARD_HOURS}h · {num(derived.openAlerts)} open</> : <>{num(derived.openAlerts)} open</>}
           to="/alerts"
         >
-          {derived.windowAlerts === 0 ? (
-            <div className="soc-metric-empty">No alerts in this window</div>
+          {!cards ? (
+            <Skeleton h={96} />
+          ) : cards.alerts === 0 ? (
+            <div className="soc-metric-empty">No alerts in the last {CARD_HOURS}h</div>
           ) : (
-            <div className="soc-spark" role="img" aria-label={`Alerts per hour over the last ${hours} hours`}>
+            <div className="soc-spark" role="img" aria-label={`Alerts per hour over the last ${CARD_HOURS} hours`}>
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={derived.chart} margin={{ top: 4, right: 2, left: 2, bottom: 0 }}>
+                <AreaChart data={cards.chart} margin={{ top: 4, right: 2, left: 2, bottom: 0 }}>
                   <defs>
                     <linearGradient id="soc-alert-fill" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="var(--c-critical)" stopOpacity={0.45} />
@@ -407,13 +472,13 @@ export default function Dashboard() {
 
         <MetricCard
           className="soc-events"
-          label="Security events"
+          label="Events ingested"
           value={num(data.totalEvents)}
           valueTone="info"
-          sub={<><b>{num(derived.windowEvents)}</b> in the last {hours}h · {num(data.predictionCount)} scored</>}
+          sub={cards ? <><b>{num(cards.events)}</b> in the last {CARD_HOURS}h · {num(data.predictionCount)} scored</> : <>{num(data.predictionCount)} scored</>}
           to="/events"
         >
-          <EventTiles trend={data.trend} hours={hours} />
+          {cards ? <EventTiles trend={cards.trend} hours={CARD_HOURS} /> : <Skeleton h={96} />}
         </MetricCard>
 
         <MetricCard
@@ -449,6 +514,82 @@ export default function Dashboard() {
             </>
           )}
         </MetricCard>
+
+        {/* ---- alerts raised over time, filtered by the severity pills ---- */}
+        {(() => {
+          const sevLabel = severity === 'ALL' ? 'All' : humanize(severity);
+          const series: string[] = severity === 'ALL' ? [...SEVERITY_ORDER].reverse() : [severity];
+          const windowCount = severity === 'ALL' ? derived.windowAlerts : derived.windowBySeverity[severity] ?? 0;
+          const totalOnly = severity === 'ALL' && !derived.hasSeverityTrend;
+          return (
+            <section className="soc-panel soc-activity" aria-label="Alerts raised over time">
+              <header className="soc-panel-head">
+                <div>
+                  <h2>{`${sevLabel} alerts raised over time`}</h2>
+                  <p>{`Alerts per hour by creation time, last ${hours}h (local time)`}</p>
+                </div>
+                <div className="soc-panel-actions">
+                  <Segmented value={hours} onChange={setHours} options={RANGES} />
+                </div>
+              </header>
+              <div className="soc-chart-controls">
+                {severityPills}
+                <div className="soc-legend" aria-live="polite">
+                  <span className="soc-legend-label">Last {hours}h</span>
+                  {totalOnly ? (
+                    <span><i style={{ background: 'var(--accent-strong)' }} />Alerts<b>{num(derived.windowAlerts)}</b></span>
+                  ) : (
+                    [...series].reverse().map((s) => (
+                      <span key={s}><i style={{ background: toneColor(severityTone(s)) }} />{humanize(s)}<b>{num(derived.windowBySeverity[s] ?? 0)}</b></span>
+                    ))
+                  )}
+                </div>
+              </div>
+              <div className="soc-panel-body">
+              {severity !== 'ALL' && !derived.hasSeverityTrend ? (
+                <EmptyState title="Severity breakdown unavailable" text="This backend does not report alerts per hour by severity, so a filtered chart cannot be drawn." />
+              ) : windowCount === 0 ? (
+                <EmptyState
+                  title={severity === 'ALL' ? 'No alerts in this window' : `No ${severity.toLowerCase()} alerts in this window`}
+                  text={`No ${severity === 'ALL' ? '' : `${severity.toLowerCase()} `}alerts were raised in the last ${hours}h.`}
+                  icon={BellRing}
+                />
+              ) : (
+                <div className="soc-chart" role="img" aria-label={`${sevLabel} alerts raised per hour over the last ${hours} hours: ${num(windowCount)} in total`}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={derived.chart} margin={{ top: 6, right: 4, left: 0, bottom: 0 }}>
+                      <CartesianGrid vertical={false} stroke="var(--grid-line)" />
+                      <XAxis dataKey="tick" tickLine={false} axisLine={{ stroke: 'var(--border-strong)' }} tick={{ fontSize: 11, fill: 'var(--muted)' }} interval="preserveStartEnd" minTickGap={36} />
+                      <YAxis allowDecimals={false} width={36} tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: 'var(--muted)' }} />
+                      <Tooltip content={<SeverityTip />} cursor={{ stroke: 'var(--border-strong)' }} isAnimationActive={false} />
+                      {totalOnly ? (
+                        <Area type="monotone" dataKey="alerts" name="Alerts" stroke="var(--accent-strong)" strokeWidth={2} fill="var(--accent-strong)" fillOpacity={0.25} dot={false} activeDot={{ r: 3 }} isAnimationActive={false} />
+                      ) : (
+                        series.map((s) => (
+                          <Area
+                            key={s}
+                            type="monotone"
+                            dataKey={s}
+                            name={humanize(s)}
+                            stackId={severity === 'ALL' ? 'sev' : undefined}
+                            stroke={toneColor(severityTone(s))}
+                            strokeWidth={2}
+                            fill={toneColor(severityTone(s))}
+                            fillOpacity={severity === 'ALL' ? 0.35 : 0.25}
+                            dot={false}
+                            activeDot={{ r: 3 }}
+                            isAnimationActive={false}
+                          />
+                        ))
+                      )}
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
+              </div>
+            </section>
+          );
+        })()}
 
         {/* ---- recent incidents ---- */}
         <Panel className="soc-incidents" title="Recent security incidents" description="Newest first, all statuses">
@@ -538,46 +679,6 @@ export default function Dashboard() {
                 <div><span>Policy</span><b title={status.data?.policy.version}>{status.data?.policy.version ?? '—'}</b></div>
               </div>
             </>
-          )}
-        </Panel>
-
-        {/* ---- activity timeline ---- */}
-        <Panel
-          className="soc-activity"
-          title="Threat activity timeline"
-          description={`Events and alerts per hour, last ${hours}h (local time)`}
-          actions={
-            <div className="soc-legend">
-              <span><i style={{ background: 'var(--c-info)' }} />Events<b>{num(derived.windowEvents)}</b></span>
-              <span><i style={{ background: 'var(--accent-strong)' }} />Alerts<b>{num(derived.windowAlerts)}</b></span>
-            </div>
-          }
-        >
-          {derived.windowEvents + derived.windowAlerts === 0 ? (
-            <EmptyState title="No activity in this window" text="No events or alerts were recorded in the selected range." />
-          ) : (
-            <div className="soc-chart" role="img" aria-label={`Events and alerts per hour over the last ${hours} hours`}>
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={derived.chart} margin={{ top: 6, right: 4, left: 0, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="soc-events-fill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="var(--c-info)" stopOpacity={0.5} />
-                      <stop offset="100%" stopColor="var(--c-info)" stopOpacity={0.08} />
-                    </linearGradient>
-                    <linearGradient id="soc-alerts-fill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="var(--accent-strong)" stopOpacity={0.6} />
-                      <stop offset="100%" stopColor="var(--accent-strong)" stopOpacity={0.1} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid vertical={false} stroke="var(--grid-line)" />
-                  <XAxis dataKey="tick" tickLine={false} axisLine={{ stroke: 'var(--border-strong)' }} tick={{ fontSize: 11, fill: 'var(--muted)' }} interval="preserveStartEnd" minTickGap={36} />
-                  <YAxis allowDecimals={false} width={36} tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: 'var(--muted)' }} />
-                  <Tooltip content={<ChartTip />} cursor={{ stroke: 'var(--border-strong)' }} isAnimationActive={false} />
-                  <Area type="monotone" dataKey="events" stroke="var(--c-info)" strokeWidth={2} fill="url(#soc-events-fill)" dot={false} activeDot={{ r: 3 }} isAnimationActive={false} />
-                  <Area type="monotone" dataKey="alerts" stroke="var(--accent-strong)" strokeWidth={2} fill="url(#soc-alerts-fill)" dot={false} activeDot={{ r: 3 }} isAnimationActive={false} />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
           )}
         </Panel>
 

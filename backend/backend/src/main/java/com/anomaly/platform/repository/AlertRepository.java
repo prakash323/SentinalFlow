@@ -155,6 +155,20 @@ public interface AlertRepository
     List<Object[]> hourlyCounts(@Param("since") OffsetDateTime since);
 
     /*
+     * Same buckets as hourlyCounts, split by severity:
+     * [hourKey, severity, count]. One aggregate query for the whole window.
+     */
+    @Query(value = """
+            SELECT to_char(date_trunc('hour', created_at AT TIME ZONE 'UTC'), 'YYYY-MM-DD"T"HH24'),
+                   severity,
+                   COUNT(*)
+            FROM alerts
+            WHERE created_at >= :since
+            GROUP BY 1, 2
+            """, nativeQuery = true)
+    List<Object[]> hourlyCountsBySeverity(@Param("since") OffsetDateTime since);
+
+    /*
      * [entityUuid, alertCount, openAlertCount, maxScore] for the given
      * entities.
      */

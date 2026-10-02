@@ -8,6 +8,7 @@ import com.anomaly.platform.dto.TrendPointResponse;
 import com.anomaly.platform.entity.Alert;
 import com.anomaly.platform.entity.AlertFactor;
 import com.anomaly.platform.entity.IncidentStatus;
+import com.anomaly.platform.entity.Severity;
 import com.anomaly.platform.repository.AlertFactorRepository;
 import com.anomaly.platform.repository.AlertRepository;
 import com.anomaly.platform.repository.EventRepository;
@@ -45,6 +46,8 @@ public class DashboardService {
 
     private static final int RECENT_LIMIT = 10;
     private static final int MAX_TREND_HOURS = 72;
+    private static final List<Severity> SEVERITY_ORDER =
+            List.of(Severity.CRITICAL, Severity.HIGH, Severity.MEDIUM, Severity.LOW);
     private static final int TOP_ENTITIES = 5;
 
     private final EventRepository eventRepository;
@@ -183,6 +186,14 @@ public class DashboardService {
         Map<String, Long> eventsPerHour = toCountMap(eventRepository.hourlyCounts(windowStart));
         Map<String, Long> alertsPerHour = toCountMap(alertRepository.hourlyCounts(windowStart));
 
+        // hourKey -> (severity -> count), from one GROUP BY hour, severity query
+        Map<String, Map<String, Long>> alertsPerHourBySeverity = new LinkedHashMap<>();
+        for (Object[] row : alertRepository.hourlyCountsBySeverity(windowStart)) {
+            alertsPerHourBySeverity
+                    .computeIfAbsent(String.valueOf(row[0]), k -> new LinkedHashMap<>())
+                    .put(String.valueOf(row[1]), ((Number) row[2]).longValue());
+        }
+
         DateTimeFormatter keyFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH");
         DateTimeFormatter labelFormat =
                 hours > 24
@@ -197,11 +208,18 @@ public class DashboardService {
 
             String key = bucketStart.format(keyFormat);
 
+            Map<String, Long> hourSeverities = alertsPerHourBySeverity.getOrDefault(key, Map.of());
+            Map<String, Long> bySeverity = new LinkedHashMap<>();
+            for (Severity severity : SEVERITY_ORDER) {
+                bySeverity.put(severity.name(), hourSeverities.getOrDefault(severity.name(), 0L));
+            }
+
             trend.add(new TrendPointResponse(
                     bucketStart.format(labelFormat),
                     eventsPerHour.getOrDefault(key, 0L),
                     alertsPerHour.getOrDefault(key, 0L),
-                    bucketStart
+                    bucketStart,
+                    bySeverity
             ));
         }
 

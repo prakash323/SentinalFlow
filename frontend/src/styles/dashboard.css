@@ -31,24 +31,30 @@
   border-radius: var(--radius);
   background: var(--panel);
 }
-.soc-sevbar a {
+.soc-sevbar button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   height: 26px;
   padding: 0 10px;
+  border: 0;
   border-radius: var(--radius-sm);
+  background: transparent;
+  font: inherit;
   font-size: 12px;
   color: var(--text-2);
   white-space: nowrap;
+  cursor: pointer;
   transition: background var(--dur-fast), color var(--dur-fast);
 }
-.soc-sevbar a:hover { background: var(--panel-hover); color: var(--text); }
-.soc-sevbar a b { font-family: var(--font-mono); font-weight: 600; color: var(--text); }
-.soc-sevbar a i { width: 7px; height: 7px; border-radius: 50%; background: var(--tone); }
-.soc-sevbar a.is-all { color: var(--on-accent); background: var(--accent-strong); font-weight: 600; }
-.soc-sevbar a.is-all b { color: inherit; }
-.soc-sevbar a.is-all:hover { background: var(--accent-strong-hover); color: var(--on-accent); }
+.soc-sevbar button:hover { background: var(--panel-hover); color: var(--text); }
+.soc-sevbar button b { font-family: var(--font-mono); font-weight: 600; color: var(--text); }
+.soc-sevbar button i { width: 7px; height: 7px; border-radius: 50%; background: var(--tone); }
+/* the selected severity: same orange fill as the primary action */
+.soc-sevbar button[aria-pressed='true'] { color: var(--on-accent); background: var(--accent-strong); font-weight: 600; }
+.soc-sevbar button[aria-pressed='true'] b { color: inherit; }
+.soc-sevbar button[aria-pressed='true'] i { box-shadow: 0 0 0 2px var(--on-accent); }
+.soc-sevbar button[aria-pressed='true']:hover { background: var(--accent-strong-hover); color: var(--on-accent); }
 
 /* ---------- attention strip ---------- */
 .soc-note {
@@ -84,11 +90,11 @@
 
 .soc-alerts, .soc-events, .soc-health { grid-column: span 3; }
 .soc-incidents { grid-column: span 3; grid-row: span 2; }
-.soc-pipeline { grid-column: span 9; }
+.soc-pipeline { grid-column: span 12; }
 .soc-nav { grid-column: span 7; }
 .soc-severity { grid-column: span 5; }
-.soc-activity { grid-column: span 8; }
-.soc-statstack { grid-column: span 4; }
+.soc-activity { grid-column: span 9; }
+.soc-statstack { grid-column: span 12; }
 .soc-critical { grid-column: span 7; }
 .soc-feed { grid-column: span 5; }
 .soc-entities, .soc-types { grid-column: span 6; }
@@ -268,6 +274,20 @@
 .soc-stats span { font-size: 11px; color: var(--muted); }
 .soc-stats b { font-family: var(--font-mono); font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* ---------- alerts chart: window control, severity filters, legend and graph in one card ---------- */
+.soc-chart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin: -2px 0 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.soc-chart-controls .soc-sevbar { background: var(--panel-2); }
+.soc-legend-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+
 /* ---------- activity chart ---------- */
 .soc-chart { height: 260px; }
 .soc-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); }
@@ -289,9 +309,10 @@
 .soc-tip div { display: flex; align-items: center; gap: 6px; }
 .soc-tip i { width: 8px; height: 8px; border-radius: 2px; }
 .soc-tip b { margin-left: auto; padding-left: 12px; font-family: var(--font-mono); color: var(--text); }
+.soc-tip .soc-tip-total { margin-top: 2px; padding-top: 4px; border-top: 1px solid var(--border); color: var(--text); }
 
 /* ---------- compact stats ---------- */
-.soc-statstack { display: grid; gap: 14px; }
+.soc-statstack { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .soc-stat { gap: 4px; justify-content: center; transition: border-color var(--dur-fast), background var(--dur-fast); }
 .soc-stat:hover { border-color: var(--border-strong); background: var(--panel-2); }
 .soc-stat-label { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--text-2); }
@@ -337,14 +358,13 @@
   .soc-alerts, .soc-events, .soc-health { grid-column: span 4; }
   .soc-incidents { grid-column: span 6; grid-row: auto; }
   .soc-severity { grid-column: span 6; }
-  .soc-pipeline, .soc-nav { grid-column: span 12; }
+  .soc-activity, .soc-pipeline, .soc-nav { grid-column: span 12; }
   .soc-critical, .soc-feed { grid-column: span 6; }
 }
 @media (max-width: 1100px) {
   .soc-alerts, .soc-events, .soc-health { grid-column: span 6; }
   .soc-health { grid-column: span 12; }
   .soc-incidents, .soc-pipeline, .soc-activity, .soc-statstack, .soc-critical, .soc-feed { grid-column: span 12; }
-  .soc-statstack { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .soc-nav, .soc-severity { grid-column: span 12; }
 }
 @media (max-width: 760px) {

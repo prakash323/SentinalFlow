@@ -177,8 +177,11 @@ export type AuditLog = {
 export type TrendPoint = {
   label: string;
   events: number;
+  /** alerts raised in this UTC hour (by alert createdAt), all severities */
   alerts: number;
   bucketStart: string;
+  /** the same alerts split by severity, zero-filled. Absent on older backends. */
+  alertsBySeverity?: Record<string, number>;
 };
 
 export type EntityRisk = {
