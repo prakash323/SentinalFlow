@@ -121,6 +121,18 @@ management:
       enabled: true
 
 anomaly:
+  # Re-publishes events stored by the REST API but never published to Kafka
+  # (PendingEventReconciler). Defaults shown; see ReconcilerProperties.
+  reconciler:
+    enabled: ${RECONCILER_ENABLED:true}
+    # ISO-8601: also read by @Scheduled, which does not accept "1m" (startup fails)
+    interval: PT1M
+    stale-after: 10m
+    max-age: 24h
+    max-attempts: 6
+    retry-interval: 10m
+    batch-size: 50
+    send-timeout: 15s
   alert-policy:
     policy-version: v2-ml-ensemble
     # The real ML service's anomalyScore is a percentile rank against its

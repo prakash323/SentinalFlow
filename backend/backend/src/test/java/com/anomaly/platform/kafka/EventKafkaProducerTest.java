@@ -86,4 +86,42 @@ class EventKafkaProducerTest {
         }
         verify(kafkaTemplate).send(eq(KafkaTopics.RAW_EVENTS), eq("EV-1"), any());
     }
+
+    // ---- publishNow: synchronous publish used by PendingEventReconciler ----
+
+    @Test
+    void publishNow_returnsOnceTheBrokerAcknowledges() {
+
+        var metadata = new org.apache.kafka.clients.producer.RecordMetadata(
+                new org.apache.kafka.common.TopicPartition(KafkaTopics.RAW_EVENTS, 0), 7L, 0, 0L, 4, 10);
+        when(kafkaTemplate.send(anyString(), anyString(), anyString())).thenReturn(
+                java.util.concurrent.CompletableFuture.completedFuture(
+                        new org.springframework.kafka.support.SendResult<>(null, metadata)));
+
+        assertThatCode(() -> producer.publishNow(event("x"), java.time.Duration.ofSeconds(1)))
+                .doesNotThrowAnyException();
+        verify(kafkaTemplate).send(eq(KafkaTopics.RAW_EVENTS), eq("EV-1"), any());
+    }
+
+    @Test
+    void publishNow_throwsWhenTheBrokerRejectsTheRecord() {
+
+        when(kafkaTemplate.send(anyString(), anyString(), anyString())).thenReturn(
+                java.util.concurrent.CompletableFuture.failedFuture(new KafkaException("broker unavailable")));
+
+        assertThatThrownBy(() -> producer.publishNow(event("x"), java.time.Duration.ofSeconds(1)))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("EV-1");
+    }
+
+    @Test
+    void publishNow_throwsWhenTheBrokerDoesNotAcknowledgeInTime() {
+
+        when(kafkaTemplate.send(anyString(), anyString(), anyString()))
+                .thenReturn(new java.util.concurrent.CompletableFuture<>());   // never completes
+
+        assertThatThrownBy(() -> producer.publishNow(event("x"), java.time.Duration.ofMillis(50)))
+                .isInstanceOf(IllegalStateException.class)
+                .hasCauseInstanceOf(java.util.concurrent.TimeoutException.class);
+    }
 }

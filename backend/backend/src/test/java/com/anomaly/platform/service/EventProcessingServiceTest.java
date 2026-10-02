@@ -3,6 +3,7 @@ package com.anomaly.platform.service;
 import com.anomaly.platform.dto.CreatePredictionRequest;
 import com.anomaly.platform.entity.DecisionState;
 import com.anomaly.platform.entity.Event;
+import com.anomaly.platform.entity.EventProcessingStatus;
 import com.anomaly.platform.exception.NotFoundException;
 import com.anomaly.platform.kafka.KafkaEvent;
 import com.anomaly.platform.ml.MlPredictionClient;
@@ -292,9 +293,164 @@ class EventProcessingServiceTest {
         assertThat(persistedEvent.getId()).isNotNull();
         verify(ledger, org.mockito.Mockito.times(2)).persistOrLoad(any());
         verify(predictionService, org.mockito.Mockito.times(2)).create(any());
-        // Whether the second call actually creates a duplicate Prediction/Alert
-        // is PredictionService's own idempotency contract - covered separately
-        // in PredictionServiceIdempotencyTest. Re-calling the ML service on a
-        // redelivery is a known, harmless inefficiency - see the Phase 4 report.
+        // The persisted event here stays PENDING (markProcessed is a mock), so
+        // both deliveries take the full path; whether the second creates a
+        // duplicate Prediction/Alert is PredictionService's own idempotency
+        // contract (PredictionServiceIdempotencyTest). A redelivery of an event
+        // that really reached PROCESSED is short-circuited - see the
+        // idempotency-guard tests below.
+    }
+
+    // ---------------------------------------------------------------
+    // Idempotency guard: PROCESSED + persisted prediction = complete
+    // ---------------------------------------------------------------
+
+    @Test
+    void processedEventWithPrediction_isSkipped_withoutCallingMlOrRulesOrCreatingRecords() {
+
+        persistedEvent.setProcessingStatus(EventProcessingStatus.PROCESSED);
+        when(ledger.persistOrLoad(any())).thenReturn(persistedEvent);
+        when(predictionService.hasPrediction(persistedEvent.getId())).thenReturn(true);
+
+        assertThat(service.process(validEvent())).isEqualTo(EventProcessingService.Outcome.ALREADY_PROCESSED);
+
+        // ML is never called again ...
+        verifyNoInteractions(mlPredictionClient);
+        // ... and nothing that creates predictions, alerts, incidents or audit
+        // entries runs: rules (rule alerts, incidents, DETECTION_* audit),
+        // PredictionService.create (prediction, ML alert, incident) and the
+        // ledger's status/audit writers.
+        verifyNoInteractions(deterministicRuleService);
+        verify(predictionService, never()).create(any());
+        verify(ledger, never()).markProcessed(any());
+        verify(ledger, never()).markFailed(any(), any(), any());
+        verify(ledger, never()).recordUnresolvableFailure(any(), any(), any());
+    }
+
+    @Test
+    void redeliveryAfterSuccessfulProcessing_callsMlExactlyOnceAcrossBothDeliveries() {
+
+        when(ledger.persistOrLoad(any())).thenReturn(persistedEvent);
+        when(mlPredictionClient.predict(any())).thenReturn(anomalousMlResponse());
+        // the real ledger flips the status; mirror that on the shared entity
+        org.mockito.Mockito.doAnswer(inv -> {
+            persistedEvent.setProcessingStatus(EventProcessingStatus.PROCESSED);
+            return null;
+        }).when(ledger).markProcessed(persistedEvent.getId());
+        when(predictionService.hasPrediction(persistedEvent.getId())).thenReturn(true);
+
+        service.process(validEvent());   // first delivery: full pipeline
+        service.process(validEvent());   // redelivery / replay: skipped
+
+        verify(mlPredictionClient, org.mockito.Mockito.times(1)).predict(any());
+        verify(predictionService, org.mockito.Mockito.times(1)).create(any());
+        verify(deterministicRuleService, org.mockito.Mockito.times(1)).evaluate(persistedEvent);
+        verify(ledger, org.mockito.Mockito.times(1)).markProcessed(persistedEvent.getId());
+    }
+
+    @Test
+    void newPendingEvent_takesTheNormalPath_andCallsMl() {
+
+        // A freshly ingested event is PENDING (the entity default).
+        assertThat(persistedEvent.getProcessingStatus()).isEqualTo(EventProcessingStatus.PENDING);
+        when(ledger.persistOrLoad(any())).thenReturn(persistedEvent);
+        when(mlPredictionClient.predict(any())).thenReturn(normalMlResponse());
+
+        assertThat(service.process(validEvent())).isEqualTo(EventProcessingService.Outcome.PROCESSED);
+
+        verify(mlPredictionClient).predict(any());
+        verify(predictionService).create(any());
+        verify(ledger).markProcessed(persistedEvent.getId());
+        // the guard only consults the prediction store for PROCESSED events
+        verify(predictionService, never()).hasPrediction(any());
+    }
+
+    @Test
+    void failedEvent_evenWithAPersistedPrediction_followsTheExistingRecoveryPath() {
+
+        // e.g. the prediction committed but markProcessed then failed: the
+        // workflow is incomplete, so it must be retried, not skipped.
+        persistedEvent.setProcessingStatus(EventProcessingStatus.FAILED);
+        when(ledger.persistOrLoad(any())).thenReturn(persistedEvent);
+        when(mlPredictionClient.predict(any())).thenReturn(anomalousMlResponse());
+
+        service.process(validEvent());
+
+        verify(deterministicRuleService).evaluate(persistedEvent);
+        verify(mlPredictionClient).predict(any());
+        verify(predictionService).create(any());   // idempotent on (event, model, version)
+        verify(ledger).markProcessed(persistedEvent.getId());
+        verify(predictionService, never()).hasPrediction(any());
+    }
+
+    @Test
+    void processedEventWithNoPredictionOnRecord_isNotSkipped_butRecovered() {
+
+        persistedEvent.setProcessingStatus(EventProcessingStatus.PROCESSED);
+        when(ledger.persistOrLoad(any())).thenReturn(persistedEvent);
+        when(predictionService.hasPrediction(persistedEvent.getId())).thenReturn(false);
+        when(mlPredictionClient.predict(any())).thenReturn(normalMlResponse());
+
+        service.process(validEvent());
+
+        verify(mlPredictionClient).predict(any());
+        verify(predictionService).create(any());
+        verify(ledger).markProcessed(persistedEvent.getId());
+    }
+
+    // ---------------------------------------------------------------
+    // Transient ML failure: retried attempts, then success, then redelivery
+    // ---------------------------------------------------------------
+
+    @Test
+    void transientMlFailures_thenSuccess_persistOnce_andALaterRedeliverySkipsMl() {
+
+        when(ledger.persistOrLoad(any())).thenReturn(persistedEvent);
+        // markFailed / markProcessed as the real ledger does
+        org.mockito.Mockito.doAnswer(inv -> {
+            persistedEvent.setProcessingStatus(EventProcessingStatus.FAILED);
+            return null;
+        }).when(ledger).markFailed(eq(persistedEvent.getId()), any(), any());
+        org.mockito.Mockito.doAnswer(inv -> {
+            persistedEvent.setProcessingStatus(EventProcessingStatus.PROCESSED);
+            return null;
+        }).when(ledger).markProcessed(persistedEvent.getId());
+        when(mlPredictionClient.predict(any()))
+                .thenThrow(new com.anomaly.platform.ml.MlServiceUnavailableException("timeout", false, null))
+                .thenThrow(new com.anomaly.platform.ml.MlServiceUnavailableException("warming up", true, null))
+                .thenReturn(anomalousMlResponse());
+        when(predictionService.hasPrediction(persistedEvent.getId())).thenReturn(true);
+
+        // attempts 1 and 2 fail and propagate, so the Kafka error handler can retry them
+        assertThatThrownBy(() -> service.process(validEvent()))
+                .isInstanceOf(com.anomaly.platform.ml.MlServiceUnavailableException.class);
+        assertThatThrownBy(() -> service.process(validEvent()))
+                .isInstanceOf(com.anomaly.platform.ml.MlServiceUnavailableException.class);
+        // attempt 3 succeeds
+        service.process(validEvent());
+        // a later redelivery / replay of the completed event
+        service.process(validEvent());
+
+        verify(mlPredictionClient, org.mockito.Mockito.times(3)).predict(any());   // never on the redelivery
+        verify(predictionService, org.mockito.Mockito.times(1)).create(any());     // prediction/alert/incident once
+        verify(ledger, org.mockito.Mockito.times(2)).markFailed(eq(persistedEvent.getId()), any(), any());
+        verify(ledger, org.mockito.Mockito.times(1)).markProcessed(persistedEvent.getId());
+        // rules ran on each attempt (they are idempotent), not on the redelivery
+        verify(deterministicRuleService, org.mockito.Mockito.times(3)).evaluate(persistedEvent);
+    }
+
+    @Test
+    void permanentMlRejection_isRecordedAsFailed_andPropagatesForTheDeadLetterPath() {
+
+        when(ledger.persistOrLoad(any())).thenReturn(persistedEvent);
+        when(mlPredictionClient.predict(any()))
+                .thenThrow(new com.anomaly.platform.ml.MlResponseRejectedException("unknown decision"));
+
+        assertThatThrownBy(() -> service.process(validEvent()))
+                .isInstanceOf(com.anomaly.platform.ml.MlResponseRejectedException.class);
+
+        verify(ledger).markFailed(eq(persistedEvent.getId()), any(), any());
+        verify(predictionService, never()).create(any());
+        verify(ledger, never()).markProcessed(any());
     }
 }

@@ -3,6 +3,7 @@ package com.anomaly.platform.service;
 import com.anomaly.platform.dto.CreatePredictionRequest;
 import com.anomaly.platform.entity.DecisionState;
 import com.anomaly.platform.entity.Event;
+import com.anomaly.platform.entity.EventProcessingStatus;
 import com.anomaly.platform.kafka.KafkaEvent;
 import com.anomaly.platform.ml.MlPredictionClient;
 import com.anomaly.platform.ml.MlPredictionRequest;
@@ -73,7 +74,15 @@ public class EventProcessingService {
      * consumer's retry/dead-letter handling (KafkaErrorHandlingConfig) can
      * act on it.
      */
-    public void process(KafkaEvent event) {
+    /* What process() did with an event that did not fail. */
+    public enum Outcome {
+        /** Rules and ML ran; the prediction (and any alert/incident) is persisted. */
+        PROCESSED,
+        /** Already PROCESSED with a prediction on record - nothing was run again. */
+        ALREADY_PROCESSED
+    }
+
+    public Outcome process(KafkaEvent event) {
 
         validate(event);
 
@@ -92,6 +101,25 @@ public class EventProcessingService {
             );
 
             throw persistFailure;
+        }
+
+        // Idempotency guard for duplicate delivery and admin replay. PROCESSED
+        // is only set after the prediction (and any alert/incident) committed,
+        // so such an event is complete. Running it again would feed the
+        // stateful ML scorer the same event twice (skewing that entity's
+        // history) and re-run the rules (repeat DETECTION_SUPPRESSED audit
+        // entries, or a fresh rule alert once the original was resolved).
+        // PENDING/FAILED events - and a PROCESSED event with no prediction on
+        // record - are incomplete and still take the normal recovery path.
+        if (databaseEvent.getProcessingStatus() == EventProcessingStatus.PROCESSED
+                && predictionService.hasPrediction(databaseEvent.getId())) {
+
+            log.info(
+                    "Event already processed - skipping duplicate delivery/replay eventId={} dbEventId={}",
+                    event.eventId(),
+                    databaseEvent.getId()
+            );
+            return Outcome.ALREADY_PROCESSED;
         }
 
         /*
@@ -145,6 +173,8 @@ public class EventProcessingService {
                     event.entityId(),
                     databaseEvent.getId()
             );
+
+            return Outcome.PROCESSED;
 
         } catch (Exception processingFailure) {
 

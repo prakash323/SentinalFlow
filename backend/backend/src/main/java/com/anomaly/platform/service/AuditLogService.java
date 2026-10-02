@@ -68,6 +68,11 @@ public class AuditLogService {
         );
     }
 
+    @Transactional(readOnly = true)
+    public boolean hasSuppressionRecord(UUID alertId, String ruleId, String triggeringEventId) {
+        return auditLogRepository.existsSuppressionRecord(alertId, ruleId, triggeringEventId);
+    }
+
     @Transactional
     public AuditLog log(
             String actor,

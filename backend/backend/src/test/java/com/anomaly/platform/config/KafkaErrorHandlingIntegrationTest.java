@@ -51,6 +51,21 @@ class KafkaErrorHandlingIntegrationTest {
     private static final String SUCCESSFUL_RETRY_TOPIC = "test.successful-retry";
     private static final String RETRY_EXHAUSTED_TOPIC = "test.retry-exhausted";
     private static final String NON_RETRYABLE_TOPIC = "test.non-retryable";
+    private static final String ML_RECOVERS_TOPIC = "test.ml-recovers";
+    private static final String ML_EXHAUSTED_TOPIC = "test.ml-exhausted";
+    private static final String ML_REJECTED_TOPIC = "test.ml-rejected";
+
+    /*
+     * Same shape as the production transient-ML policy, scaled down so the
+     * test runs in milliseconds: 10, 20, 40, 40, 40, 40, 40 ms -> 7 retries,
+     * 8 attempts (production: 1s..30s over ~5 min, 15 attempts).
+     */
+    private static org.springframework.util.backoff.ExponentialBackOff shortMlBackOff() {
+        var backOff = new org.springframework.util.backoff.ExponentialBackOff(10L, 2.0);
+        backOff.setMaxInterval(40L);
+        backOff.setMaxElapsedTime(200L);
+        return backOff;
+    }
 
     private static EmbeddedKafkaBroker broker;
 
@@ -64,7 +79,10 @@ class KafkaErrorHandlingIntegrationTest {
                 1, 1,
                 SUCCESSFUL_RETRY_TOPIC, SUCCESSFUL_RETRY_TOPIC + ".DLT",
                 RETRY_EXHAUSTED_TOPIC, RETRY_EXHAUSTED_TOPIC + ".DLT",
-                NON_RETRYABLE_TOPIC, NON_RETRYABLE_TOPIC + ".DLT"
+                NON_RETRYABLE_TOPIC, NON_RETRYABLE_TOPIC + ".DLT",
+                ML_RECOVERS_TOPIC, ML_RECOVERS_TOPIC + ".DLT",
+                ML_EXHAUSTED_TOPIC, ML_EXHAUSTED_TOPIC + ".DLT",
+                ML_REJECTED_TOPIC, ML_REJECTED_TOPIC + ".DLT"
         );
 
         broker.afterPropertiesSet();
@@ -101,6 +119,15 @@ class KafkaErrorHandlingIntegrationTest {
             String groupId,
             MessageListener<String, String> listener
     ) throws InterruptedException {
+        startListener(topic, groupId, listener, KafkaErrorHandlingConfig.transientMlBackOff());
+    }
+
+    private void startListener(
+            String topic,
+            String groupId,
+            MessageListener<String, String> listener,
+            org.springframework.util.backoff.BackOff mlBackOff
+    ) throws InterruptedException {
 
         // Same fix as kafkaTemplate(): KafkaTestUtils.consumerProps also
         // defaults to IntegerDeserializer for the key.
@@ -117,7 +144,7 @@ class KafkaErrorHandlingIntegrationTest {
 
         // The exact bean under test - built the same way Spring Boot
         // wires it into the real listener container in production.
-        container.setCommonErrorHandler(new KafkaErrorHandlingConfig().kafkaErrorHandler(kafkaTemplate()));
+        container.setCommonErrorHandler(new KafkaErrorHandlingConfig().kafkaErrorHandler(kafkaTemplate(), mlBackOff));
 
         container.start();
         ContainerTestUtils.waitForAssignment(container, 1);
@@ -232,6 +259,96 @@ class KafkaErrorHandlingIntegrationTest {
             // very first failure, with no retries in between.
             assertThat(attempts.get()).isEqualTo(1);
 
+        } finally {
+            dlt.close();
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Transient vs permanent ML-service failures
+    // ---------------------------------------------------------------
+
+    @Test
+    void mlServiceUnavailable_isRetriedBeyondTheDefaultThreeAttempts_andRecovers() throws Exception {
+
+        AtomicInteger attempts = new AtomicInteger(0);
+        CountDownLatch succeeded = new CountDownLatch(1);
+        startListener(ML_RECOVERS_TOPIC, "ml-recovers-group", record -> {
+            if (attempts.incrementAndGet() <= 5) {
+                // what MlPredictionClient throws for a timeout / refused connection / 5xx / warm-up
+                throw new com.anomaly.platform.ml.MlServiceUnavailableException("ML down", false, null);
+            }
+            succeeded.countDown();
+        }, shortMlBackOff());
+
+        template = kafkaTemplate();
+        template.send(ML_RECOVERS_TOPIC, "EV-ML-RECOVERS", "payload").get(5, TimeUnit.SECONDS);
+
+        assertThat(succeeded.await(10, TimeUnit.SECONDS)).as("recovers on attempt 6").isTrue();
+        assertThat(attempts.get()).isEqualTo(6);   // the default policy would have dead-lettered it after 3
+
+        Consumer<String, String> dlt = dltConsumer(ML_RECOVERS_TOPIC + ".DLT", "ml-recovers-dlt-group");
+        try {
+            KafkaTestUtils.getSingleRecord(dlt, ML_RECOVERS_TOPIC + ".DLT", Duration.ofSeconds(2));
+            org.assertj.core.api.Assertions.fail("a recovered record must not be dead-lettered");
+        } catch (IllegalStateException expectedTimeout) {
+            // nothing dead-lettered
+        } finally {
+            dlt.close();
+        }
+    }
+
+    @Test
+    void mlServiceUnavailable_pastItsRetryBudget_isDeadLettered() throws Exception {
+
+        AtomicInteger attempts = new AtomicInteger(0);
+        startListener(ML_EXHAUSTED_TOPIC, "ml-exhausted-group", record -> {
+            attempts.incrementAndGet();
+            throw new com.anomaly.platform.ml.MlServiceUnavailableException("ML still down", true, null);
+        }, shortMlBackOff());
+
+        template = kafkaTemplate();
+        template.send(ML_EXHAUSTED_TOPIC, "EV-ML-EXHAUSTED", "payload").get(5, TimeUnit.SECONDS);
+
+        Consumer<String, String> dlt = dltConsumer(ML_EXHAUSTED_TOPIC + ".DLT", "ml-exhausted-dlt-group");
+        try {
+            ConsumerRecord<String, String> dltRecord =
+                    KafkaTestUtils.getSingleRecord(dlt, ML_EXHAUSTED_TOPIC + ".DLT", Duration.ofSeconds(15));
+            assertThat(dltRecord.key()).isEqualTo("EV-ML-EXHAUSTED");
+            assertThat(attempts.get()).isEqualTo(8);   // 1 + 7 retries of the ML policy
+        } finally {
+            dlt.close();
+        }
+    }
+
+    @Test
+    void mlResponseRejected_goesStraightToTheDeadLetterTopic_withoutRetries() throws Exception {
+
+        AtomicInteger attempts = new AtomicInteger(0);
+        startListener(ML_REJECTED_TOPIC, "ml-rejected-group", record -> {
+            attempts.incrementAndGet();
+            // what MlPredictionClient throws for a 4xx or a malformed response
+            throw new com.anomaly.platform.ml.MlResponseRejectedException("malformed ML response");
+        }, shortMlBackOff());
+
+        template = kafkaTemplate();
+        template.send(ML_REJECTED_TOPIC, "EV-ML-REJECTED", "payload").get(5, TimeUnit.SECONDS);
+
+        Consumer<String, String> dlt = dltConsumer(ML_REJECTED_TOPIC + ".DLT", "ml-rejected-dlt-group");
+        try {
+            ConsumerRecord<String, String> dltRecord =
+                    KafkaTestUtils.getSingleRecord(dlt, ML_REJECTED_TOPIC + ".DLT", Duration.ofSeconds(10));
+            assertThat(dltRecord.key()).isEqualTo("EV-ML-REJECTED");
+            assertThat(attempts.get()).isEqualTo(1);
+            // the actual reason and the supported recovery travel with the record
+            assertThat(new String(dltRecord.headers().lastHeader(KafkaErrorHandlingConfig.FAILURE_HEADER).value(),
+                    java.nio.charset.StandardCharsets.UTF_8))
+                    .isEqualTo("MlResponseRejectedException: malformed ML response");
+            assertThat(new String(dltRecord.headers().lastHeader(KafkaErrorHandlingConfig.RECOVERY_HEADER).value(),
+                    java.nio.charset.StandardCharsets.UTF_8))
+                    .contains("POST /api/v1/replay-runs");
+            // Spring's own context headers are still there
+            assertThat(dltRecord.headers().lastHeader("kafka_dlt-original-topic")).isNotNull();
         } finally {
             dlt.close();
         }

@@ -13,6 +13,10 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Component
 public class EventKafkaProducer {
@@ -63,6 +67,35 @@ public class EventKafkaProducer {
                     "Failed to serialize event: " + request.eventId(),
                     e
             );
+        }
+    }
+
+    /*
+     * Synchronous publish for PendingEventReconciler: returns only once the
+     * broker acknowledged the record, otherwise throws. (send() itself can
+     * still block up to the producer's max.block.ms while the broker is
+     * unreachable, before the timeout below starts.)
+     */
+    public void publishNow(CreateEventRequest request, Duration timeout) {
+
+        String eventJson = serialize(request);
+
+        try {
+            var result = kafkaTemplate
+                    .send(KafkaTopics.RAW_EVENTS, request.eventId(), eventJson)
+                    .get(timeout.toMillis(), TimeUnit.MILLISECONDS);
+
+            log.info(
+                    "Event re-published to Kafka eventId={} partition={} offset={}",
+                    request.eventId(),
+                    result.getRecordMetadata().partition(),
+                    result.getRecordMetadata().offset()
+            );
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Interrupted while re-publishing event: " + request.eventId(), e);
+        } catch (ExecutionException | TimeoutException | RuntimeException e) {
+            throw new IllegalStateException("Failed to re-publish event to Kafka: " + request.eventId(), e);
         }
     }
 
