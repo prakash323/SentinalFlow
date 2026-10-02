@@ -23,6 +23,7 @@ import {
 } from '../components/ui';
 import { fmtDate, formatApiError, humanize, pct } from '../utils/format';
 import { findRelatedActivity, type RelatedActivityMatch } from '../utils/relatedActivity';
+import { trailAlerts } from '../types/domain';
 import type { EventRecord, EventTrail } from '../types/domain';
 
 // Neutral, non-causal wording only - see relatedActivity.ts. Never
@@ -138,21 +139,24 @@ function buildSteps(trail: EventTrail, createdAt?: string | null): Step[] {
     });
   }
 
-  if (trail.alert) {
+  // A rule alert and an ML alert can both exist for one event - show each.
+  const alerts = trailAlerts(trail);
+  for (const alert of alerts) {
     steps.push({
       tone: 'critical',
       icon: BellRing,
-      title: 'Alert raised',
-      meta: `Policy ${trail.alert.policyVersion}`,
+      title: alert.ruleName ? `Alert raised: ${alert.ruleName}` : 'Alert raised',
+      meta: alert.ruleId ? `Rule ${alert.ruleId} · Policy ${alert.policyVersion}` : `ML alert policy ${alert.policyVersion}`,
       body: (
         <div className="row-gap">
-          <SeverityBadge value={trail.alert.severity} />
-          <Link className="link" to={`/alerts/${trail.alert.id}`}>Open alert</Link>
-          {trail.alert.incidentId && <Link className="link inline" to={`/incidents/${trail.alert.incidentId}`}><ShieldAlert size={14} />Incident</Link>}
+          <SeverityBadge value={alert.severity} />
+          <Link className="link" to={`/alerts/${alert.id}`}>Open alert</Link>
+          {alert.incidentId && <Link className="link inline" to={`/incidents/${alert.incidentId}`}><ShieldAlert size={14} />Incident</Link>}
         </div>
       ),
     });
-  } else if (p) {
+  }
+  if (!alerts.length && p) {
     steps.push({
       tone: 'ok',
       icon: CheckCircle2,

@@ -140,8 +140,15 @@ export type EventTrail = {
   lastProcessingError?: string | null;
   processedAt?: string | null;
   prediction: Prediction | null;
+  /** The newest alert, kept for compatibility - see `alerts`. */
   alert: Alert | null;
+  /** Every alert raised for this event (rule and ML), newest first. */
+  alerts?: Alert[];
 };
+
+/** All alerts on a trail; falls back to `alert` for an older backend. */
+export const trailAlerts = (t?: EventTrail | null): Alert[] =>
+  t?.alerts ?? (t?.alert ? [t.alert] : []);
 
 export type ReplayRun = {
   id: string;

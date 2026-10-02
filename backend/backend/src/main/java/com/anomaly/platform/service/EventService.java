@@ -23,6 +23,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class EventService {
 
@@ -65,6 +67,12 @@ public class EventService {
                                 "Entity not found: " + request.entityId()
                         )
                 );
+
+        /*
+         * Reject an event Kafka cannot carry BEFORE persisting it, so it can
+         * never be stored without being processable.
+         */
+        kafkaProducer.ensurePublishable(request);
 
         /*
          * 2. Create the Event entity.
@@ -127,11 +135,14 @@ public class EventService {
                         .map(p -> predictionService.get(p.getId()))
                         .orElse(null);
 
-        AlertResponse alert =
+        // Newest first. A rule alert and an ML alert can both exist for one
+        // event; returning only the newest hid the other one entirely.
+        List<AlertResponse> alerts =
                 alertRepository
-                        .findTopByEvent_IdOrderByCreatedAtDesc(event.getId())
+                        .findByEvent_IdOrderByCreatedAtDesc(event.getId())
+                        .stream()
                         .map(a -> alertService.get(a.getId()))
-                        .orElse(null);
+                        .toList();
 
         return new EventTrailResponse(
                 event.getEventId(),
@@ -140,7 +151,8 @@ public class EventService {
                 event.getLastProcessingError(),
                 event.getProcessedAt(),
                 prediction,
-                alert
+                alerts.isEmpty() ? null : alerts.get(0),
+                alerts
         );
     }
 

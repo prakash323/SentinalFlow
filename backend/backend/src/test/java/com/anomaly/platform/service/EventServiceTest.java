@@ -1,7 +1,13 @@
 package com.anomaly.platform.service;
 
+import com.anomaly.platform.dto.AlertResponse;
+import com.anomaly.platform.dto.CreateEventRequest;
+import com.anomaly.platform.dto.EventTrailResponse;
 import com.anomaly.platform.dto.PageResponse;
+import com.anomaly.platform.entity.Alert;
+import com.anomaly.platform.entity.EntityProfile;
 import com.anomaly.platform.entity.Event;
+import com.anomaly.platform.exception.PayloadTooLargeException;
 import com.anomaly.platform.kafka.EventKafkaProducer;
 import com.anomaly.platform.repository.AlertRepository;
 import com.anomaly.platform.repository.EntityProfileRepository;
@@ -24,8 +30,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -175,5 +189,72 @@ class EventServiceTest {
 
         assertThat(result.content()).isEmpty();
         assertThat(result.totalElements()).isZero();
+    }
+
+    // ---------------------------------------------------------------
+    // create(): an event Kafka cannot carry is rejected before it is stored
+    // ---------------------------------------------------------------
+
+    @Test
+    void create_rejectsAnUnpublishableEvent_beforePersistingIt() {
+
+        EntityProfile entity = new EntityProfile();
+        entity.setEntityId("HOST-1");
+        when(entityRepository.findByEntityId("HOST-1")).thenReturn(Optional.of(entity));
+
+        CreateEventRequest request = new CreateEventRequest(
+                "EV-BIG", "HOST-1", "LOGIN", "v1", OffsetDateTime.now(), "test", Map.of("blob", "x"));
+        doThrow(new PayloadTooLargeException("too large")).when(kafkaProducer).ensurePublishable(request);
+
+        assertThatThrownBy(() -> eventService.create(request)).isInstanceOf(PayloadTooLargeException.class);
+
+        verify(repo, never()).save(any());
+        verify(kafkaProducer, never()).publish(any());
+    }
+
+    // ---------------------------------------------------------------
+    // trail(): every alert for the event, not just the newest
+    // ---------------------------------------------------------------
+
+    @Test
+    void trail_returnsEveryAlertForTheEvent_newestFirst_andKeepsAlertAsTheNewest() {
+
+        Event event = new Event();
+        event.setId(UUID.randomUUID());
+        event.setEventId("EV-1");
+        when(repo.findByEventId("EV-1")).thenReturn(Optional.of(event));
+        when(predictionRepository.findTopByEvent_IdOrderByCreatedAtDesc(event.getId())).thenReturn(Optional.empty());
+
+        Alert mlAlert = new Alert();
+        mlAlert.setId(UUID.randomUUID());
+        Alert ruleAlert = new Alert();
+        ruleAlert.setId(UUID.randomUUID());
+        when(alertRepository.findByEvent_IdOrderByCreatedAtDesc(event.getId())).thenReturn(List.of(mlAlert, ruleAlert));
+
+        AlertResponse mlResponse = mock(AlertResponse.class);
+        AlertResponse ruleResponse = mock(AlertResponse.class);
+        when(alertService.get(mlAlert.getId())).thenReturn(mlResponse);
+        when(alertService.get(ruleAlert.getId())).thenReturn(ruleResponse);
+
+        EventTrailResponse trail = eventService.trail("EV-1");
+
+        assertThat(trail.alerts()).containsExactly(mlResponse, ruleResponse);
+        assertThat(trail.alert()).isSameAs(mlResponse);
+    }
+
+    @Test
+    void trail_withNoAlerts_hasNullAlertAndEmptyList() {
+
+        Event event = new Event();
+        event.setId(UUID.randomUUID());
+        event.setEventId("EV-2");
+        when(repo.findByEventId("EV-2")).thenReturn(Optional.of(event));
+        when(predictionRepository.findTopByEvent_IdOrderByCreatedAtDesc(event.getId())).thenReturn(Optional.empty());
+        when(alertRepository.findByEvent_IdOrderByCreatedAtDesc(event.getId())).thenReturn(List.of());
+
+        EventTrailResponse trail = eventService.trail("EV-2");
+
+        assertThat(trail.alert()).isNull();
+        assertThat(trail.alerts()).isEmpty();
     }
 }

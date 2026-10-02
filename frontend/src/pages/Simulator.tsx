@@ -30,7 +30,9 @@ import {
   SeverityBadge,
 } from '../components/ui';
 import { formatApiError, fmtTimeSec } from '../utils/format';
-import type { CreateEventRequest, EventTrail } from '../types/domain';
+import { trailAlerts } from '../types/domain';
+import type { Alert, CreateEventRequest, EventTrail } from '../types/domain';
+import { SEVERITY_ORDER } from '../utils/tone';
 
 /* ------------------------------------------------------------------ */
 /* Scenarios                                                           */
@@ -167,6 +169,24 @@ type Row = {
 
 const MAX_WAIT_MS = 90000;
 
+// An event can raise both a rule alert and an ML alert: show the most
+// severe one and say how many more exist, instead of only the newest.
+function AlertCell({ alerts }: { alerts: Alert[] }) {
+  if (!alerts.length) return <span className="muted">—</span>;
+  const rank = (a: Alert) => {
+    const i = SEVERITY_ORDER.indexOf(String(a.severity).toUpperCase());
+    return i < 0 ? SEVERITY_ORDER.length : i;
+  };
+  const top = [...alerts].sort((a, b) => rank(a) - rank(b))[0];
+  const title = alerts.map((a) => `${a.ruleId ?? 'ML'}: ${a.severity}`).join(', ');
+  return (
+    <span title={title}>
+      <Link to={`/alerts/${top.id}`}><SeverityBadge value={top.severity} /></Link>
+      {alerts.length > 1 && <span className="muted"> +{alerts.length - 1}</span>}
+    </span>
+  );
+}
+
 export default function Simulator() {
   const toast = useToast();
   const entities = useEntities();
@@ -239,7 +259,7 @@ export default function Simulator() {
     return {
       sent: valid.length,
       processed: done.length,
-      alerts: done.filter((r) => r.trail!.alert).length,
+      alerts: done.filter((r) => trailAlerts(r.trail).length).length,
       max: scores.length ? Math.max(...scores) : null,
     };
   }, [rows]);
@@ -348,7 +368,7 @@ export default function Simulator() {
                       </td>
                       <td>{p ? <ScoreMeter value={p.fusedScore ?? p.anomalyScore} /> : <span className="muted">—</span>}</td>
                       <td>{p ? <DecisionBadge value={p.decision} /> : <span className="muted">—</span>}</td>
-                      <td>{r.trail?.alert ? <Link to={`/alerts/${r.trail.alert.id}`}><SeverityBadge value={r.trail.alert.severity} /></Link> : <span className="muted">—</span>}</td>
+                      <td><AlertCell alerts={trailAlerts(r.trail)} /></td>
                     </tr>
                   );
                 })}

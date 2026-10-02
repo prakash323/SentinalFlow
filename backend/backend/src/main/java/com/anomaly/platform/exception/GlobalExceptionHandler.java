@@ -100,6 +100,22 @@ public class GlobalExceptionHandler {
      * ============================================================
      */
 
+    @ExceptionHandler(PayloadTooLargeException.class)
+    public ResponseEntity<ErrorResponse> handlePayloadTooLarge(
+            PayloadTooLargeException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.PAYLOAD_TOO_LARGE)
+                .body(
+                        error(
+                                "PAYLOAD_TOO_LARGE",
+                                exception.getMessage(),
+                                List.of()
+                        )
+                );
+    }
+
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateResource(
             DuplicateResourceException exception

@@ -38,4 +38,15 @@ class GlobalExceptionHandlerTest {
         assertThat(response.getBody().message()).doesNotContain("ObjectOptimisticLockingFailureException");
         assertThat(response.getBody().details()).isEmpty();
     }
+
+    @Test
+    void payloadTooLarge_mapsTo413() {
+
+        ResponseEntity<ErrorResponse> response =
+                handler.handlePayloadTooLarge(new PayloadTooLargeException("Event is 2000000 bytes; the maximum is 524288 bytes"));
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.PAYLOAD_TOO_LARGE);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().code()).isEqualTo("PAYLOAD_TOO_LARGE");
+    }
 }

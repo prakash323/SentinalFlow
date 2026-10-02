@@ -51,6 +51,8 @@ public interface AlertRepository
      */
     java.util.Optional<Alert> findTopByEvent_IdOrderByCreatedAtDesc(UUID eventId);
 
+    List<Alert> findByEvent_IdOrderByCreatedAtDesc(UUID eventId);
+
     /*
      * Independent deterministic detection (P1) idempotency: has this exact
      * triggering event already raised this rule's alert? A Kafka redelivery
