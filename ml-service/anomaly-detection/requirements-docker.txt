@@ -1,0 +1,19 @@
+# Pinned runtime dependencies for the Docker image of the FastAPI service (api.py).
+# Versions match the virtualenv that produced models/pipeline.joblib, so the
+# pickled scikit-learn / torch / LightGBM objects load unchanged.
+# torch comes from the CPU-only index (see Dockerfile); the default Linux wheel pulls CUDA.
+fastapi==0.142.2
+uvicorn[standard]==0.54.0
+pydantic==2.13.5
+numpy==2.5.3
+pandas==3.0.6
+scikit-learn==1.9.1
+scipy==1.18.1
+joblib==1.6.0
+torch==2.14.1
+lightgbm==4.7.0
+# The explainer uses SHAP when installed; keeping it preserves the `factors` output.
+shap==0.52.0
+numba==0.68.0
+llvmlite==0.50.0
+psutil==7.2.2

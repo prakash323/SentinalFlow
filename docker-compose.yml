@@ -1,10 +1,14 @@
-# SentinelFlow local infrastructure: PostgreSQL + Kafka (KRaft, single node).
+# SentinelFlow: the full stack in Docker.
 #
-#   docker compose up -d
+#   copy .env.example .env      (once; set DB_PASSWORD and the other values)
+#   docker compose up -d --build
 #
 # Host-side ports:
+#   Console     http://localhost:5173  (nginx; proxies /api to the backend)
+#   Backend     http://localhost:8080  (Swagger: /swagger-ui.html)
+#   ML service  http://localhost:8000  (/health)
 #   PostgreSQL  localhost:5432
-#   Kafka       localhost:9094   (the backend's default KAFKA_BOOTSTRAP_SERVERS)
+#   Kafka       localhost:9094         (for host clients, e.g. the physical collector)
 #
 # The in-network listener kafka:9092 is only for other containers; a process
 # on the host must use localhost:9094 (advertised as PLAINTEXT_HOST below).
@@ -13,6 +17,10 @@
 # (project name "sentinelflow", volumes sentinelflow_postgres-data and
 # sentinelflow_kafka-data), so `docker compose up -d` re-attaches to the
 # existing data instead of starting empty.
+#
+# Do not run the backend, ML service or console on the host at the same time:
+# they would clash on ports 8080/8000/5173, and two backends would split the
+# Kafka consumer group's partitions.
 name: sentinelflow
 
 services:
@@ -21,7 +29,8 @@ services:
     environment:
       POSTGRES_DB: anomaly_platform
       POSTGRES_USER: anomaly
-      POSTGRES_PASSWORD: anomaly
+      # Only applied when the data volume is first initialised; changing it later does not change the real password.
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env (see .env.example)}
       TZ: UTC
     ports:
       - "5432:5432"
@@ -61,6 +70,47 @@ services:
       timeout: 5s
       retries: 20
       start_period: 20s
+    restart: unless-stopped
+
+  ml-service:
+    build: ./ml-service/anomaly-detection
+    environment:
+      ML_DEPLOYMENT_TZ: ${ML_DEPLOYMENT_TZ:-UTC}
+      ML_DEDUP_CACHE_SIZE: ${ML_DEDUP_CACHE_SIZE:-10000}
+    ports:
+      - "8000:8000"
+    # Healthy only once the model has finished warming up (Dockerfile HEALTHCHECK).
+    restart: unless-stopped
+
+  backend:
+    build: ./backend/backend
+    # Credentials, login accounts and the optional OPENROUTER_* settings. Variables
+    # not set in .env fall back to the defaults in application.yml.
+    env_file: .env
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/anomaly_platform?options=-c%20TimeZone%3DUTC
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ML_SERVICE_URL: http://ml-service:8000
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      # While ML warms up it answers 503; the consumer retries for ~5 min and then
+      # dead-letters the event, so wait for a ready model rather than a started one.
+      ml-service:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:

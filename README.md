@@ -47,6 +47,74 @@ npm run dev                     # http://localhost:5173
 
 `start-dev.bat` (Windows) opens steps 2–4 in separate windows.
 
+## Run with Docker
+
+`docker-compose.yml` runs the whole stack: PostgreSQL, Kafka, the ML service, the backend and the console. Don't run the host versions (steps 2–4 above) at the same time: they use the same ports, and two backends would split the Kafka consumer group.
+
+```bat
+rem once: create the git-ignored .env (DB_PASSWORD must match the existing database)
+copy .env.example .env
+notepad .env
+
+rem build and start (first ML build downloads ~1 GB; ML warm-up takes ~2-3 min)
+docker compose up -d --build
+docker compose ps
+```
+
+| Service | URL | Health |
+|---|---|---|
+| Console | http://localhost:5173 | `/` (nginx proxies `/api` to the backend) |
+| Backend | http://localhost:8080 (Swagger `/swagger-ui.html`) | `/actuator/health/readiness` |
+| ML service | http://localhost:8000 | `/health` → `"status":"ok"` once warmed |
+| PostgreSQL | localhost:5432 | `pg_isready` |
+| Kafka | localhost:9094 (host clients) / `kafka:9092` (containers) | broker API check |
+
+The backend starts only after PostgreSQL, Kafka and a *warmed* ML model are healthy, and the console waits for the backend. The physical collector stays on the host (it reads this machine's telemetry) and keeps using `localhost:9094`.
+
+**Stop / restart without losing data.** Data lives in the named volumes `sentinelflow_postgres-data` and `sentinelflow_kafka-data`.
+
+```bat
+docker compose stop              rem stop everything, keep containers
+docker compose start             rem start again
+docker compose down              rem remove containers + network; volumes are kept
+docker compose up -d             rem recreate from the images
+```
+
+Never use `docker compose down -v` or `docker volume rm`: that deletes the database and Kafka data.
+
+**Logs and health.**
+
+```bat
+docker compose ps
+docker compose logs -f backend
+docker compose logs --tail 200 ml-service
+curl http://localhost:8000/health
+curl http://localhost:8080/actuator/health/readiness
+```
+
+**Rebuild one service after a code change.**
+
+```bat
+docker compose up -d --build backend      rem or ml-service / frontend
+```
+
+Unchanged layers are reused, so a backend change doesn't reinstall the ML dependencies. Run the backend tests on the host (`mvn verify`): the image build skips them.
+
+**Back up and restore PostgreSQL** (from CMD, not PowerShell 5, whose `>` re-encodes the file; pick a new file name so existing backups are never overwritten):
+
+```bat
+docker compose exec -T postgres pg_dump -U anomaly -d anomaly_platform > D:\sentinelflow-backup-YYYYMMDD.sql
+
+rem restore into an EMPTY database only (e.g. a fresh volume); stop the backend first
+docker compose stop backend
+docker compose exec -T postgres psql -U anomaly -d anomaly_platform -v ON_ERROR_STOP=1 < D:\sentinelflow-backup-YYYYMMDD.sql
+docker compose start backend
+```
+
+**Kafka persistence.** Topics, offsets and the KRaft cluster ID are stored in `sentinelflow_kafka-data`, so `stop`, `down` and `up` keep them, and the backend resumes from its committed offsets. Deleting that volume resets every topic and consumer offset.
+
+**AI assistant.** Set `OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL`) in `.env`, then `docker compose up -d backend`. Without a key the AI endpoints return `503 AI_PROVIDER_UNAVAILABLE`.
+
 Optional — real physical telemetry from this machine (register the entity first via **Entities → Create**, ADMIN only):
 
 ```bash

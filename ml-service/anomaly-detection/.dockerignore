@@ -1,0 +1,11 @@
+# Allow-list: the service needs ~35 MB of this ~1.2 GB folder
+# (reports/, eval_ml*/, models/candidates/ and .venv/ stay out of the build).
+*
+!api.py
+!config.py
+!requirements-docker.txt
+!src/
+!models/pipeline.joblib
+!data/sample/
+**/__pycache__
+**/*.pyc
