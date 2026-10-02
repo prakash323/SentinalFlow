@@ -214,6 +214,9 @@ def main(argv=None) -> int:
                 _poll_and_publish_network(network_poller, publisher, config.entity_id)
                 next_network_poll_at = now + config.network_poll_interval_seconds
 
+            # Re-send events queued during a broker outage (no-op otherwise).
+            publisher.retry_pending()
+
             time.sleep(_TICK_SECONDS)
     finally:
         publisher.close()

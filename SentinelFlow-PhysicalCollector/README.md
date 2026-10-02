@@ -286,6 +286,12 @@ in `collector/main.py`).
 
 ## Known limitations
 
+- Kafka outages: events that cannot be published are queued in memory
+  (up to 1000, oldest dropped first) and re-sent in order, with the same
+  `eventId`, once the broker is reachable again; retries back off from
+  5s to 60s so the poll loop is not blocked meanwhile. The queue is not
+  persisted - events still queued when the collector itself stops are
+  lost, and the shutdown log line says how many.
 - LOGOUT is only detected on the *next* poll after the OS session
   actually ends - precision is bounded by `--poll-interval`, not
   fabricated.
