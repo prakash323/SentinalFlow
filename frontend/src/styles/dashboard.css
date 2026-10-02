@@ -275,18 +275,31 @@
 .soc-stats b { font-family: var(--font-mono); font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* ---------- alerts chart: window control, severity filters, legend and graph in one card ---------- */
+.soc-activity { container-type: inline-size; }
 .soc-chart-controls {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 8px 16px;
+  gap: 16px;
   margin: -2px 0 12px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--border);
 }
+.soc-control-group { display: grid; gap: 6px; min-width: 0; }
+.soc-control-window {
+  justify-items: end;
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+}
+.soc-control-label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); white-space: nowrap; }
+.soc-control-window .soc-legend { min-height: 32px; align-items: center; justify-content: flex-end; }
 .soc-chart-controls .soc-sevbar { background: var(--panel-2); }
-.soc-legend-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+/* when the two groups no longer fit side by side, stack them: divider moves to the top */
+@container (max-width: 900px) {
+  .soc-chart-controls { flex-direction: column; align-items: stretch; gap: 10px; }
+  .soc-control-window { justify-items: start; padding-left: 0; padding-top: 10px; border-left: 0; border-top: 1px dashed var(--border); }
+  .soc-control-window .soc-legend { min-height: 0; justify-content: flex-start; }
+}
 
 /* ---------- activity chart ---------- */
 .soc-chart { height: 260px; }

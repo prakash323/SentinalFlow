@@ -339,7 +339,8 @@ export default function Dashboard() {
 
   // Counts are all alerts on record (summary.alertsBySeverity); selecting one filters the alerts chart.
   const severityPills = derived && (
-    <div className="soc-sevbar" role="group" aria-label="Filter the alerts chart by severity (counts are all alerts on record)">
+    <div className="soc-sevbar" role="group" aria-labelledby="soc-alltime-label" aria-describedby="soc-sevbar-hint">
+      <span id="soc-sevbar-hint" className="sr-only">Filters the alerts chart. Counts are all alerts on record.</span>
       <button type="button" className="is-all" aria-pressed={severity === 'ALL'} onClick={() => setSeverity('ALL')} title={`${num(data?.alertCount)} alerts on record`}>
         All alerts <b>{num(data?.alertCount)}</b>
       </button>
@@ -532,10 +533,16 @@ export default function Dashboard() {
                   <Segmented value={hours} onChange={setHours} options={RANGES} />
                 </div>
               </header>
+              {/* Two labelled groups: the pills carry all-time counts and choose the
+                  series; the legend carries counts for the selected window only. */}
               <div className="soc-chart-controls">
-                {severityPills}
-                <div className="soc-legend" aria-live="polite">
-                  <span className="soc-legend-label">Last {hours}h</span>
+                <div className="soc-control-group">
+                  <span className="soc-control-label" id="soc-alltime-label">All-time alerts</span>
+                  {severityPills}
+                </div>
+                <div className="soc-control-group soc-control-window">
+                  <span className="soc-control-label" id="soc-window-label">In selected window · {hours}h</span>
+                  <div className="soc-legend" aria-live="polite" aria-labelledby="soc-window-label">
                   {totalOnly ? (
                     <span><i style={{ background: 'var(--accent-strong)' }} />Alerts<b>{num(derived.windowAlerts)}</b></span>
                   ) : (
@@ -543,6 +550,7 @@ export default function Dashboard() {
                       <span key={s}><i style={{ background: toneColor(severityTone(s)) }} />{humanize(s)}<b>{num(derived.windowBySeverity[s] ?? 0)}</b></span>
                     ))
                   )}
+                  </div>
                 </div>
               </div>
               <div className="soc-panel-body">
