@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useIsFetching, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MotionConfig } from 'motion/react';
-import { ChevronsLeft, ChevronsRight, LogOut, Menu, Moon, RefreshCw, Search, ShieldCheck, Sun } from 'lucide-react';
+import { ChevronsLeft, ChevronsRight, LogOut, Menu, Monitor, Moon, RefreshCw, Search, ShieldCheck, Sun } from 'lucide-react';
 
 import { dashboardApi, systemApi } from '../api/endpoints';
 import { useAuth } from '../auth/AuthContext';
 import { useSignOut } from '../auth/useSignOut';
 import { IconButton } from '../components/ui';
 import { useTheme } from '../hooks/useTheme';
+import type { ThemePreference } from '../hooks/useTheme';
 import type { Incident } from '../types/domain';
 import { initials } from '../utils/format';
 import { NAV_GROUPS, navItemFor } from './nav';
@@ -23,6 +24,25 @@ function statusMeta(overall?: string) {
   if (overall === 'DEGRADED') return { cls: 'warn', short: 'Degraded', text: 'Degraded — check System Status' };
   if (overall === 'DOWN') return { cls: 'down', short: 'Unavailable', text: 'Backend unavailable' };
   return { cls: 'idle', short: 'Checking…', text: 'Checking status…' };
+}
+
+const THEME_OPTIONS: { value: ThemePreference; label: string; icon: typeof Sun }[] = [
+  { value: 'light', label: 'Light theme', icon: Sun },
+  { value: 'dark', label: 'Dark theme', icon: Moon },
+  { value: 'system', label: 'Match system theme', icon: Monitor },
+];
+
+function ThemeSwitch() {
+  const { preference, setPreference } = useTheme();
+  return (
+    <div className="theme-switch" role="group" aria-label="Theme">
+      {THEME_OPTIONS.map(({ value, label, icon: Icon }) => (
+        <button key={value} type="button" aria-pressed={preference === value} aria-label={label} title={label} onClick={() => setPreference(value)}>
+          <Icon size={13} />
+        </button>
+      ))}
+    </div>
+  );
 }
 
 const safeDecode = (s: string) => {
@@ -91,7 +111,6 @@ function Breadcrumb({ pathname }: { pathname: string }) {
 export default function AppShell() {
   const { username, isAdmin } = useAuth();
   const signOut = useSignOut();
-  const { theme, toggle } = useTheme();
   const location = useLocation();
   const queryClient = useQueryClient();
   const fetching = useIsFetching();
@@ -108,6 +127,13 @@ export default function AppShell() {
   const [paletteOpen, setPaletteOpen] = useState(false);
 
   const railed = collapsed || railWidth;
+
+  // The SOC palette in tokens.css is scoped to html.soc, so the public site and
+  // login keep their own look; it also reaches portaled drawers and modals.
+  useEffect(() => {
+    document.documentElement.classList.add('soc');
+    return () => document.documentElement.classList.remove('soc');
+  }, []);
 
   useEffect(() => {
     try {
@@ -258,12 +284,7 @@ export default function AppShell() {
               <RefreshCw size={14} className={fetching ? 'spin' : undefined} />
             </button>
 
-            <IconButton
-              icon={theme === 'dark' ? Sun : Moon}
-              label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-              bordered
-              onClick={toggle}
-            />
+            <ThemeSwitch />
 
             <span className="tb-sep" aria-hidden="true" />
 

@@ -159,3 +159,97 @@
   /* badge text sits on its own 13% tint over the page (#f5f5f7), panel or panel-2: every tone above
      is >= 4.6:1 on all three (the first-pass tones were 4.16-4.40 on the page and panel-2) */
 }
+
+/* text/icons drawn on an --accent-strong fill (primary buttons, brand mark) */
+:root { --on-accent: #fff; }
+
+/* ==========================================================================
+   SOC console palette - navy/slate surfaces, orange for primary actions and
+   the active state. Scoped to the signed-in app: AppShell puts `soc` on
+   <html> while it is mounted, so the public site and login keep the palette
+   above. Semantic --c-* tones are unchanged: colour still means severity.
+   ========================================================================== */
+:root.soc {
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --sidebar-w: 216px;
+  --topbar-h: 52px;
+}
+
+:root.soc:not([data-theme='light']) {
+  --bg: #0f1420;
+  --bg-2: #0f1420;
+  --panel: #182030;
+  --panel-2: #1f293b;
+  --panel-3: #263247;
+  --panel-solid: var(--panel-3);
+  --panel-hover: rgb(255 255 255 / 0.05);
+  --border: #283246;
+  --border-strong: #364259;
+  --control-border: #76839a;        /* >= 3.4:1 on every SOC surface */
+  --control-border-hover: #919db2;
+
+  --text: #edf1f7;
+  --text-2: #c2cad7;
+  --muted: #919db2;          /* >= 4.7:1 on --panel-3, the lightest surface */
+  --faint: #6c7890;
+
+  --accent: #ff8f3f;         /* orange as TEXT / focus / active: >= 5.7:1 on every surface */
+  --accent-2: var(--accent);
+  --accent-hover: #ffa463;
+  --accent-strong: #f97316;  /* orange FILL: dark text on it is 6.8:1 (white would be 3.0:1) */
+  --accent-strong-hover: #ff8a3a;
+  --accent-soft: color-mix(in srgb, #f97316 16%, transparent);
+  --accent-grad: var(--accent-strong);
+  --accent-grad-soft: var(--accent-soft);
+  --on-accent: #1a0f05;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.28);
+  --shadow-pop: 0 10px 28px rgb(0 0 0 / 0.5), 0 0 0 1px var(--border-strong);
+  --glow: 0 0 0 1px var(--border-strong);
+
+  --grid-line: rgb(255 255 255 / 0.07);
+  --scrim: rgb(5 8 14 / 0.62);
+  --input-bg: #121a28;
+  --code-bg: #121a28;
+
+  --c-info: #4ea1ff;
+}
+
+:root.soc[data-theme='light'] {
+  --bg: #eef1f6;
+  --bg-2: #eef1f6;
+  --panel: #ffffff;
+  --panel-2: #f6f8fb;
+  --panel-3: #ffffff;
+  --panel-solid: var(--panel-3);
+  --panel-hover: rgb(20 26 38 / 0.05);
+  --border: #d5dbe5;
+  --border-strong: #bcc5d3;
+  --control-border: #7d8696;        /* >= 3.5:1 on every light SOC surface */
+  --control-border-hover: #5f6878;
+
+  --text: #141a26;
+  --text-2: #3a4354;
+  --muted: #5c6576;          /* >= 5.4:1 on the page tint */
+  --faint: #8a93a3;
+
+  --accent: #b4470f;         /* orange text: 5.5:1 on white, 4.8:1 on the page tint */
+  --accent-2: var(--accent);
+  --accent-hover: #933a0c;
+  --accent-strong: #c2410c;  /* fill with white text: 5.2:1 */
+  --accent-strong-hover: #a8380a;
+  --accent-soft: #fff1e7;
+  --accent-grad: var(--accent-strong);
+  --accent-grad-soft: var(--accent-soft);
+  --on-accent: #ffffff;
+
+  --shadow-card: 0 1px 2px rgb(20 26 38 / 0.06);
+  --shadow-pop: 0 10px 28px rgb(20 26 38 / 0.14), 0 0 0 1px var(--border-strong);
+
+  --grid-line: rgb(20 26 38 / 0.08);
+  --input-bg: #ffffff;
+  --code-bg: #f6f8fb;
+}

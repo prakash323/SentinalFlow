@@ -40,7 +40,7 @@
   width: 24px;
   height: 24px;
   border-radius: var(--radius-sm);
-  color: #fff;
+  color: var(--on-accent);
   background: var(--accent-strong);
 }
 .brand-text { display: grid; line-height: 1.2; min-width: 0; white-space: nowrap; }
@@ -324,3 +324,50 @@
 @media (max-width: 560px) {
   .topbar-refresh { display: none; }
 }
+
+/* ==========================================================================
+   SOC console refinements (html.soc is set by AppShell)
+   Sidebar and topbar sit on the page colour so the content panels read as
+   the raised layer; the active item is the one place orange is used in the nav.
+   ========================================================================== */
+:root.soc .sidebar { background: var(--bg); }
+:root.soc .brand-mark { width: 28px; height: 28px; border-radius: var(--radius); }
+:root.soc .brand-text strong { font-size: 13.5px; letter-spacing: -0.01em; }
+:root.soc .nav-item { height: 34px; border: 0; font-size: 13px; }
+:root.soc .nav-item.active {
+  color: var(--text);
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 0 var(--accent-strong);
+}
+:root.soc .nav-item.active svg { color: var(--accent); }
+:root.soc .shell.collapsed .nav-item.active { box-shadow: none; }
+:root.soc .shell.collapsed .nav-item.active svg { color: var(--on-accent); }
+:root.soc .shell.collapsed .nav-item.active { background: var(--accent-strong); }
+:root.soc .topbar { background: var(--bg); }
+:root.soc .content { background: var(--bg); }
+
+/* three-way theme switch: Light / Dark / System */
+.theme-switch {
+  display: inline-flex;
+  align-items: center;
+  height: var(--ctl-h);
+  padding: 2px;
+  gap: 2px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+}
+.theme-switch button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 100%;
+  border: 0;
+  border-radius: calc(var(--radius-sm) - 2px);
+  background: transparent;
+  color: var(--muted);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.theme-switch button:hover { color: var(--text); background: var(--panel-hover); }
+.theme-switch button[aria-pressed='true'] { color: var(--on-accent); background: var(--accent-strong); }
+@media (max-width: 560px) { .theme-switch { display: none; } }

@@ -32,7 +32,7 @@
 .btn-primary {
   --btn-bg: var(--accent-strong);
   --btn-bd: var(--accent-strong);
-  --btn-fg: #fff;
+  --btn-fg: var(--on-accent);
 }
 /* hover darkens the fill: brightening it would drop white text below 4.5:1 */
 .btn-primary:hover:not(:disabled) { background: var(--accent-strong-hover); border-color: var(--accent-strong-hover); }
@@ -75,6 +75,7 @@
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
   padding: var(--pad);
   min-width: 0;
 }
