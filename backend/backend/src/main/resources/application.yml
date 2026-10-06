@@ -153,6 +153,139 @@ anomaly:
       high: 0.995
       critical: 0.999
 
+# ============================================================
+# DETERMINISTIC DETECTION ENGINE
+# ============================================================
+# Every operational threshold the rule engine uses. Nothing below is read from a
+# constant in Java, and the application REFUSES TO START if any of it is
+# inconsistent (DetectionConfig.validateDetectionConfiguration) - a rule that
+# silently never fires because its window is zero is worse than one that is
+# explicitly disabled.
+#
+# These are starting values for a lab deployment, not tuned production figures.
+# Re-tune against real traffic; the documentation (docs/DETECTION.md) carries the
+# full table of what each one does.
+#
+# The deterministic path is INDEPENDENT of `anomaly.alert-policy` above: no ML
+# score reaches a rule, and no rule changes a score. A rule alert is identified
+# by alerts.rule_id being non-null.
+detection:
+  enabled: ${DETECTION_ENABLED:true}
+
+  # Hard ceiling on rows ANY correlation query may load, whatever a rule's window
+  # is. The correlation state is the events table itself, so this is what bounds
+  # one evaluation's cost and memory however busy an entity is.
+  max-correlation-events: 500
+
+  rules:
+    # R001. Unchanged from the original implementation: >=5 failed logins for one
+    # entity inside 5 minutes is MEDIUM, >=10 is HIGH. cooldown/escalate stay off
+    # so the historical behaviour is preserved exactly.
+    auth-burst:
+      enabled: true
+      window: 5m
+      medium-threshold: 5
+      high-threshold: 10
+      critical-threshold: 0      # 0 = rung disabled
+      cooldown: 0s
+      escalate: false
+
+    # R002. Unchanged. `window` is the recency bound between process creation and
+    # the connection; the pid + processCreateTime match itself has NO tolerance.
+    new-process-external-connection:
+      enabled: true
+      window: 5m
+      cooldown: 0s
+      escalate: false
+
+    # R003. One source, many identities. Breadth, not depth - contrast auth-burst.
+    password-spray:
+      enabled: true
+      window: 10m
+      distinct-target-threshold: 5
+      high-threshold: 10
+      critical-threshold: 20
+      cooldown: 10m
+      escalate: true
+
+    # R004. Broader, slower and overwhelmingly unsuccessful - that is what keeps
+    # it distinct from password-spray rather than a duplicate of it.
+    account-enumeration:
+      enabled: true
+      window: 15m
+      distinct-target-threshold: 10
+      attempt-threshold: 15
+      max-success-ratio: 0.2
+      high-threshold: 20
+      critical-threshold: 40
+      cooldown: 15m
+      escalate: true
+
+    # R005. Failures then a success: possible compromise, not just an attempt.
+    # max-gap-to-success is what stops an unrelated later login being presented
+    # as the end of a brute-force run.
+    brute-force-success:
+      enabled: true
+      window: 10m
+      failure-threshold: 5
+      max-gap-to-success: 2m
+      critical-threshold: 10
+      cooldown: 0s
+      escalate: false
+
+    # R006. Only ever evaluated on events that actually carry a parseable
+    # `location`. The physical collector performs no geo-IP lookup, so this never
+    # fires on its telemetry - see the rule for the full limitation.
+    impossible-travel:
+      enabled: true
+      window: 2h
+      min-speed-kmph: 900
+      min-distance-km: 500
+      critical-speed-kmph: 3000
+      cooldown: 1h
+      escalate: false
+
+    # R007. Privilege is INFERRED from commandSequence / process name; there is no
+    # PRIVILEGE_CHANGE event type in this schema.
+    privilege-escalation-chain:
+      enabled: true
+      window: 10m
+      cooldown: 10m
+      escalate: true
+
+    # R008. One new process, repeated egress - the case R002 deliberately
+    # suppresses after the first connection.
+    process-network-burst:
+      enabled: true
+      window: 60s
+      connection-threshold: 5
+      high-threshold: 10
+      critical-threshold: 20
+      cooldown: 5m
+      escalate: true
+
+    # R009. Entity-wide egress. Needs BOTH counts: volume alone would flag a
+    # chatty client reconnecting to one server.
+    network-connection-burst:
+      enabled: true
+      window: 60s
+      connection-threshold: 20
+      distinct-destination-threshold: 10
+      high-threshold: 40
+      critical-threshold: 80
+      cooldown: 5m
+      escalate: true
+
+    # R010. Correlates the signals above into one higher-level finding. It ADDS an
+    # alert; the underlying rule alerts are raised independently and untouched.
+    multi-stage-attack-chain:
+      enabled: true
+      window: 30m
+      min-stages: 3
+      critical-stages: 4
+      cooldown: 30m
+      escalate: false
+
 ml:
   service:
     url: ${ML_SERVICE_URL:http://127.0.0.1:8000}

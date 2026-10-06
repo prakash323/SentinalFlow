@@ -79,6 +79,22 @@ public interface AlertRepository
             List<AlertStatus> activeStatuses
     );
 
+    /*
+     * Detection Engine 2.0: active alerts for one rule ACROSS entities, capped.
+     *
+     * Needed by the source-correlated rules (PASSWORD_SPRAY, ACCOUNT_ENUMERATION).
+     * Their finding is about a SOURCE ADDRESS, but an alert is always attached to
+     * an entity (alerts.entity_id is NOT NULL) - the entity of whichever event
+     * happened to trigger it. Suppressing per entity would therefore raise one
+     * alert per account a single spray touched, which is precisely the noise the
+     * rule exists to collapse. This lets the engine find the alert already
+     * tracking that source, whatever entity it is filed against.
+     *
+     * Bounded by the caller's Pageable; a rule's active alerts are a small set by
+     * construction, because that is what suppression guarantees.
+     */
+    List<Alert> findByRuleIdAndStatusIn(String ruleId, List<AlertStatus> statuses, Pageable pageable);
+
     long countByStatus(AlertStatus status);
 
     long countBySeverity(Severity severity);

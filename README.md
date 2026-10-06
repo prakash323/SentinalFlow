@@ -147,7 +147,7 @@ Two in-memory HTTP Basic accounts are configured in `application.yml`. The defau
 | **Dashboard** | KPIs with sparklines, event/alert timeline (8h/24h/3d), severity distribution, live dependency health, pipeline progress, top-risk entities, recent alerts/incidents/events |
 | **Events** | Filter by entity/type, live tail, side-drawer payload; **event detail** shows the real detection trail (Kafka → ML score & explanation → alert → incident) |
 | **Predictions** | Every model score with decision, attack type, confidence and raw features |
-| **Alerts** | Combined filters (status, severity, decision, entity); alerts from the ML ensemble and from the independent deterministic rule engine (`AUTH_BURST`, `NEW_PROCESS_EXTERNAL_CONNECTION`) side by side, clearly labeled; detail page with explainability, a triage workflow that only offers legal transitions, and an on-demand, concise AI explanation of why the alert fired |
+| **Alerts** | Combined filters (status, severity, decision, entity); alerts from the ML ensemble and from the independent deterministic rule engine (10 rules — see [`backend/backend/DETECTION.md`](backend/backend/DETECTION.md)) side by side, clearly labeled; detail page with explainability, a triage workflow that only offers legal transitions, and an on-demand, concise AI explanation of why the alert fired |
 | **Incidents** | Auto-grouped investigations; detail with lifecycle, linked alerts and on-demand AI summary / investigation guidance (concise by default, detailed on request) |
 | **Entities** | Monitored users/devices with activity + risk rollups; per-entity alerts/incidents/events |
 | **Simulator** | Six attack scenarios (brute force, impossible travel, exfiltration…) sent through the real pipeline, with live outcome tracking |
@@ -164,6 +164,7 @@ Two in-memory HTTP Basic accounts are configured in `application.yml`. The defau
 | `KAFKA_BOOTSTRAP_SERVERS` | `localhost:9094` | Host-side Kafka listener published by `docker-compose.yml` |
 | `DB_URL` / `DB_USERNAME` / `DB_PASSWORD` | local Postgres / `anomaly` | Database |
 | `ML_SERVICE_URL` | `http://127.0.0.1:8000` | ML service |
+| `DETECTION_ENABLED` | `true` | Master switch for the deterministic rule engine. `false` disables every rule; the ML path is unaffected. Per-rule thresholds live under `detection.*` in `application.yml` — see [`backend/backend/DETECTION.md`](backend/backend/DETECTION.md) |
 | `APP_CORS_ALLOWED_ORIGINS` | `http://localhost:5173,http://localhost:4173` | Only needed if the UI is hosted on another origin |
 | `OPENROUTER_API_KEY` | *(unset)* | Enables the alert and incident AI assistants (read-only, concise by default) via [OpenRouter](https://openrouter.ai) (through the Spring AI OpenAI client). Without a key the endpoints answer a controlled `503 AI_PROVIDER_UNAVAILABLE`; nothing else is affected. Never commit it — set it in the environment |
 | `OPENROUTER_MODEL` | `openai/gpt-4o-mini` | Any OpenRouter chat model id (`<vendor>/<model>`) |

@@ -166,6 +166,46 @@ public interface EventRepository
     );
 
     /*
+     * ============================================================
+     * SOURCE-CORRELATED DETECTION (Detection Engine 2.0)
+     * ============================================================
+     *
+     * Events of one type whose payload field `:field` equals `:value`, inside a
+     * time window, newest first, capped.
+     *
+     * This is the one correlation dimension the original rules had no query for:
+     * "what else did THIS SOURCE do", as opposed to "what else did this entity
+     * do". `payload->>'ip'` is the only source-side identity the event schema
+     * carries (see EventPayloads.sourceIp), so PASSWORD_SPRAY and
+     * ACCOUNT_ENUMERATION key on it.
+     *
+     * Bounded in the database rather than in Java: the window and LIMIT are part
+     * of the query, so a busy source address cannot make one evaluation
+     * expensive. V16 adds the supporting index.
+     *
+     * `field` is a fixed identifier chosen by the calling service, never user
+     * input - it is bound as a parameter to ->> rather than concatenated.
+     */
+    @Query(value = """
+            SELECT e.*
+            FROM events e
+            WHERE e.event_type = :eventType
+              AND e.payload ->> CAST(:field AS text) = CAST(:value AS text)
+              AND e.occurred_at >= :from
+              AND e.occurred_at <= :to
+            ORDER BY e.occurred_at DESC
+            LIMIT :cap
+            """, nativeQuery = true)
+    List<Event> findByPayloadStringFieldAndType(
+            @Param("field") String field,
+            @Param("value") String value,
+            @Param("eventType") String eventType,
+            @Param("from") OffsetDateTime from,
+            @Param("to") OffsetDateTime to,
+            @Param("cap") int cap
+    );
+
+    /*
      * Row-locks one event until the surrounding transaction ends, so two
      * threads processing the same event (Kafka consumer and admin replay)
      * create its rule alerts and prediction one after the other. Must be

@@ -476,10 +476,16 @@ class DeterministicRuleServiceTest {
 
         service.evaluate(netConn);
 
+        // Detection Engine 2.0 stores structured evidence as several ranked
+        // factors rather than one sentence, so this now asserts the column limit
+        // holds for EVERY factor the rule produced, not just the first - a
+        // strictly stronger form of the same regression guard.
         ArgumentCaptor<com.anomaly.platform.entity.AlertFactor> captor =
                 ArgumentCaptor.forClass(com.anomaly.platform.entity.AlertFactor.class);
-        verify(alertFactorRepository).save(captor.capture());
-        assertThat(captor.getValue().getFactor().length()).isLessThanOrEqualTo(128);
+        verify(alertFactorRepository, org.mockito.Mockito.atLeastOnce()).save(captor.capture());
+        assertThat(captor.getAllValues()).isNotEmpty();
+        assertThat(captor.getAllValues())
+                .allSatisfy(factor -> assertThat(factor.getFactor().length()).isLessThanOrEqualTo(128));
     }
 
     @Test
