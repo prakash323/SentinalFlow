@@ -28,7 +28,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from config import SOURCE, EVENT_VERSION
 from session_poller import SessionEvent
@@ -182,8 +182,19 @@ def build_process_start_event(process: ProcessEvent, entity_id: str) -> Dict[str
     }
 
 
-def build_network_connection_event(connection: NetworkConnectionEvent, entity_id: str) -> Dict[str, Any]:
+def build_network_connection_event(
+    connection: NetworkConnectionEvent,
+    entity_id: str,
+    now_epoch: Optional[float] = None,
+) -> Dict[str, Any]:
     """NETWORK_CONNECTION canonical event (Physical Telemetry P3).
+
+    `now_epoch` (Collector 2.0) lets the caller supply the detection
+    instant instead of reading the wall clock here. It changes nothing at
+    runtime - the pipeline passes the same real time.time() value - but
+    it is what makes the deterministic simulated-time stress test
+    possible without patching the clock globally. Omitted/None keeps the
+    original behavior exactly.
 
     occurredAt is the moment this collector DETECTED the connection, not
     a fabricated "connection start time" - unlike a process, psutil's
@@ -244,7 +255,9 @@ def build_network_connection_event(connection: NetworkConnectionEvent, entity_id
         "entityId": entity_id,
         "eventType": "NETWORK_CONNECTION",
         "eventVersion": EVENT_VERSION,
-        "occurredAt": iso_utc(datetime.now(tz=timezone.utc).timestamp()),
+        "occurredAt": iso_utc(
+            now_epoch if now_epoch is not None else datetime.now(tz=timezone.utc).timestamp()
+        ),
         "source": SOURCE,
         "payload": payload,
     }

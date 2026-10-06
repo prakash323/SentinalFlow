@@ -27,7 +27,7 @@ from __future__ import annotations
 import logging
 import time
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Callable, Dict, List, Optional
 
 import psutil
 
@@ -81,13 +81,30 @@ class SessionPoller:
     discovered rather than one it watched happen live. See README.md.
     """
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        snapshot_fn: Optional[Callable[[], Dict[_SessionKey, object]]] = None,
+        clock: Callable[[], float] = time.time,
+    ) -> None:
+        """snapshot_fn/clock (Collector 2.0) exist so the deterministic
+        long-run stress test can drive this poller from a fake session
+        table and a fake clock. Both default to the real implementations,
+        so runtime behavior is unchanged."""
         self._known: Dict[_SessionKey, "psutil._common.suser"] = {}
         self._initialized = False
+        self._snapshot_fn = snapshot_fn or _snapshot
+        self._clock = clock
+
+    @property
+    def tracked_count(self) -> int:
+        """How many sessions this poller currently remembers. Bounded by
+        the number of real active sessions: _known is REPLACED by the
+        current snapshot on every poll (see PHASE Q)."""
+        return len(self._known)
 
     def poll_once(self) -> List[SessionEvent]:
-        current = _snapshot()
-        now = time.time()
+        current = self._snapshot_fn()
+        now = self._clock()
         events: List[SessionEvent] = []
 
         if not self._initialized:

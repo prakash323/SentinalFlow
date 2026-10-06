@@ -52,7 +52,7 @@ from __future__ import annotations
 import ipaddress
 import logging
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Callable, Dict, List, Optional, Set, Tuple
 
 import psutil
 
@@ -166,12 +166,31 @@ class NetworkPoller:
     NetworkConnectionEvent per connection identity that was not present
     in the previous snapshot."""
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        snapshot_fn: Optional[Callable[[], Dict[ConnectionKey, object]]] = None,
+        process_info_lookup: Optional[Callable[[Optional[int]], Tuple[Optional[str], Optional[float]]]] = None,
+    ) -> None:
+        """snapshot_fn/process_info_lookup (Collector 2.0) exist so the
+        deterministic long-run stress test can drive this poller from a
+        fake connection table without patching psutil globally. Both
+        default to the real psutil-backed implementations above, so
+        runtime behavior is unchanged."""
         self._known: Set[ConnectionKey] = set()
         self._initialized = False
+        self._snapshot_fn = snapshot_fn or _snapshot
+        self._process_info_lookup = process_info_lookup or _resolve_process_info
+
+    @property
+    def tracked_count(self) -> int:
+        """How many connections this poller currently remembers. Bounded
+        by the size of the real connection table: _known is REPLACED by
+        the current snapshot on every poll, never appended to, so a
+        closed connection is forgotten at the next poll (see PHASE Q)."""
+        return len(self._known)
 
     def poll_once(self) -> List[NetworkConnectionEvent]:
-        current = _snapshot()
+        current = self._snapshot_fn()
 
         if not self._initialized:
             self._known = set(current.keys())
@@ -190,7 +209,7 @@ class NetworkPoller:
         for key in new_keys:
             conn = current[key]
             pid = conn.pid or None
-            process_name, process_create_time = _resolve_process_info(pid)
+            process_name, process_create_time = self._process_info_lookup(pid)
             events.append(NetworkConnectionEvent(
                 protocol=key[0],
                 local_address=key[1],

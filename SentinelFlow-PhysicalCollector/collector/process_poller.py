@@ -41,7 +41,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Set
+from typing import Callable, Dict, List, Optional, Set
 
 import psutil
 
@@ -108,12 +108,31 @@ class ProcessPoller:
     Every subsequent call returns one ProcessEvent per process whose
     (pid, create_time) key was not present in the previous snapshot."""
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        snapshot_fn: Optional[Callable[[], Dict[ProcessKey, dict]]] = None,
+        executable_lookup: Optional[Callable[[int], Optional[str]]] = None,
+    ) -> None:
+        """snapshot_fn/executable_lookup (Collector 2.0) exist so the
+        deterministic long-run stress test can drive this poller from a
+        fake process table without patching psutil globally. Both default
+        to the real psutil-backed implementations above, so runtime
+        behavior is unchanged."""
         self._known: Set[ProcessKey] = set()
         self._initialized = False
+        self._snapshot_fn = snapshot_fn or _snapshot
+        self._executable_lookup = executable_lookup or _lookup_executable_path
+
+    @property
+    def tracked_count(self) -> int:
+        """How many processes this poller currently remembers. Bounded by
+        the size of the real process table: _known is REPLACED by the
+        current snapshot on every poll, never appended to, so it can
+        never accumulate historical processes (see PHASE Q)."""
+        return len(self._known)
 
     def poll_once(self) -> List[ProcessEvent]:
-        current = _snapshot()
+        current = self._snapshot_fn()
 
         if not self._initialized:
             self._known = set(current.keys())
@@ -136,7 +155,7 @@ class ProcessPoller:
                 ppid=info.get("ppid"),
                 create_time=key.create_time,
                 username=info.get("username") or None,
-                executable_path=_lookup_executable_path(key.pid),
+                executable_path=self._executable_lookup(key.pid),
             ))
 
         self._known = set(current.keys())
